@@ -1,0 +1,19 @@
+{
+  "name": "rxtask",
+  "version": "0.0.1",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "license": "MIT",
+  "scripts": {
+    "prepublish": "npm run build",
+    "build": "npm run clean && npm run build-ts",
+    "build-ts": "tsc --declaration --sourceMap --outDir dist",
+    "clean": "rimraf dist"
+  },
+  "devDependencies": {
+    "@types/node": "^9.6.4",
+    "rimraf": "^2.6.2",
+    "rxjs": "^5.5.10",
+    "typescript": "^2.8.1"
+  }
+}
