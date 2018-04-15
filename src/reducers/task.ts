@@ -18,8 +18,8 @@ export interface State<T> {
 }
 
 export type TaskInstanceWithState<T> = {
-  task: TaskInstance<T>
-  taskState: taskInstance.State<T>
+  readonly task: TaskInstance<T>
+  readonly taskState: taskInstance.State<T>
 }
 
 export const combineTaskAndTaskState = <T>(
