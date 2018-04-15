@@ -1,13 +1,6 @@
 import { SubscribableOrPromise } from 'rxjs/Observable';
 import { Task } from './task'
-import { TaskState } from './task-instance';
-
-export interface TaskInstanceState<T> {
-  readonly state: TaskState
-  readonly hasValue: boolean
-  readonly currentValue: T | undefined
-  readonly error: Error | null
-}
+import { TaskInstance } from './task-instance';
 
 export type CallableObject<T extends object, U extends Function> = T & U
 export type CallableTask<T extends Task<any, any>> = CallableObject<T, T['perform']>
