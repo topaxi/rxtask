@@ -134,6 +134,10 @@ export class Task<T, U> implements Subscribable<T> {
     )
   }
 
+  unsubscribe(): void {
+    this._subscription.unsubscribe()
+  }
+
   concurrency(
     concurrency: number,
   ): this & { switch: never; concat: never; drop: never } {
