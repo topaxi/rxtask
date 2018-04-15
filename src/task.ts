@@ -59,8 +59,8 @@ export class Task<T, U> implements Subscribable<T> {
   private _flattenType = Flatten.MERGE
   private _concurrency = Infinity
   private _autoSubscribe = false
-  private _subscription = new Subscription()
 
+  private readonly _subscription = new Subscription()
   private readonly _task: TaskCallback<T, U>
   private readonly _perform$ = new Subject<TaskInstance<T>>()
   private readonly _takeUntil$ = new ReplaySubject<Observable<any>>(1)
