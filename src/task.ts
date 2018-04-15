@@ -1,15 +1,12 @@
 import { Subscription } from 'rxjs/Subscription'
 import { Observable, Subscribable } from 'rxjs/Observable'
 import { defer } from 'rxjs/observable/defer'
-import { merge } from 'rxjs/observable/merge'
 import { PartialObserver } from 'rxjs/Observer'
 import { Subject } from 'rxjs/Subject'
 import { ReplaySubject } from 'rxjs/ReplaySubject'
 import {
   map,
   scan,
-  groupBy,
-  mergeScan,
   mergeMap,
   exhaust,
   mergeAll,
@@ -20,7 +17,7 @@ import {
 } from 'rxjs/operators'
 
 import { TaskInstance } from './task-instance'
-import { createCallableObject, assertNever, neq } from './utils'
+import { createCallableObject } from './utils'
 import {
   TaskCallback,
   AnyTaskCallback,

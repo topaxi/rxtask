@@ -1,6 +1,5 @@
 import { Observable, Subscribable } from 'rxjs/Observable'
 import { ConnectableObservable } from 'rxjs/observable/ConnectableObservable'
-import { defer } from 'rxjs/observable/defer'
 import { PartialObserver } from 'rxjs/Observer'
 import { Subject } from 'rxjs/Subject'
 import { Notification } from 'rxjs/Notification'
