@@ -75,6 +75,6 @@ export class TaskInstance<T> implements Subscribable<T> {
     complete?: () => void,
   ): Subscription {
     this._start.next(taskInstance.RUNNING_STATE)
-    return this._observable$.subscribe(...arguments)
+    return this._observable$.subscribe(observerOrNext as any, error, complete)
   }
 }
