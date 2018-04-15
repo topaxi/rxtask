@@ -17,7 +17,7 @@ import {
 } from 'rxjs/operators'
 
 import { TaskInstance } from './task-instance'
-import { createCallableObject } from './utils'
+import { createCallableObject, assertNever } from './utils'
 import {
   TaskCallback,
   AnyTaskCallback,
@@ -49,9 +49,14 @@ const deferTask = <T extends TaskInstance<any>>(task: T): Observable<T> =>
 
 const selectState$ = <T>(t: TaskInstance<T>) => t.state$
 
+const enum Flatten {
+  SWITCH = 'switch',
+  EXHAUST = 'exhaust',
+  MERGE = 'merge',
+}
+
 export class Task<T, U> implements Subscribable<T> {
-  private _switch = false
-  private _drop = false
+  private _flattenType = Flatten.MERGE
   private _concurrency = Infinity
   private _autoSubscribe = false
   private _subscription = new Subscription()
@@ -132,15 +137,13 @@ export class Task<T, U> implements Subscribable<T> {
   concurrency(
     concurrency: number,
   ): this & { switch: never; concat: never; drop: never } {
-    this._switch = false
-    this._drop = false
+    this._flattenType = Flatten.MERGE
     this._concurrency = concurrency
     return this as any
   }
 
   switch(): this & { concurrency: never; concat: never; drop: never } {
-    this._switch = true
-    this._drop = false
+    this._flattenType = Flatten.SWITCH
     return this as any
   }
 
@@ -149,8 +152,7 @@ export class Task<T, U> implements Subscribable<T> {
   }
 
   drop(): this & { concurrency: never; switch: never; concat: never } {
-    this._switch = false
-    this._drop = true
+    this._flattenType = Flatten.EXHAUST
     return this as any
   }
 
@@ -159,10 +161,16 @@ export class Task<T, U> implements Subscribable<T> {
   }
 
   private _flatten(): (source$: Observable<any>) => Observable<T> {
-    if (this._switch) return switchAll()
-    if (this._drop) return exhaust()
-
-    return mergeAll(this._concurrency)
+    switch (this._flattenType) {
+      case Flatten.SWITCH:
+        return switchAll()
+      case Flatten.EXHAUST:
+        return exhaust()
+      case Flatten.MERGE:
+        return mergeAll(this._concurrency)
+      default:
+        return assertNever(this._flattenType)
+    }
   }
 
   private _createTaskInstance(t: TaskCallback<T, U>, v: U): TaskInstance<T> {
