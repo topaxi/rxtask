@@ -7,7 +7,7 @@
   "scripts": {
     "prepublish": "npm run build",
     "build": "npm run clean && npm run build-ts",
-    "build-ts": "tsc --declaration --sourceMap --outDir dist src/index.ts",
+    "build-ts": "tsc --declaration --sourceMap --outDir dist",
     "clean": "rimraf dist"
   },
   "devDependencies": {
