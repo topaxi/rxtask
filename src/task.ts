@@ -31,11 +31,13 @@ import {
   selectPending,
   selectRunning,
   selectSuccessful,
+  selectCancelled,
   selectErrored,
   selectCompleted,
   selectLast,
   selectLastRunning,
   selectLastSuccessful,
+  selectLastCancelled,
   selectLastErrored,
   selectLastCompleted,
 } from './reducers/task'
@@ -84,12 +86,14 @@ export class Task<T, U> implements Subscribable<T> {
   readonly performed$ = this.state$.pipe(map(selectPerformed))
   readonly pending$ = this.state$.pipe(map(selectPending))
   readonly running$ = this.state$.pipe(map(selectRunning))
+  readonly cancelled$ = this.state$.pipe(map(selectCancelled))
   readonly successful$ = this.state$.pipe(map(selectSuccessful))
   readonly errored$ = this.state$.pipe(map(selectErrored))
   readonly completed$ = this.state$.pipe(map(selectCompleted))
   readonly last$ = this.state$.pipe(map(selectLast))
   readonly lastRunning$ = this.state$.pipe(map(selectLastRunning))
   readonly lastSuccessful$ = this.state$.pipe(map(selectLastSuccessful))
+  readonly lastCancelled$ = this.state$.pipe(map(selectLastCancelled))
   readonly lastErrored$ = this.state$.pipe(map(selectLastErrored))
   readonly lastCompleted$ = this.state$.pipe(map(selectLastCompleted))
 

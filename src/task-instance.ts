@@ -3,7 +3,7 @@ import { ConnectableObservable } from 'rxjs/observable/ConnectableObservable'
 import { PartialObserver } from 'rxjs/Observer'
 import { Subject } from 'rxjs/Subject'
 import { Notification } from 'rxjs/Notification'
-import { Subscription } from 'rxjs/Subscription'
+import { Subscription, ISubscription } from 'rxjs/Subscription'
 import { observable } from 'rxjs/symbol/observable'
 
 import {
@@ -17,24 +17,28 @@ import {
   shareReplay,
   distinctUntilChanged,
 } from 'rxjs/operators'
-import { ReplaySubject } from 'rxjs/ReplaySubject'
+import { BehaviorSubject } from 'rxjs/BehaviorSubject'
 import * as taskInstance from './reducers/task-instance'
+import { ObjectUnsubscribedError } from 'rxjs/util/ObjectUnsubscribedError'
 
-export class TaskInstance<T> implements Subscribable<T> {
+export class TaskInstance<T> implements Subscribable<T>, ISubscription {
   private readonly _observable$: Observable<T>
   private readonly _observableMirror$ = new Subject<T>()
-  private readonly _start = new ReplaySubject<taskInstance.State<T>>()
+  private readonly _currentState$ = new BehaviorSubject<taskInstance.State<T>>(
+    taskInstance.PENDING_STATE,
+  )
+  private readonly _subscription = new Subscription()
 
-  readonly state$ = this._observableMirror$.pipe(
+  closed = false
+
+  readonly state$ = (this._observableMirror$.pipe(
     materialize(),
     scan<Notification<T>, taskInstance.State<T>>(
       taskInstance.reducer,
       taskInstance.PENDING_STATE,
     ),
-    startWith<taskInstance.State<T>>(taskInstance.PENDING_STATE),
-    merge(this._start),
-    shareReplay(1),
-  )
+    multicast(this._currentState$),
+  ) as ConnectableObservable<taskInstance.State<T>>).refCount()
 
   readonly stateLabel$ = this.state$.pipe(
     map(taskInstance.selectState),
@@ -43,6 +47,7 @@ export class TaskInstance<T> implements Subscribable<T> {
 
   readonly isPending = this.stateLabel$.pipe(map(taskInstance.isPending))
   readonly isRunning = this.stateLabel$.pipe(map(taskInstance.isRunning))
+  readonly isCancelled = this.stateLabel$.pipe(map(taskInstance.isCancelled))
   readonly isError = this.stateLabel$.pipe(map(taskInstance.isError))
   readonly isComplete = this.stateLabel$.pipe(map(taskInstance.isComplete))
 
@@ -63,18 +68,31 @@ export class TaskInstance<T> implements Subscribable<T> {
     return this
   }
 
-  subscribe(observer?: PartialObserver<T>): Subscription
+  subscribe(observer?: PartialObserver<T>): ISubscription
   subscribe(
     next?: (value: T) => void,
     error?: (error: any) => void,
     complete?: () => void,
-  ): Subscription
+  ): ISubscription
   subscribe(
     observerOrNext?: PartialObserver<T> | ((value: T) => void),
     error?: (error: any) => void,
     complete?: () => void,
-  ): Subscription {
-    this._start.next(taskInstance.RUNNING_STATE)
-    return this._observable$.subscribe(observerOrNext as any, error, complete)
+  ): ISubscription {
+    if (this.closed) {
+      throw new ObjectUnsubscribedError()
+    }
+
+    this._currentState$.next(taskInstance.RUNNING_STATE)
+    this._subscription.add(
+      this._observable$.subscribe(observerOrNext as any, error, complete),
+    )
+    return this
+  }
+
+  unsubscribe(): void {
+    this._currentState$.next(taskInstance.CANCELLED_STATE)
+    this.closed = true
+    this._subscription.unsubscribe()
   }
 }

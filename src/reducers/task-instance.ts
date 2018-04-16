@@ -11,6 +11,7 @@ export const enum TaskInstanceState {
   PENDING = 'pending',
   RUNNING = 'running',
   COMPLETE = 'complete',
+  CANCELLED = 'cancelled',
   ERROR = 'error',
 }
 
@@ -23,6 +24,13 @@ export const RUNNING_STATE: State<any> = {
 
 export const PENDING_STATE: State<any> = {
   state: TaskInstanceState.PENDING,
+  hasValue: false,
+  currentValue: undefined,
+  error: null,
+}
+
+export const CANCELLED_STATE: State<any> = {
+  state: TaskInstanceState.CANCELLED,
   hasValue: false,
   currentValue: undefined,
   error: null,
@@ -58,6 +66,8 @@ export const isPending = (s: TaskInstanceState) =>
 export const isRunning = (s: TaskInstanceState) =>
   s === TaskInstanceState.RUNNING
 export const isError = (s: TaskInstanceState) => s === TaskInstanceState.ERROR
+export const isCancelled = (s: TaskInstanceState) =>
+  s === TaskInstanceState.CANCELLED
 export const isComplete = (s: TaskInstanceState) =>
   s === TaskInstanceState.COMPLETE
 
