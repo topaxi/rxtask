@@ -82,7 +82,7 @@ function taskNoLongerPending<T>(
 ): State<T> {
   return {
     ...state,
-    pending: state.running.filter(neq(task)),
+    pending: state.pending.filter(neq(task)),
   }
 }
 
