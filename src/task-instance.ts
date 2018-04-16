@@ -22,14 +22,13 @@ import * as taskInstance from './reducers/task-instance'
 import { ObjectUnsubscribedError } from 'rxjs/util/ObjectUnsubscribedError'
 
 export class TaskInstance<T> implements Subscribable<T>, ISubscription {
+  private _closed = false
   private readonly _observable$: Observable<T>
   private readonly _observableMirror$ = new Subject<T>()
   private readonly _currentState$ = new BehaviorSubject<taskInstance.State<T>>(
     taskInstance.PENDING_STATE,
   )
   private readonly _subscription = new Subscription()
-
-  closed = false
 
   readonly state$ = (this._observableMirror$.pipe(
     materialize(),
@@ -57,6 +56,10 @@ export class TaskInstance<T> implements Subscribable<T>, ISubscription {
     map(taskInstance.selectValue),
   )
   readonly error$ = this.state$.pipe(map(taskInstance.selectError))
+
+  get closed(): boolean {
+    return this._closed
+  }
 
   constructor(observable$: Observable<T>) {
     this._observable$ = (observable$.pipe(
@@ -92,7 +95,7 @@ export class TaskInstance<T> implements Subscribable<T>, ISubscription {
 
   unsubscribe(): void {
     this._currentState$.next(taskInstance.CANCELLED_STATE)
-    this.closed = true
+    this._closed = true
     this._subscription.unsubscribe()
   }
 }
