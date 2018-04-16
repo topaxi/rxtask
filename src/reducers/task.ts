@@ -111,7 +111,6 @@ function taskCompleted<T>(state: State<T>, task: TaskInstance<T>): State<T> {
   return {
     ...taskNoLongerPending(state, task),
     ...taskNoLongerRunning(state, task),
-    running: state.running.filter(neq(task)),
     completed: state.completed + 1,
     lastCompleted: task,
   }
