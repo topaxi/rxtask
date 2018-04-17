@@ -44,11 +44,11 @@ export class TaskInstance<T> implements Subscribable<T>, ISubscription {
     distinctUntilChanged(),
   )
 
-  readonly isPending = this.stateLabel$.pipe(map(taskInstance.isPending))
-  readonly isRunning = this.stateLabel$.pipe(map(taskInstance.isRunning))
-  readonly isCancelled = this.stateLabel$.pipe(map(taskInstance.isCancelled))
-  readonly isError = this.stateLabel$.pipe(map(taskInstance.isError))
-  readonly isComplete = this.stateLabel$.pipe(map(taskInstance.isComplete))
+  readonly isPending$ = this.stateLabel$.pipe(map(taskInstance.isPending))
+  readonly isRunning$ = this.stateLabel$.pipe(map(taskInstance.isRunning))
+  readonly isCancelled$ = this.stateLabel$.pipe(map(taskInstance.isCancelled))
+  readonly isError$ = this.stateLabel$.pipe(map(taskInstance.isError))
+  readonly isComplete$ = this.stateLabel$.pipe(map(taskInstance.isComplete))
 
   readonly hasValue$ = this.state$.pipe(map(taskInstance.hasValue))
   readonly currentValue$ = this.state$.pipe(
