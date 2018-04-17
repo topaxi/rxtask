@@ -1,4 +1,6 @@
 import { Notification } from 'rxjs/Notification'
+import * as taskInstanceActions from '../actions/task-instance'
+import { TaskInstanceActions } from '../actions'
 
 export interface State<T> {
   readonly state: TaskInstanceState
@@ -36,26 +38,35 @@ export const CANCELLED_STATE: State<any> = {
   error: null,
 }
 
-export function reducer<T>(
-  state: State<T>,
-  notification: Notification<T>,
-): State<T> {
-  switch (notification.kind) {
+function notificationReducer<T>(s: State<T>, n: Notification<T>): State<T> {
+  switch (n.kind) {
     case 'N':
       return {
-        ...state,
+        ...s,
         state: TaskInstanceState.RUNNING,
         hasValue: true,
-        currentValue: notification.value,
+        currentValue: n.value,
       }
     case 'E':
       return {
-        ...state,
+        ...s,
         state: TaskInstanceState.ERROR,
-        error: notification.error,
+        error: n.error,
       }
     case 'C':
-      return { ...state, state: TaskInstanceState.COMPLETE }
+      return { ...s, state: TaskInstanceState.COMPLETE }
+    default:
+      return s
+  }
+}
+
+export function reducer<T>(
+  state: State<T> = PENDING_STATE,
+  action: TaskInstanceActions<T>
+): State<T> {
+  switch (action.type) {
+    case taskInstanceActions.NOTIFICATION_ACTION:
+      return notificationReducer(state, action.payload)
     default:
       return state
   }

@@ -17,24 +17,31 @@ import {
   shareReplay,
   distinctUntilChanged,
 } from 'rxjs/operators'
-import { BehaviorSubject } from 'rxjs/BehaviorSubject'
+import { ReplaySubject } from 'rxjs/ReplaySubject'
 import * as taskInstance from './reducers/task-instance'
 import { ObjectUnsubscribedError } from 'rxjs/util/ObjectUnsubscribedError'
+import { actionReducer } from './operators'
+import {
+  TaskInstanceActions,
+  createNotificationAction,
+} from './actions/task-instance'
 
 export class TaskInstance<T> implements Subscribable<T>, ISubscription {
   private _closed = false
   private readonly _observable$: Observable<T>
   private readonly _observableMirror$ = new Subject<T>()
-  private readonly _currentState$ = new BehaviorSubject<taskInstance.State<T>>(
-    taskInstance.PENDING_STATE,
-  )
+  private readonly _currentState$ = new ReplaySubject<taskInstance.State<T>>(1)
   private readonly _subscription = new Subscription()
-
-  readonly state$ = (this._observableMirror$.pipe(
+  private readonly _observableNotifications$ = this._observableMirror$.pipe(
     materialize(),
-    scan<Notification<T>, taskInstance.State<T>>(
+  )
+  private readonly _actions$ = this._observableNotifications$.pipe(
+    map(createNotificationAction),
+  )
+
+  readonly state$ = (this._actions$.pipe(
+    actionReducer<TaskInstanceActions<T>, taskInstance.State<T>>(
       taskInstance.reducer,
-      taskInstance.PENDING_STATE,
     ),
     multicast(this._currentState$),
   ) as ConnectableObservable<taskInstance.State<T>>).refCount()

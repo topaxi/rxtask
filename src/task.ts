@@ -42,13 +42,16 @@ import {
   selectLastCompleted,
 } from './reducers/task'
 import { ObjectUnsubscribedError } from 'rxjs/util/ObjectUnsubscribedError'
+import { actionReducer } from './operators/action-reducer'
+import * as taskActions from './actions/task'
+import { TaskActions } from './actions/task'
+import { toAction } from './actions'
+
+type AnyObservable = Observable<any>
 
 export const task = <T extends AnyTaskCallback>(
   task: T,
 ): TaskFromCallback<T> => new Task(task)
-
-const deferTask = <T extends TaskInstance<any>>(task: T): Observable<T> =>
-  defer(() => task)
 
 const selectState$ = <T>(t: TaskInstance<T>) => t.state$
 
@@ -67,22 +70,16 @@ export class Task<T, U> implements Subscribable<T>, ISubscription {
   private readonly _subscription = new Subscription()
   private readonly _task: TaskCallback<T, U>
   private readonly _perform$ = new Subject<TaskInstance<T>>()
-  private readonly _takeUntilObservable$ = new ReplaySubject<Observable<any>>(1)
+  private readonly _takeUntilObservable$ = new ReplaySubject<AnyObservable>(1)
   private readonly _takeUntil$ = this._takeUntilObservable$.pipe(switchAll())
   private readonly _task$ = defer(() =>
-    this._perform$.pipe(
-      map(deferTask),
-      this._flatten(),
-      takeUntil(this._takeUntil$),
-    ),
+    this._perform$.pipe(this._flatten(), takeUntil(this._takeUntil$)),
   ).pipe(share())
 
   readonly state$ = this._perform$.pipe(
-    mergeMap(selectState$, taskReducer.combineTaskAndTaskState),
-    scan<taskReducer.TaskInstanceWithState<T>, taskReducer.State<T>>(
-      taskReducer.reducer,
-      taskReducer.INITIAL_STATE,
-    ),
+    mergeMap(selectState$, taskReducer.combineTaskInstanceWithState),
+    map(toAction(taskActions.TASK_INSTANCE_STATE_UPDATE_ACTION)),
+    actionReducer<TaskActions<T>, taskReducer.State<T>>(taskReducer.reducer),
     takeUntil(this._takeUntil$),
     shareReplay(1),
   )
@@ -117,8 +114,7 @@ export class Task<T, U> implements Subscribable<T>, ISubscription {
     }
 
     const task = this._createTaskInstance(this._task, value)
-    this._perform$.next(task)
-    return task
+    return this._perform$.next(task), task
   }
 
   takeUntil(until$: Observable<any>): this {

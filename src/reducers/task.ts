@@ -1,7 +1,8 @@
 import { TaskInstance } from '../task-instance'
 import { assertNever, neq, EMPTY_ARRAY } from '../utils'
 import * as taskInstance from './task-instance'
-import { TaskInstanceState } from './task-instance'
+import { TaskInstanceState, selectState } from './task-instance'
+import * as taskActions from '../actions/task'
 
 export interface State<T> {
   readonly performed: number
@@ -20,14 +21,17 @@ export interface State<T> {
 }
 
 export type TaskInstanceWithState<T> = {
-  readonly task: TaskInstance<T>
-  readonly taskState: taskInstance.State<T>
+  readonly taskInstance: TaskInstance<T>
+  readonly taskInstanceState: TaskInstanceState
 }
 
-export const combineTaskAndTaskState = <T>(
-  task: TaskInstance<T>,
-  taskState: taskInstance.State<T>,
-) => ({ task, taskState })
+export const combineTaskInstanceWithState = <T>(
+  taskInstance: TaskInstance<T>,
+  taskInstanceState: taskInstance.State<T>,
+): TaskInstanceWithState<T> => ({
+  taskInstance,
+  taskInstanceState: selectState(taskInstanceState),
+})
 
 export const INITIAL_STATE: State<any> = {
   performed: 0,
@@ -45,45 +49,57 @@ export const INITIAL_STATE: State<any> = {
   lastCompleted: null,
 }
 
-export function reducer<T>(
+function taskInstanceStateReducer<T>(
   state: State<T>,
-  { task, taskState }: TaskInstanceWithState<T>,
+  { taskInstance, taskInstanceState }: TaskInstanceWithState<T>,
 ): State<T> {
-  switch (taskState.state) {
+  switch (taskInstanceState) {
     case TaskInstanceState.PENDING:
       return {
         ...state,
         performed: state.performed + 1,
-        pending: [...state.pending, task],
-        last: task,
+        pending: [...state.pending, taskInstance],
+        last: taskInstance,
       }
     case TaskInstanceState.RUNNING:
       return {
-        ...taskNoLongerPending(state, task),
-        running: [...state.running, task],
-        lastRunning: task,
+        ...taskNoLongerPending(state, taskInstance),
+        running: [...state.running, taskInstance],
+        lastRunning: taskInstance,
       }
     case TaskInstanceState.CANCELLED:
       return {
-        ...taskNoLongerPending(state, task),
-        ...taskNoLongerRunning(state, task),
+        ...taskNoLongerPending(state, taskInstance),
+        ...taskNoLongerRunning(state, taskInstance),
         cancelled: state.cancelled + 1,
-        lastCancelled: task,
+        lastCancelled: taskInstance,
       }
     case TaskInstanceState.ERROR:
       return {
-        ...taskCompleted(state, task),
+        ...taskCompleted(state, taskInstance),
         errored: state.errored + 1,
-        lastErrored: task,
+        lastErrored: taskInstance,
       }
     case TaskInstanceState.COMPLETE:
       return {
-        ...taskCompleted(state, task),
+        ...taskCompleted(state, taskInstance),
         successful: state.completed + 1,
-        lastSuccessful: task,
+        lastSuccessful: taskInstance,
       }
     default:
-      return assertNever(taskState.state)
+      return assertNever(taskInstanceState)
+  }
+}
+
+export function reducer<T>(
+  state: State<T> = INITIAL_STATE,
+  action: taskActions.TaskActions<T>,
+): State<T> {
+  switch (action.type) {
+    case taskActions.TASK_INSTANCE_STATE_UPDATE_ACTION:
+      return taskInstanceStateReducer(state, action.payload)
+    default:
+      return state
   }
 }
 
