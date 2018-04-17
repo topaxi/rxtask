@@ -1,4 +1,4 @@
-import { Subscription } from 'rxjs/Subscription'
+import { Subscription, ISubscription } from 'rxjs/Subscription'
 import { Observable, Subscribable } from 'rxjs/Observable'
 import { defer } from 'rxjs/observable/defer'
 import { PartialObserver } from 'rxjs/Observer'
@@ -41,6 +41,7 @@ import {
   selectLastErrored,
   selectLastCompleted,
 } from './reducers/task'
+import { ObjectUnsubscribedError } from 'rxjs/util/ObjectUnsubscribedError'
 
 export const task = <T extends AnyTaskCallback>(
   task: T,
@@ -57,10 +58,11 @@ const enum Flatten {
   MERGE = 'merge',
 }
 
-export class Task<T, U> implements Subscribable<T> {
+export class Task<T, U> implements Subscribable<T>, ISubscription {
   private _flattenType = Flatten.MERGE
   private _concurrency = Infinity
   private _autoSubscribe = false
+  private _closed = false
 
   private readonly _subscription = new Subscription()
   private readonly _task: TaskCallback<T, U>
@@ -97,11 +99,17 @@ export class Task<T, U> implements Subscribable<T> {
   readonly lastErrored$ = this.state$.pipe(map(selectLastErrored))
   readonly lastCompleted$ = this.state$.pipe(map(selectLastCompleted))
 
+  get closed(): boolean {
+    return this._closed
+  }
+
   constructor(task: TaskCallback<T, U>) {
     this._task = task
   }
 
   perform(value: U): TaskInstance<T> {
+    if (this._closed) throw new ObjectUnsubscribedError()
+
     if (this._autoSubscribe === true) {
       this.subscribe()
     }
@@ -132,6 +140,8 @@ export class Task<T, U> implements Subscribable<T> {
     error?: (error: any) => void,
     complete?: () => void,
   ): Subscription {
+    if (this._closed) throw new ObjectUnsubscribedError()
+
     this._autoSubscribe = false
     return this._subscription.add(
       this._task$.subscribe(observerOrNext as any, error, complete),
@@ -139,6 +149,7 @@ export class Task<T, U> implements Subscribable<T> {
   }
 
   unsubscribe(): void {
+    this._closed = true
     this._subscription.unsubscribe()
   }
 

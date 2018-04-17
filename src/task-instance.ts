@@ -82,9 +82,7 @@ export class TaskInstance<T> implements Subscribable<T>, ISubscription {
     error?: (error: any) => void,
     complete?: () => void,
   ): ISubscription {
-    if (this.closed) {
-      throw new ObjectUnsubscribedError()
-    }
+    if (this._closed) throw new ObjectUnsubscribedError()
 
     this._currentState$.next(taskInstance.RUNNING_STATE)
     this._subscription.add(
