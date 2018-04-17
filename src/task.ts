@@ -67,12 +67,13 @@ export class Task<T, U> implements Subscribable<T>, ISubscription {
   private readonly _subscription = new Subscription()
   private readonly _task: TaskCallback<T, U>
   private readonly _perform$ = new Subject<TaskInstance<T>>()
-  private readonly _takeUntil$ = new ReplaySubject<Observable<any>>(1)
+  private readonly _takeUntilObservable$ = new ReplaySubject<Observable<any>>(1)
+  private readonly _takeUntil$ = this._takeUntilObservable$.pipe(switchAll())
   private readonly _task$ = defer(() =>
     this._perform$.pipe(
       map(deferTask),
       this._flatten(),
-      takeUntil(this._takeUntil$.pipe(switchAll())),
+      takeUntil(this._takeUntil$),
     ),
   ).pipe(share())
 
@@ -82,6 +83,7 @@ export class Task<T, U> implements Subscribable<T>, ISubscription {
       taskReducer.reducer,
       taskReducer.INITIAL_STATE,
     ),
+    takeUntil(this._takeUntil$),
     shareReplay(1),
   )
 
@@ -120,7 +122,7 @@ export class Task<T, U> implements Subscribable<T>, ISubscription {
   }
 
   takeUntil(until$: Observable<any>): this {
-    this._takeUntil$.next(until$)
+    this._takeUntilObservable$.next(until$)
     return this
   }
 
