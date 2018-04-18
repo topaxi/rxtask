@@ -7,7 +7,6 @@ export function assertNever(x: never): never {
 }
 
 export const neq = <T, U extends T>(a: T) => (b: U): b is U => a !== b
-export const selectLength = (value: { length: number }) => value.length
 
 export function createCallableObject<T extends object, F extends Function>(
   obj: T,

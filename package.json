@@ -9,7 +9,7 @@
     "build": "npm run clean && npm run build-ts",
     "build-ts": "tsc --declaration --sourceMap --outDir dist",
     "clean": "rimraf dist",
-    "test": "istanbul cover -e .ts -x '*.test.ts' _mocha -- 'test/**/*.test.ts' --require ts-node/register"
+    "test": "istanbul cover -e .ts -x '*.test.ts' _mocha -- 'test/**/*.test.ts' --require ts-node/register --require test/setup.ts"
   },
   "devDependencies": {
     "@types/mocha": "^5.0.0",
