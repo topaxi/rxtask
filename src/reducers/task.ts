@@ -1,5 +1,5 @@
 import { TaskInstance } from '../task-instance'
-import { assertNever, neq, EMPTY_ARRAY } from '../utils'
+import { assertNever, neq, EMPTY_ARRAY, pipe } from '../utils'
 import * as taskInstance from './task-instance'
 import { TaskInstanceState, selectState } from './task-instance'
 import * as taskActions from '../actions/task'
@@ -27,10 +27,10 @@ export type TaskInstanceWithState<T> = {
 
 export const combineTaskInstanceWithState = <T>(
   taskInstance: TaskInstance<T>,
-  taskInstanceState: taskInstance.State<T>,
+  { state: taskInstanceState }: taskInstance.State<T>,
 ): TaskInstanceWithState<T> => ({
   taskInstance,
-  taskInstanceState: selectState(taskInstanceState),
+  taskInstanceState,
 })
 
 export const INITIAL_STATE: State<any> = {
@@ -63,14 +63,17 @@ function taskInstanceStateReducer<T>(
       }
     case TaskInstanceState.RUNNING:
       return {
-        ...taskNoLongerPending(state, taskInstance),
+        ...taskNoLonger(state, taskInstance, 'pending'),
         running: [...state.running, taskInstance],
         lastRunning: taskInstance,
       }
     case TaskInstanceState.CANCELLED:
       return {
-        ...taskNoLongerPending(state, taskInstance),
-        ...taskNoLongerRunning(state, taskInstance),
+        ...pipe(
+          state,
+          state => taskNoLonger(state, taskInstance, 'pending'),
+          state => taskNoLonger(state, taskInstance, 'running'),
+        ),
         cancelled: state.cancelled + 1,
         lastCancelled: taskInstance,
       }
@@ -83,7 +86,7 @@ function taskInstanceStateReducer<T>(
     case TaskInstanceState.COMPLETE:
       return {
         ...taskCompleted(state, taskInstance),
-        successful: state.completed + 1,
+        successful: state.successful + 1,
         lastSuccessful: taskInstance,
       }
     default:
@@ -103,30 +106,24 @@ export function reducer<T>(
   }
 }
 
-function taskNoLongerPending<T>(
+function taskNoLonger<T>(
   state: State<T>,
   task: TaskInstance<T>,
+  taskState: 'pending' | 'running',
 ): State<T> {
   return {
     ...state,
-    pending: state.pending.filter(neq(task)),
-  }
-}
-
-function taskNoLongerRunning<T>(
-  state: State<T>,
-  task: TaskInstance<T>,
-): State<T> {
-  return {
-    ...state,
-    running: state.running.filter(neq(task)),
+    [taskState]: state[taskState].filter(neq(task)),
   }
 }
 
 function taskCompleted<T>(state: State<T>, task: TaskInstance<T>): State<T> {
   return {
-    ...taskNoLongerPending(state, task),
-    ...taskNoLongerRunning(state, task),
+    ...pipe(
+      state,
+      state => taskNoLonger(state, task, 'pending'),
+      state => taskNoLonger(state, task, 'running'),
+    ),
     completed: state.completed + 1,
     lastCompleted: task,
   }
