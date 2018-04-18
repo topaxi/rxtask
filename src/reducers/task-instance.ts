@@ -62,7 +62,7 @@ function notificationReducer<T>(s: State<T>, n: Notification<T>): State<T> {
 
 export function reducer<T>(
   state: State<T> = PENDING_STATE,
-  action: TaskInstanceActions<T>
+  action: TaskInstanceActions<T>,
 ): State<T> {
   switch (action.type) {
     case taskInstanceActions.NOTIFICATION_ACTION:
@@ -88,4 +88,4 @@ export const selectState = <T>(s: State<T>) => s.state
 export const selectError = <T>(s: State<T>) => s.error
 
 export const hasValue = <T>(s: State<T>) =>
-  selectHasValue(s) && isRunning(selectState(s))
+  selectHasValue(s) && isRunning(s.state) !== isComplete(s.state)
