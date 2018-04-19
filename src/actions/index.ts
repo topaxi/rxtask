@@ -8,8 +8,6 @@ export interface ActionWithPayload<T extends string, U> extends Action<T> {
   readonly payload: U
 }
 
-type AnyActionWithPayload<T = any> = ActionWithPayload<any, T>
-
 export type ActionType<T> = T extends Action<infer U> ? U : never
 export type ActionPayload<T> = T extends ActionWithPayload<any, infer U>
   ? U
@@ -35,7 +33,7 @@ export function createAction<T extends string, U>(
   return { type, payload }
 }
 
-export function toAction<T extends AnyActionWithPayload>(
+export function toAction<T extends ActionWithPayload<any, any>>(
   type: ActionType<T>,
 ): ActionByPayloadCreator<T> {
   return payload => createAction(type, payload)
