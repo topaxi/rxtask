@@ -4,7 +4,7 @@ import { Action } from '../actions'
 
 export type ActionReducerFunction<T extends Action<string>, R> = (
   acc: R | undefined,
-  value: T
+  value: T,
 ) => R
 
 const EMPTY_ACTION: Action<any> = { type: 'EMPTY_ACTION' }
@@ -15,9 +15,6 @@ export function actionReducer<T extends Action<string>, R>(
   return in$ => {
     const INITIAL_STATE = reducer(undefined, EMPTY_ACTION as T)
 
-    return in$.pipe(
-      scan<T, R>(reducer, INITIAL_STATE),
-      startWith(INITIAL_STATE),
-    )
+    return in$.pipe(scan(reducer, INITIAL_STATE), startWith(INITIAL_STATE))
   }
 }
