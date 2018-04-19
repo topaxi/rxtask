@@ -13,7 +13,7 @@ export type ActionPayload<T> = T extends ActionWithPayload<any, infer U>
   ? U
   : void
 
-type ActionByPayloadCreator<T> = <U extends ActionPayload<T>>(
+export type ActionByPayloadCreator<T> = <U extends ActionPayload<T>>(
   payload: U,
 ) => ActionWithPayload<ActionType<T>, U>
 
