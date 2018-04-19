@@ -13,8 +13,7 @@ export function createCallableObject<T extends object, F extends Function>(
   method: F,
 ): T & F {
   const methodMap = new WeakMap<Function, Function>()
-
-  return new Proxy(method, {
+  const callable: any = new Proxy(method, {
     get(target, prop: keyof (T | F), receiver) {
       if (prop in obj) {
         return proxyProperty(obj, prop, receiver)
@@ -27,12 +26,14 @@ export function createCallableObject<T extends object, F extends Function>(
       return undefined
     },
     apply(target, thisArg, args) {
-      return target.apply(obj, args)
+      return target.apply(callable, args)
     },
     getPrototypeOf(target) {
       return Object.getPrototypeOf(obj)
     },
-  }) as any
+  })
+
+  return callable
 
   function getBoundMethod(obj: object, fn: Function, receiver: any): Function {
     return (methodMap.has(fn)
