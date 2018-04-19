@@ -4,6 +4,7 @@ import { defer } from 'rxjs/observable/defer'
 import { PartialObserver } from 'rxjs/Observer'
 import { Subject } from 'rxjs/Subject'
 import { ReplaySubject } from 'rxjs/ReplaySubject'
+import { asap } from 'rxjs/scheduler/asap'
 import {
   map,
   mergeMap,
@@ -13,6 +14,7 @@ import {
   takeUntil,
   share,
   shareReplay,
+  auditTime,
 } from 'rxjs/operators'
 
 import { TaskInstance } from './task-instance'
@@ -79,6 +81,7 @@ export class Task<T, U> implements Subscribable<T>, ISubscription {
     mergeMap(selectState$, taskReducer.combineTaskInstanceWithState),
     map(toAction(taskActions.TASK_INSTANCE_STATE_UPDATE_ACTION)),
     actionReducer<TaskActions<T>, taskReducer.State<T>>(taskReducer.reducer),
+    auditTime(0, asap),
     takeUntil(this._takeUntil$),
     shareReplay(1),
   )
