@@ -2,19 +2,14 @@ import { Observable, Subscribable } from 'rxjs/Observable'
 import { ConnectableObservable } from 'rxjs/observable/ConnectableObservable'
 import { PartialObserver } from 'rxjs/Observer'
 import { Subject } from 'rxjs/Subject'
-import { Notification } from 'rxjs/Notification'
 import { Subscription, ISubscription } from 'rxjs/Subscription'
 import { observable } from 'rxjs/symbol/observable'
 
 import {
   map,
   filter,
-  scan,
-  merge,
   materialize,
-  startWith,
   multicast,
-  shareReplay,
   distinctUntilChanged,
 } from 'rxjs/operators'
 import { ReplaySubject } from 'rxjs/ReplaySubject'

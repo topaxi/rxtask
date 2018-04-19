@@ -6,7 +6,6 @@ import { Subject } from 'rxjs/Subject'
 import { ReplaySubject } from 'rxjs/ReplaySubject'
 import {
   map,
-  scan,
   mergeMap,
   exhaust,
   mergeAll,
