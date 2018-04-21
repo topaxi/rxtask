@@ -13,10 +13,10 @@ export type SubscribableOrPromiseType<T> = T extends SubscribableOrPromise<
 >
   ? U
   : void
-export type OneParamFunction<T, U> = (value: T) => U
-export type ParamType<T> = T extends OneParamFunction<infer U, any> ? U : never
+export type UnaryFunction<T, U> = (value: T) => U
+export type ParamType<T> = T extends UnaryFunction<infer U, any> ? U : never
 
-export type TaskCallback<T, U> = OneParamFunction<U, SubscribableOrPromise<T>>
+export type TaskCallback<T, U> = UnaryFunction<U, SubscribableOrPromise<T>>
 export type AnyTaskCallback = TaskCallback<any, any>
 
 export type TaskFromCallback<T extends AnyTaskCallback> = Task<
