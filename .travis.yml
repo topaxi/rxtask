@@ -7,3 +7,6 @@ node_js:
 
 cache:
   yarn: true
+
+after_success:
+  - npx codeclimate-test-reporter < coverage/lcov.info
