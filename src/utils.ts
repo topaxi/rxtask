@@ -86,6 +86,8 @@ export function pipe<T, A, B>(
 ): B
 export function pipe<T, A>(value: T, a: UnaryFunction<T, A>): A
 export function pipe<T>(value: T): T
-export function pipe<T>(value: T, ...args: Function[]): any {
+export function pipe<T, R>(value: T, ...args: UnaryFunction<any, any>[]): R
+export function pipe<T>(value: T, ...args: UnaryFunction<any, any>[]): any
+export function pipe<T>(value: T, ...args: UnaryFunction<any, any>[]): any {
   return args.reduce((val, fn) => fn(val), value)
 }
