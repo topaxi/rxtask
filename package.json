@@ -1,15 +1,22 @@
 {
   "name": "rxtask",
   "version": "0.0.1",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "dist/cjs/index.js",
+  "types": "dist/cjs/typings/index.d.ts",
+  "esm": "dist/esm/index.js",
   "license": "MIT",
   "scripts": {
     "prepublish": "npm run build",
-    "build": "npm run clean && npm run build-ts",
-    "build-ts": "tsc --declaration --sourceMap --outDir dist",
+    "build": "npm run clean && npm run build:all",
+    "build:all": "npm run build:cjs & npm run build:esm",
+    "build:cjs": "tsc --declaration --sourceMap -p tsconfig/tsconfig-cjs.json",
+    "build:esm": "tsc --declaration --sourceMap -p tsconfig/tsconfig-esm.json",
+    "esdoc": "npm run build:esm && esdoc",
     "clean": "rimraf dist",
     "test": "istanbul cover -e .ts -x '*.test.ts' _mocha -- 'test/**/*.test.ts' --require ts-node/register --require test/setup.ts"
+  },
+  "dependencies": {
+    "tslib": "^1.9.0"
   },
   "devDependencies": {
     "@types/mocha": "^5.0.0",
@@ -17,6 +24,9 @@
     "@types/sinon": "^4.3.1",
     "@types/sinon-chai": "^2.7.29",
     "chai": "^4.1.2",
+    "esdoc": "^1.0.4",
+    "esdoc-importpath-plugin": "^1.0.1",
+    "esdoc-standard-plugin": "^1.0.0",
     "istanbul": "^1.1.0-alpha.1",
     "mocha": "^5.1.0",
     "rimraf": "^2.6.2",

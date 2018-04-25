@@ -1,0 +1,16 @@
+{
+  "extends": "../tsconfig.base.json",
+  "compilerOptions": {
+    "noEmit": false,
+    "baseUrl": "../src",
+    "sourceRoot": "../src",
+    "paths": {
+      "rxtask": ["./"],
+      "rxtask/*": ["./*"]
+    }
+  },
+  "files": [
+    "../src/index.ts"
+  ]
+}
+
