@@ -9,10 +9,11 @@
     "prepublish": "npm run build",
     "build": "npm run clean && npm run build:all",
     "build:all": "npm run build:cjs & npm run build:esm",
-    "build:cjs": "tsc --declaration --sourceMap -p tsconfig/tsconfig-cjs.json",
-    "build:esm": "tsc --declaration --sourceMap -p tsconfig/tsconfig-esm.json",
-    "esdoc": "npm run build:esm && esdoc",
-    "clean": "rimraf dist",
+    "build:cjs": "tsc --declaration --sourceMap -p tsconfig/tsconfig.cjs.json",
+    "build:esm": "tsc --declaration --sourceMap -p tsconfig/tsconfig.esm.json",
+    "build:test": "tsc -p tsconfig/tsconfig.test.json",
+    "esdoc": "npm run clean && npm run build:esm && npm run build:test && esdoc",
+    "clean": "rimraf dist tmp",
     "test": "istanbul cover -e .ts -x '*.test.ts' _mocha -- 'test/**/*.test.ts' --require ts-node/register --require test/setup.ts"
   },
   "dependencies": {

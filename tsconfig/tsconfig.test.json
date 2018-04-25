@@ -1,0 +1,16 @@
+{
+  "extends": "../tsconfig.base.json",
+  "compilerOptions": {
+    "baseUrl": "../src",
+    "module": "es2015",
+    "importHelpers": true,
+    "moduleResolution": "node",
+    "target": "es2015",
+    "outDir": "../tmp/test-build",
+    "sourceMap": false,
+    "skipLibCheck": true
+  },
+  "include": [
+    "../test/**/*.test.ts"
+  ]
+}

@@ -4,12 +4,18 @@
   "plugins": [
     {
       "name": "esdoc-standard-plugin",
-      "options": {
-        "title": "RxTask",
+      "option": {
+        "lint": { "enable": true },
+        "coverage": { "enable": true },
+        "brand": {
+          "title": "RxTask",
+          "description": "",
+          "repository": "https://github.com/topaxi/rxtask",
+          "author": "https://twitter.com/topaxi"
+        },
         "test": {
-          "type": "mocha",
-          "source": "./test",
-          "includes": ["\\.test\\.ts"]
+          "source": "./tmp/test-build/test",
+          "includes": ["\\.test\\.js$"]
         }
       }
     },
