@@ -13,7 +13,9 @@
     "build:esm": "tsc --declaration --sourceMap -p tsconfig/tsconfig.esm.json",
     "build:esm:docs": "tsc -p tsconfig/tsconfig.esm.json",
     "build:test": "tsc -p tsconfig/tsconfig.test.json",
-    "esdoc": "npm run clean && npm run build:esm:docs && npm run build:test && esdoc",
+    "docs": "npm run docs:build",
+    "docs:build": "npm run clean && npm run build:esm:docs && npm run build:test && esdoc",
+    "docs:publish": "./publish-docs.sh",
     "clean": "rimraf dist tmp",
     "test": "istanbul cover -e .ts -x '*.test.ts' _mocha -- 'test/**/*.test.ts' --require ts-node/register --require test/setup.ts"
   },
