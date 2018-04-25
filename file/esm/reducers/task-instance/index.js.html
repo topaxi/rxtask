@@ -2,8 +2,8 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <base data-ice="baseUrl">
-  <title data-ice="title">Home | RxTask</title>
+  <base data-ice="baseUrl" href="../../../../">
+  <title data-ice="title">esm/reducers/task-instance/index.js | RxTask</title>
   <link type="text/css" rel="stylesheet" href="css/style.css">
   <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
   <script src="script/prettify/prettify.js"></script>
@@ -87,7 +87,123 @@
 </div>
 </nav>
 
-<div class="content" data-ice="content"><div data-ice="index" class="github-markdown"><h1 id="rxtask">RxTask</h1></div>
+<div class="content" data-ice="content"><h1 data-ice="title">esm/reducers/task-instance/index.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import * as taskInstanceActions from &apos;../../actions/task-instance&apos;;
+/**
+ * @type {TaskInstanceState&lt;any&gt;}
+ */
+export const RUNNING_STATE = {
+    stateLabel: &quot;running&quot; /* RUNNING */,
+    hasValue: false,
+    currentValue: undefined,
+    error: null,
+};
+/**
+ * @type {TaskInstanceState&lt;any&gt;}
+ */
+export const PENDING_STATE = {
+    stateLabel: &quot;pending&quot; /* PENDING */,
+    hasValue: false,
+    currentValue: undefined,
+    error: null,
+};
+/**
+ * @type {TaskInstanceState&lt;any&gt;}
+ */
+export const CANCELLED_STATE = {
+    stateLabel: &quot;cancelled&quot; /* CANCELLED */,
+    hasValue: false,
+    currentValue: undefined,
+    error: null,
+};
+function notificationReducer(s, n) {
+    switch (n.kind) {
+        case &apos;N&apos;:
+            return Object.assign({}, s, { stateLabel: &quot;running&quot; /* RUNNING */, hasValue: true, currentValue: n.value });
+        case &apos;E&apos;:
+            return Object.assign({}, s, { stateLabel: &quot;error&quot; /* ERROR */, error: n.error });
+        case &apos;C&apos;:
+            return Object.assign({}, s, { stateLabel: &quot;complete&quot; /* COMPLETE */ });
+        // istanbul ignore next
+        default:
+            return s;
+    }
+}
+/**
+ * @param {TaskInstanceState&lt;T&gt;} [state=PENDING_STATE]
+ * @param {TaskInstanceActions&lt;T&gt;} action
+ * @return {TaskInstanceState&lt;T&gt;}
+ */
+export function reducer(state = PENDING_STATE, action) {
+    switch (action.type) {
+        case taskInstanceActions.NOTIFICATION_ACTION:
+            return notificationReducer(state, action.payload);
+        default:
+            return state;
+    }
+}
+/**
+ * @param {TaskInstanceStateLabel} s
+ * @return {boolean}
+ */
+export const isPending = (s) =&gt; s === &quot;pending&quot; /* PENDING */;
+/**
+ * @param {TaskInstanceStateLabel} s
+ * @return {boolean}
+ */
+export const isRunning = (s) =&gt; s === &quot;running&quot; /* RUNNING */;
+/**
+ * @param {TaskInstanceStateLabel} s
+ * @return {boolean}
+ */
+export const isError = (s) =&gt; s === &quot;error&quot; /* ERROR */;
+/**
+ * @param {TaskInstanceStateLabel} s
+ * @return {boolean}
+ */
+export const isCancelled = (s) =&gt; s === &quot;cancelled&quot; /* CANCELLED */;
+/**
+ * @param {TaskInstanceStateLabel} s
+ * @return {boolean}
+ */
+export const isComplete = (s) =&gt; s === &quot;complete&quot; /* COMPLETE */;
+/**
+ * @param {TaskInstanceState&lt;T&gt;} s
+ * @return {T}
+ */
+export const selectValue = (s) =&gt; s.currentValue;
+/**
+ * @param {TaskInstanceState&lt;T&gt;} s
+ * @return {boolean}
+ */
+export const selectHasValue = (s) =&gt; s.hasValue;
+/**
+ * @param {TaskInstanceState&lt;T&gt;} s
+ * @return {TaskInstanceStateLabel}
+ */
+export const selectStateLabel = (s) =&gt; s.stateLabel;
+/**
+ * @param {TaskInstanceState&lt;T&gt;} s
+ * @return {?Error}
+ */
+export const selectError = (s) =&gt; s.error;
+/**
+ * @param {TaskInstanceState&lt;T&gt;} s
+ * @return {boolean}
+ */
+export const hasValue = (s) =&gt; selectHasValue(s) &amp;&amp; isRunning(s.stateLabel) !== isComplete(s.stateLabel);
+/**
+ * @typedef {Object} TaskInstanceState
+ * @property {TaskInstanceStateLabel} stateLabel
+ * @property {boolean} hasValue
+ * @property {?T} currentValue
+ * @property {?Error} error
+ */
+/**
+ * @typedef {string} TaskInstanceStateLabel
+ */
+//# sourceMappingURL=index.js.map</code></pre>
+
 </div>
 
 <footer class="footer">

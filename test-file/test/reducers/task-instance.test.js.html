@@ -2,8 +2,8 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <base data-ice="baseUrl">
-  <title data-ice="title">Home | RxTask</title>
+  <base data-ice="baseUrl" href="../../../">
+  <title data-ice="title">test/reducers/task-instance.test.js | RxTask</title>
   <link type="text/css" rel="stylesheet" href="css/style.css">
   <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
   <script src="script/prettify/prettify.js"></script>
@@ -87,7 +87,245 @@
 </div>
 </nav>
 
-<div class="content" data-ice="content"><div data-ice="index" class="github-markdown"><h1 id="rxtask">RxTask</h1></div>
+<div class="content" data-ice="content"><h1 data-ice="title">test/reducers/task-instance.test.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import { Notification } from &apos;rxjs/Notification&apos;;
+import * as taskInstance from &apos;../../src/reducers/task-instance&apos;;
+import { createNotificationAction, NOTIFICATION_ACTION, } from &apos;../../src/actions/task-instance&apos;;
+import { EMPTY_ACTION } from &apos;./helpers&apos;;
+import { expect } from &apos;chai&apos;;
+function createNextNotificationAction(value) {
+    return createNotificationAction(Notification.createNext(value));
+}
+function createErrorNotificationAction(value) {
+    return createNotificationAction(Notification.createError(value));
+}
+function createCompleteNotificationAction() {
+    return createNotificationAction(Notification.createComplete());
+}
+describe(&apos;reducers/TaskInstance&apos;, () =&gt; {
+    describe(&apos;Static states&apos;, () =&gt; {
+        /** @test {PENDING_STATE} */
+        it(&apos;defines a pending state&apos;, () =&gt; {
+            expect(taskInstance.PENDING_STATE).to.deep.equal({
+                stateLabel: &quot;pending&quot; /* PENDING */,
+                hasValue: false,
+                currentValue: undefined,
+                error: null,
+            });
+        });
+        /** @test {RUNNING_STATE} */
+        it(&apos;defines a running state&apos;, () =&gt; {
+            expect(taskInstance.RUNNING_STATE).to.deep.equal({
+                stateLabel: &quot;running&quot; /* RUNNING */,
+                hasValue: false,
+                currentValue: undefined,
+                error: null,
+            });
+        });
+        /** @test {CANCELLED_STATE} */
+        it(&apos;defines a cancelled state&apos;, () =&gt; {
+            expect(taskInstance.CANCELLED_STATE).to.deep.equal({
+                stateLabel: &quot;cancelled&quot; /* CANCELLED */,
+                hasValue: false,
+                currentValue: undefined,
+                error: null,
+            });
+        });
+    });
+    /** @test {reducer} */
+    describe(&apos;Reducer&apos;, () =&gt; {
+        describe(&apos;Initial state&apos;, () =&gt; {
+            it(&apos;equals PENDING_STATE&apos;, () =&gt; {
+                expect(taskInstance.reducer(undefined, EMPTY_ACTION)).to.deep.equal(taskInstance.PENDING_STATE);
+            });
+        });
+        describe(&apos;Notifications&apos;, () =&gt; {
+            let state;
+            beforeEach(() =&gt; {
+                state = taskInstance.PENDING_STATE;
+            });
+            describe(&apos;Next Notification&apos;, () =&gt; {
+                beforeEach(() =&gt; {
+                    state = taskInstance.reducer(state, createNextNotificationAction(&apos;VALUE&apos;));
+                });
+                it(&apos;sets state to running&apos;, () =&gt; {
+                    expect(state.stateLabel).to.equal(&quot;running&quot; /* RUNNING */);
+                });
+                it(&apos;marks state to having a value&apos;, () =&gt; {
+                    expect(state.hasValue).to.be.true;
+                });
+                it(&apos;sets current value&apos;, () =&gt; {
+                    expect(state.currentValue).to.equal(&apos;VALUE&apos;);
+                    state = taskInstance.reducer(state, createNextNotificationAction(&apos;NEXT VALUE&apos;));
+                    expect(state.currentValue).to.equal(&apos;NEXT VALUE&apos;);
+                });
+                it(&apos;does not modify error state&apos;, () =&gt; {
+                    state = taskInstance.reducer({ error: &apos;error&apos; }, createNextNotificationAction(&apos;NEXT VALUE&apos;));
+                    expect(state.error).to.equal(&apos;error&apos;);
+                });
+            });
+            describe(&apos;Error Notification&apos;, () =&gt; {
+                beforeEach(() =&gt; {
+                    state = taskInstance.reducer(state, createErrorNotificationAction(&apos;ERROR&apos;));
+                });
+                it(&apos;sets state to error&apos;, () =&gt; {
+                    expect(state.stateLabel).to.equal(&quot;error&quot; /* ERROR */);
+                });
+                it(&apos;does not modify hasValue&apos;, () =&gt; {
+                    expect(state.hasValue).to.be.false;
+                    state = taskInstance.reducer({ hasValue: true }, createErrorNotificationAction(&apos;ERROR&apos;));
+                    expect(state.hasValue).to.be.true;
+                });
+                it(&apos;does not modify current value&apos;, () =&gt; {
+                    expect(state.currentValue).to.be.undefined;
+                    state = taskInstance.reducer({ currentValue: true }, createErrorNotificationAction(&apos;ERROR&apos;));
+                    expect(state.currentValue).to.be.true;
+                });
+                it(&apos;sets error property&apos;, () =&gt; {
+                    expect(state.error).to.equal(&apos;ERROR&apos;);
+                });
+            });
+            describe(&apos;Complete Notification&apos;, () =&gt; {
+                beforeEach(() =&gt; {
+                    state = taskInstance.reducer(state, createCompleteNotificationAction());
+                });
+                it(&apos;sets state to complete&apos;, () =&gt; {
+                    expect(state.stateLabel).to.equal(&quot;complete&quot; /* COMPLETE */);
+                });
+                it(&apos;does not modify hasValue&apos;, () =&gt; {
+                    expect(state.hasValue).to.be.false;
+                    state = taskInstance.reducer({ hasValue: true }, createCompleteNotificationAction());
+                    expect(state.hasValue).to.be.true;
+                });
+                it(&apos;does not modify current value&apos;, () =&gt; {
+                    expect(state.currentValue).to.be.undefined;
+                    state = taskInstance.reducer({ currentValue: true }, createCompleteNotificationAction());
+                    expect(state.currentValue).to.be.true;
+                });
+                it(&apos;does not modify error state&apos;, () =&gt; {
+                    state = taskInstance.reducer({ error: &apos;error&apos; }, createCompleteNotificationAction());
+                    expect(state.error).to.equal(&apos;error&apos;);
+                });
+            });
+            describe(&apos;Unknown Notification&apos;, () =&gt; {
+                beforeEach(() =&gt; {
+                    state = taskInstance.reducer(state, {
+                        type: NOTIFICATION_ACTION,
+                        payload: { kind: &apos;__UNKOWN&apos; },
+                    });
+                });
+                it(&apos;does not modify any state&apos;, () =&gt; {
+                    expect(state).to.deep.equal(taskInstance.PENDING_STATE);
+                });
+            });
+        });
+    });
+    describe(&apos;Filters&apos;, () =&gt; {
+        /** @test {isPending} */
+        it(&apos;isPending&apos;, () =&gt; {
+            expect(taskInstance.isPending(&quot;pending&quot; /* PENDING */)).to.be.true;
+            expect(taskInstance.isPending(&quot;running&quot; /* RUNNING */)).to.be
+                .false;
+            expect(taskInstance.isPending(&quot;complete&quot; /* COMPLETE */)).to.be
+                .false;
+            expect(taskInstance.isPending(&quot;cancelled&quot; /* CANCELLED */)).to.be
+                .false;
+            expect(taskInstance.isPending(&quot;error&quot; /* ERROR */)).to.be.false;
+        });
+        /** @test {isRunning} */
+        it(&apos;isRunning&apos;, () =&gt; {
+            expect(taskInstance.isRunning(&quot;pending&quot; /* PENDING */)).to.be
+                .false;
+            expect(taskInstance.isRunning(&quot;running&quot; /* RUNNING */)).to.be.true;
+            expect(taskInstance.isRunning(&quot;complete&quot; /* COMPLETE */)).to.be
+                .false;
+            expect(taskInstance.isRunning(&quot;cancelled&quot; /* CANCELLED */)).to.be
+                .false;
+            expect(taskInstance.isRunning(&quot;error&quot; /* ERROR */)).to.be.false;
+        });
+        /** @test {isComplete} */
+        it(&apos;isComplete&apos;, () =&gt; {
+            expect(taskInstance.isComplete(&quot;pending&quot; /* PENDING */)).to.be
+                .false;
+            expect(taskInstance.isComplete(&quot;running&quot; /* RUNNING */)).to.be
+                .false;
+            expect(taskInstance.isComplete(&quot;complete&quot; /* COMPLETE */)).to.be
+                .true;
+            expect(taskInstance.isComplete(&quot;cancelled&quot; /* CANCELLED */)).to.be
+                .false;
+            expect(taskInstance.isComplete(&quot;error&quot; /* ERROR */)).to.be.false;
+        });
+        /** @test {isCancelled} */
+        it(&apos;isCancelled&apos;, () =&gt; {
+            expect(taskInstance.isCancelled(&quot;pending&quot; /* PENDING */)).to.be
+                .false;
+            expect(taskInstance.isCancelled(&quot;running&quot; /* RUNNING */)).to.be
+                .false;
+            expect(taskInstance.isCancelled(&quot;complete&quot; /* COMPLETE */)).to.be
+                .false;
+            expect(taskInstance.isCancelled(&quot;cancelled&quot; /* CANCELLED */)).to.be
+                .true;
+            expect(taskInstance.isCancelled(&quot;error&quot; /* ERROR */)).to.be
+                .false;
+        });
+        /** @test {isError} */
+        it(&apos;isError&apos;, () =&gt; {
+            expect(taskInstance.isError(&quot;pending&quot; /* PENDING */)).to.be.false;
+            expect(taskInstance.isError(&quot;running&quot; /* RUNNING */)).to.be.false;
+            expect(taskInstance.isError(&quot;complete&quot; /* COMPLETE */)).to.be.false;
+            expect(taskInstance.isError(&quot;cancelled&quot; /* CANCELLED */)).to.be
+                .false;
+            expect(taskInstance.isError(&quot;error&quot; /* ERROR */)).to.be.true;
+        });
+    });
+    describe(&apos;Selectors&apos;, () =&gt; {
+        /** @test {selectValue} */
+        it(&apos;selectValue&apos;, () =&gt; {
+            expect(taskInstance.selectValue({ currentValue: &apos;VALUE&apos; })).to.equal(&apos;VALUE&apos;);
+        });
+        /** @test {selectHasValue} */
+        it(&apos;selectHasValue&apos;, () =&gt; {
+            expect(taskInstance.selectHasValue({ hasValue: true })).to.be.true;
+        });
+        /** @test {selectState} */
+        it(&apos;selectState&apos;, () =&gt; {
+            expect(taskInstance.selectStateLabel({
+                stateLabel: &quot;error&quot; /* ERROR */,
+            })).to.equal(&quot;error&quot; /* ERROR */);
+        });
+        /** @test {selectError} */
+        it(&apos;selectError&apos;, () =&gt; {
+            expect(taskInstance.selectError({ error: &apos;ERROR&apos; })).to.equal(&apos;ERROR&apos;);
+        });
+    });
+    describe(&apos;helpers&apos;, () =&gt; {
+        /** @test {hasValue} */
+        it(&apos;hasValue&apos;, () =&gt; {
+            const hasValue = [
+                { hasValue: true, stateLabel: &quot;running&quot; /* RUNNING */ },
+                { hasValue: true, stateLabel: &quot;complete&quot; /* COMPLETE */ },
+            ];
+            const hasNoValue = [
+                { hasValue: false, stateLabel: &quot;pending&quot; /* PENDING */ },
+                { hasValue: false, stateLabel: &quot;running&quot; /* RUNNING */ },
+                { hasValue: false, stateLabel: &quot;cancelled&quot; /* CANCELLED */ },
+                { hasValue: false, stateLabel: &quot;complete&quot; /* COMPLETE */ },
+                { hasValue: false, stateLabel: &quot;error&quot; /* ERROR */ },
+                // As something went wrong, we assume we don&apos;t have a valid value
+                { hasValue: true, stateLabel: &quot;error&quot; /* ERROR */ },
+                // Cancelled task values probably don&apos;t make sense
+                { hasValue: true, stateLabel: &quot;cancelled&quot; /* CANCELLED */ },
+                // Tasks have no initial value
+                { hasValue: true, stateLabel: &quot;pending&quot; /* PENDING */ },
+            ];
+            const expectHasValue = (has) =&gt; (v) =&gt; expect(taskInstance.hasValue(v), JSON.stringify(v)).to.equal(has);
+            hasValue.forEach(expectHasValue(true));
+            hasNoValue.forEach(expectHasValue(false));
+        });
+    });
+});
+</code></pre>
+
 </div>
 
 <footer class="footer">

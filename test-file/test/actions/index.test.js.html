@@ -2,8 +2,8 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <base data-ice="baseUrl">
-  <title data-ice="title">Home | RxTask</title>
+  <base data-ice="baseUrl" href="../../../">
+  <title data-ice="title">test/actions/index.test.js | RxTask</title>
   <link type="text/css" rel="stylesheet" href="css/style.css">
   <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
   <script src="script/prettify/prettify.js"></script>
@@ -87,7 +87,57 @@
 </div>
 </nav>
 
-<div class="content" data-ice="content"><div data-ice="index" class="github-markdown"><h1 id="rxtask">RxTask</h1></div>
+<div class="content" data-ice="content"><h1 data-ice="title">test/actions/index.test.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import { createAction, toAction } from &apos;../../src/actions&apos;;
+import * as index from &apos;../../src/actions/index&apos;;
+import { expect } from &apos;chai&apos;;
+/** @ignore */
+describe(&apos;actions/index&apos;, () =&gt; {
+    it(&apos;exports createAction&apos;, () =&gt; {
+        expect(index.createAction).to.exist;
+    });
+    it(&apos;exports toAction&apos;, () =&gt; {
+        expect(index.toAction).to.exist;
+    });
+});
+/** @test {createAction} */
+describe(&apos;createAction&apos;, () =&gt; {
+    it(&apos;creates action&apos;, () =&gt; {
+        expect(createAction(&apos;TEST_ACTION&apos;)).to.deep.equal({ type: &apos;TEST_ACTION&apos; });
+        expect(createAction(&apos;TEST_ACTION&apos;)).to.not.have.property(&apos;payload&apos;);
+    });
+    it(&apos;creates action with payload&apos;, () =&gt; {
+        expect(createAction(&apos;TEST_ACTION&apos;, &apos;PAYLOAD&apos;)).to.deep.equal({
+            type: &apos;TEST_ACTION&apos;,
+            payload: &apos;PAYLOAD&apos;,
+        });
+        expect(createAction(&apos;TEST_ACTION&apos;, undefined)).to.deep.equal({
+            type: &apos;TEST_ACTION&apos;,
+            payload: undefined,
+        });
+        expect(createAction(&apos;TEST_ACTION&apos;, undefined)).to.have.property(&apos;payload&apos;);
+        expect(createAction(&apos;TEST_ACTION&apos;, [])).to.deep.equal({
+            type: &apos;TEST_ACTION&apos;,
+            payload: [],
+        });
+    });
+});
+/** @test {toAction} */
+describe(&apos;toAction&apos;, () =&gt; {
+    it(&apos;creates a function to create actions with payload&apos;, () =&gt; {
+        expect(toAction(&apos;TEST_ACTION&apos;)(&apos;PAYLOAD&apos;)).to.deep.equal({
+            type: &apos;TEST_ACTION&apos;,
+            payload: &apos;PAYLOAD&apos;,
+        });
+        expect(toAction(&apos;TEST_ACTION&apos;)(undefined)).to.deep.equal({
+            type: &apos;TEST_ACTION&apos;,
+            payload: undefined,
+        });
+        expect(toAction(&apos;TEST_ACTION&apos;)(undefined)).to.have.property(&apos;payload&apos;);
+    });
+});
+</code></pre>
+
 </div>
 
 <footer class="footer">

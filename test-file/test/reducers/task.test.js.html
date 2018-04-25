@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../../">
+  <title data-ice="title">test/reducers/task.test.js | RxTask</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  <script src="script/manual.js"></script>
+</head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./">Home</a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  <a href="test.html" data-ice="testLink">Test</a>
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+<a style="position:relative; top:3px;" href="https://github.com/topaxi/rxtask"><img width="20px" src="./image/github.png"></a></header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/esm/task-instance.js~TaskInstance.html">TaskInstance</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/esm/task.js~Task.html">Task</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-task">task</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-TaskCallback">TaskCallback</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#actions">actions</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-createAction">createAction</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-toAction">toAction</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-Action">Action</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ActionWithPayload">ActionWithPayload</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#actions-task">actions/task</a><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-TASK_INSTANCE_STATE_UPDATE_ACTION">TASK_INSTANCE_STATE_UPDATE_ACTION</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#actions-task-instance">actions/task-instance</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-createNotificationAction">createNotificationAction</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-NOTIFICATION_ACTION">NOTIFICATION_ACTION</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-NotificationAction">NotificationAction</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#operators">operators</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-actionReducer">actionReducer</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ActionReducerFunction">ActionReducerFunction</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#reducers-task">reducers/task</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-combineTaskInstanceWithStateLabel">combineTaskInstanceWithStateLabel</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-reducer">reducer</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-selectCancelled">selectCancelled</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-selectCompleted">selectCompleted</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-selectErrored">selectErrored</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-selectLast">selectLast</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-selectLastCancelled">selectLastCancelled</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-selectLastCompleted">selectLastCompleted</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-selectLastErrored">selectLastErrored</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-selectLastRunning">selectLastRunning</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-selectLastSuccessful">selectLastSuccessful</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-selectPending">selectPending</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-selectPerformed">selectPerformed</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-selectRunning">selectRunning</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-selectSuccessful">selectSuccessful</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-INITIAL_STATE">INITIAL_STATE</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-TaskInstanceWithState">TaskInstanceWithState</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-TaskState">TaskState</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#reducers-task-instance">reducers/task-instance</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-hasValue">hasValue</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-isCancelled">isCancelled</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-isComplete">isComplete</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-isError">isError</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-isPending">isPending</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-isRunning">isRunning</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-reducer">reducer</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-selectError">selectError</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-selectHasValue">selectHasValue</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-selectStateLabel">selectStateLabel</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-selectValue">selectValue</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-CANCELLED_STATE">CANCELLED_STATE</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-PENDING_STATE">PENDING_STATE</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-RUNNING_STATE">RUNNING_STATE</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-TaskInstanceState">TaskInstanceState</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-TaskInstanceStateLabel">TaskInstanceStateLabel</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#utils">utils</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-assertNever">assertNever</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-createCallableObject">createCallableObject</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-neq">neq</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-pipe">pipe</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-EMPTY_ARRAY">EMPTY_ARRAY</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-Callable">Callable</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">test/reducers/task.test.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import * as task from &apos;../../src/reducers/task&apos;;
+import { EMPTY_ACTION, createStateMatcher } from &apos;./helpers&apos;;
+import { expect } from &apos;chai&apos;;
+import { TASK_INSTANCE_STATE_UPDATE_ACTION, } from &apos;../../src/actions/task&apos;;
+import { createAction } from &apos;../../src/actions&apos;;
+const expectStateChange = createStateMatcher(task.reducer);
+let taskInstanceId = 0;
+class TaskInstanceMock {
+    constructor() {
+        this.taskInstanceId = ++taskInstanceId;
+    }
+}
+class TaskInstanceWithStateLabelMock {
+    constructor(taskInstanceStateLabel, taskInstance = new TaskInstanceMock()) {
+        this.taskInstanceStateLabel = taskInstanceStateLabel;
+        this.taskInstance = taskInstance;
+    }
+    toAction() {
+        return createTaskInstanceStateUpdateAction(this);
+    }
+    changeState(stateLabel) {
+        return new TaskInstanceWithStateLabelMock(stateLabel, this.taskInstance);
+    }
+}
+function createTaskInstance(stateLabel) {
+    const taskInstanceWithState = new TaskInstanceWithStateLabelMock(stateLabel);
+    return {
+        taskInstanceWithState,
+        taskInstance: taskInstanceWithState.taskInstance,
+        action: taskInstanceWithState.toAction(),
+    };
+}
+function createTaskInstanceStateUpdateAction(taskInstanceWithStateLabel) {
+    return createAction(TASK_INSTANCE_STATE_UPDATE_ACTION, taskInstanceWithStateLabel);
+}
+describe(&apos;reducers/Task&apos;, () =&gt; {
+    describe(&apos;Static states&apos;, () =&gt; {
+        /** @test {INITIAL_STATE} */
+        it(&apos;defines an initial state&apos;, () =&gt; {
+            expect(task.INITIAL_STATE).to.deep.equal({
+                performed: 0,
+                pending: [],
+                running: [],
+                successful: 0,
+                cancelled: 0,
+                errored: 0,
+                completed: 0,
+                last: null,
+                lastRunning: null,
+                lastSuccessful: null,
+                lastCancelled: null,
+                lastErrored: null,
+                lastCompleted: null,
+            });
+        });
+    });
+    /** @test {reducer} */
+    describe(&apos;Reducer&apos;, () =&gt; {
+        describe(&apos;Initial state&apos;, () =&gt; {
+            it(&apos;equals INITIAL_STATE&apos;, () =&gt; {
+                expectStateChange(undefined, EMPTY_ACTION, task.INITIAL_STATE);
+            });
+        });
+        describe(&apos;TaskInstance state changes&apos;, () =&gt; {
+            let state;
+            beforeEach(() =&gt; {
+                state = task.INITIAL_STATE;
+            });
+            describe(&apos;PENDING&apos;, () =&gt; {
+                it(&apos;counts performed and tracks pending instances&apos;, () =&gt; {
+                    var { taskInstance, action } = createTaskInstance(&quot;pending&quot; /* PENDING */);
+                    state = expectStateChange(state, action, {
+                        performed: 1,
+                        pending: [taskInstance],
+                        last: taskInstance,
+                    });
+                    var { taskInstance, action } = createTaskInstance(&quot;pending&quot; /* PENDING */);
+                    expectStateChange(state, action, {
+                        performed: 2,
+                        pending: state.pending.concat(taskInstance),
+                        last: taskInstance,
+                    });
+                });
+            });
+            describe(&apos;RUNNING&apos;, () =&gt; {
+                let pending1 = createTaskInstance(&quot;pending&quot; /* PENDING */);
+                let pending2 = createTaskInstance(&quot;pending&quot; /* PENDING */);
+                let pending3 = createTaskInstance(&quot;pending&quot; /* PENDING */);
+                beforeEach(() =&gt; {
+                    state = task.reducer(state, pending1.action);
+                    state = task.reducer(state, pending2.action);
+                    state = task.reducer(state, pending3.action);
+                    expect(state.pending.length).to.equal(3);
+                });
+                it(&apos;removes from pending and tracks running&apos;, () =&gt; {
+                    let running1 = pending1.taskInstanceWithState.changeState(&quot;running&quot; /* RUNNING */);
+                    state = expectStateChange(state, running1.toAction(), {
+                        pending: [pending2.taskInstance, pending3.taskInstance],
+                        running: [running1.taskInstance],
+                        lastRunning: running1.taskInstance,
+                    });
+                    let running3 = pending3.taskInstanceWithState.changeState(&quot;running&quot; /* RUNNING */);
+                    state = expectStateChange(state, running3.toAction(), {
+                        pending: [pending2.taskInstance],
+                        running: [running1.taskInstance, pending3.taskInstance],
+                        lastRunning: running3.taskInstance,
+                    });
+                });
+            });
+            describe(&apos;CANCELLED&apos;, () =&gt; {
+                let pending1 = createTaskInstance(&quot;pending&quot; /* PENDING */);
+                let running1 = createTaskInstance(&quot;running&quot; /* RUNNING */);
+                let running2 = createTaskInstance(&quot;running&quot; /* RUNNING */);
+                beforeEach(() =&gt; {
+                    state = task.reducer(state, pending1.action);
+                    state = task.reducer(state, running1.action);
+                    state = task.reducer(state, running2.action);
+                    expect(state.pending.length).to.equal(1);
+                    expect(state.running.length).to.equal(2);
+                });
+                it(&apos;removes from pending and running and tracks cancelled&apos;, () =&gt; {
+                    let cancelled1 = pending1.taskInstanceWithState.changeState(&quot;cancelled&quot; /* CANCELLED */);
+                    state = expectStateChange(state, cancelled1.toAction(), {
+                        pending: [],
+                        running: [running1.taskInstance, running2.taskInstance],
+                        cancelled: 1,
+                        lastCancelled: cancelled1.taskInstance,
+                    });
+                    let cancelled2 = running1.taskInstanceWithState.changeState(&quot;cancelled&quot; /* CANCELLED */);
+                    state = expectStateChange(state, cancelled2.toAction(), {
+                        running: [running2.taskInstance],
+                        cancelled: 2,
+                        lastCancelled: cancelled2.taskInstance,
+                    });
+                });
+            });
+            describe(&apos;ERROR&apos;, () =&gt; {
+                let pending1 = createTaskInstance(&quot;pending&quot; /* PENDING */);
+                let running1 = createTaskInstance(&quot;running&quot; /* RUNNING */);
+                let running2 = createTaskInstance(&quot;running&quot; /* RUNNING */);
+                beforeEach(() =&gt; {
+                    state = task.reducer(state, pending1.action);
+                    state = task.reducer(state, running1.action);
+                    state = task.reducer(state, running2.action);
+                    state = Object.assign({}, state, { completed: 1 });
+                    expect(state.pending.length).to.equal(1);
+                    expect(state.running.length).to.equal(2);
+                });
+                it(&apos;removes from pending and running and tracks errored&apos;, () =&gt; {
+                    let errored1 = pending1.taskInstanceWithState.changeState(&quot;error&quot; /* ERROR */);
+                    state = expectStateChange(state, errored1.toAction(), {
+                        pending: [],
+                        running: [running1.taskInstance, running2.taskInstance],
+                        errored: 1,
+                        completed: 2,
+                        lastCompleted: errored1.taskInstance,
+                        lastErrored: errored1.taskInstance,
+                    });
+                    let errored2 = running1.taskInstanceWithState.changeState(&quot;error&quot; /* ERROR */);
+                    state = expectStateChange(state, errored2.toAction(), {
+                        running: [running2.taskInstance],
+                        errored: 2,
+                        completed: 3,
+                        lastCompleted: errored2.taskInstance,
+                        lastErrored: errored2.taskInstance,
+                    });
+                });
+            });
+            describe(&apos;COMPLETE&apos;, () =&gt; {
+                let pending1 = createTaskInstance(&quot;pending&quot; /* PENDING */);
+                let running1 = createTaskInstance(&quot;running&quot; /* RUNNING */);
+                let running2 = createTaskInstance(&quot;running&quot; /* RUNNING */);
+                beforeEach(() =&gt; {
+                    state = task.reducer(state, pending1.action);
+                    state = task.reducer(state, running1.action);
+                    state = task.reducer(state, running2.action);
+                    state = Object.assign({}, state, { errored: 1, completed: 1 });
+                    expect(state.pending.length).to.equal(1);
+                    expect(state.running.length).to.equal(2);
+                });
+                it(&apos;removes from pending and running and tracks completed&apos;, () =&gt; {
+                    let completed1 = pending1.taskInstanceWithState.changeState(&quot;complete&quot; /* COMPLETE */);
+                    state = expectStateChange(state, completed1.toAction(), {
+                        pending: [],
+                        running: [running1.taskInstance, running2.taskInstance],
+                        successful: 1,
+                        completed: 2,
+                        lastSuccessful: completed1.taskInstance,
+                        lastCompleted: completed1.taskInstance,
+                    });
+                    let completed2 = running1.taskInstanceWithState.changeState(&quot;complete&quot; /* COMPLETE */);
+                    state = expectStateChange(state, completed2.toAction(), {
+                        running: [running2.taskInstance],
+                        successful: 2,
+                        completed: 3,
+                        lastSuccessful: completed2.taskInstance,
+                        lastCompleted: completed2.taskInstance,
+                    });
+                });
+            });
+            describe(&apos;Unkown TaskInstance state&apos;, () =&gt; {
+                let { action } = createTaskInstance(&apos;__unkown_state__&apos;);
+                expect(() =&gt; task.reducer(state, action)).to.throw(TypeError, &apos;Unkown value __unkown_state__&apos;);
+            });
+        });
+    });
+    describe(&apos;Selectors&apos;, () =&gt; {
+        let state;
+        let last = {};
+        let lastRunning = {};
+        let lastSuccessful = {};
+        let lastCancelled = {};
+        let lastErrored = {};
+        let lastCompleted = {};
+        let pending = [{}, last];
+        let running = [lastRunning];
+        beforeEach(() =&gt; {
+            state = {
+                performed: 1,
+                pending,
+                running,
+                successful: 2,
+                cancelled: 3,
+                errored: 4,
+                completed: 5,
+                last,
+                lastRunning,
+                lastSuccessful,
+                lastCancelled,
+                lastErrored,
+                lastCompleted,
+            };
+        });
+        /** @test {selectPerformed} */
+        it(&apos;selectPerformed&apos;, () =&gt; {
+            expect(task.selectPerformed(state)).to.equal(1);
+        });
+        /** @test {selectPending} */
+        it(&apos;selectPending&apos;, () =&gt; {
+            expect(task.selectPending(state)).to.equal(pending);
+        });
+        /** @test {selectRunning} */
+        it(&apos;selectRunning&apos;, () =&gt; {
+            expect(task.selectRunning(state)).to.equal(running);
+        });
+        /** @test {selectSuccessful} */
+        it(&apos;selectSuccessful&apos;, () =&gt; {
+            expect(task.selectSuccessful(state)).to.equal(2);
+        });
+        /** @test {selectCancelled} */
+        it(&apos;selectCancelled&apos;, () =&gt; {
+            expect(task.selectCancelled(state)).to.equal(3);
+        });
+        /** @test {selectErrored} */
+        it(&apos;selectErrored&apos;, () =&gt; {
+            expect(task.selectErrored(state)).to.equal(4);
+        });
+        /** @test {selectCompleted} */
+        it(&apos;selectCompleted&apos;, () =&gt; {
+            expect(task.selectCompleted(state)).to.equal(5);
+        });
+        /** @test {selectLast} */
+        it(&apos;selectLast&apos;, () =&gt; {
+            expect(task.selectLast(state)).to.equal(last);
+        });
+        /** @test {selectLastRunning} */
+        it(&apos;selectLastRunning&apos;, () =&gt; {
+            expect(task.selectLastRunning(state)).to.equal(lastRunning);
+        });
+        /** @test {selectLastSuccessful} */
+        it(&apos;selectLastSuccesful&apos;, () =&gt; {
+            expect(task.selectLastSuccessful(state)).to.equal(lastSuccessful);
+        });
+        /** @test {selectLastCancelled} */
+        it(&apos;selectLastCancelled&apos;, () =&gt; {
+            expect(task.selectLastCancelled(state)).to.equal(lastCancelled);
+        });
+        /** @test {selectLastErrored} */
+        it(&apos;selectLastErrored&apos;, () =&gt; {
+            expect(task.selectLastErrored(state)).to.equal(lastErrored);
+        });
+        /** @test {selectLastCompleted} */
+        it(&apos;selectLastCompleted&apos;, () =&gt; {
+            expect(task.selectLastCompleted(state)).to.equal(lastCompleted);
+        });
+    });
+    describe(&apos;helpers&apos;, () =&gt; {
+        /** @test {combineTaskInstanceWithState} */
+        it(&apos;combineTaskInstanceWithState&apos;, () =&gt; {
+            expect(task.combineTaskInstanceWithStateLabel(&apos;task&apos;, { stateLabel: &apos;state&apos; })).to.deep.equal({ taskInstance: &apos;task&apos;, taskInstanceStateLabel: &apos;state&apos; });
+        });
+    });
+});
+</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.0.4)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>

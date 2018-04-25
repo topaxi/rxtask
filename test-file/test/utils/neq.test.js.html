@@ -2,8 +2,8 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <base data-ice="baseUrl">
-  <title data-ice="title">Home | RxTask</title>
+  <base data-ice="baseUrl" href="../../../">
+  <title data-ice="title">test/utils/neq.test.js | RxTask</title>
   <link type="text/css" rel="stylesheet" href="css/style.css">
   <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
   <script src="script/prettify/prettify.js"></script>
@@ -87,7 +87,26 @@
 </div>
 </nav>
 
-<div class="content" data-ice="content"><div data-ice="index" class="github-markdown"><h1 id="rxtask">RxTask</h1></div>
+<div class="content" data-ice="content"><h1 data-ice="title">test/utils/neq.test.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import { neq } from &apos;../../src/utils/neq&apos;;
+import { expect } from &apos;chai&apos;;
+/** @test {neq} */
+describe(&apos;utils/neq&apos;, () =&gt; {
+    it(&apos;returns a function for inequality&apos;, () =&gt; {
+        expect(neq(5)).to.be.a(&apos;function&apos;);
+        expect(neq({})({})).to.be.true;
+        let obj = {};
+        expect(neq(obj)(obj)).to.be.false;
+        expect(neq(5)(5)).to.be.false;
+        expect(neq(5)(6)).to.be.true;
+        expect(neq(5)(&apos;6&apos;)).to.be.true;
+        expect(neq(null)(undefined)).to.be.true;
+        expect(neq(undefined)(null)).to.be.true;
+        expect(neq(NaN)(NaN), &apos;NaN&apos;).to.be.true;
+    });
+});
+</code></pre>
+
 </div>
 
 <footer class="footer">

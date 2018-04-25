@@ -2,8 +2,8 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <base data-ice="baseUrl">
-  <title data-ice="title">Home | RxTask</title>
+  <base data-ice="baseUrl" href="../../">
+  <title data-ice="title">esm/task.js | RxTask</title>
   <link type="text/css" rel="stylesheet" href="css/style.css">
   <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
   <script src="script/prettify/prettify.js"></script>
@@ -87,7 +87,185 @@
 </div>
 </nav>
 
-<div class="content" data-ice="content"><div data-ice="index" class="github-markdown"><h1 id="rxtask">RxTask</h1></div>
+<div class="content" data-ice="content"><h1 data-ice="title">esm/task.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import { Subscription } from &apos;rxjs/Subscription&apos;;
+import { defer } from &apos;rxjs/observable/defer&apos;;
+import { Subject } from &apos;rxjs/Subject&apos;;
+import { ReplaySubject } from &apos;rxjs/ReplaySubject&apos;;
+import { asap } from &apos;rxjs/scheduler/asap&apos;;
+import { map, mergeMap, exhaust, mergeAll, switchAll, takeUntil, share, shareReplay, auditTime, } from &apos;rxjs/operators&apos;;
+import { TaskInstance } from &apos;./task-instance&apos;;
+import { createCallableObject, assertNever } from &apos;./utils&apos;;
+import * as taskReducer from &apos;./reducers/task&apos;;
+import { selectPerformed, selectPending, selectRunning, selectSuccessful, selectCancelled, selectErrored, selectCompleted, selectLast, selectLastRunning, selectLastSuccessful, selectLastCancelled, selectLastErrored, selectLastCompleted, } from &apos;./reducers/task&apos;;
+import { ObjectUnsubscribedError } from &apos;rxjs/util/ObjectUnsubscribedError&apos;;
+import { actionReducer } from &apos;./operators/action-reducer&apos;;
+import * as taskActions from &apos;./actions/task&apos;;
+import { toAction } from &apos;./actions&apos;;
+/**
+ * @param {TaskCallback&lt;T, U&gt;} task
+ * @return {Task&lt;U&gt;}
+ */
+export const task = (task) =&gt; new Task(task);
+const selectState$ = (t) =&gt; t.state$;
+/**
+ * @class Task&lt;T, U&gt;
+ * @implements {Subscribable&lt;T&gt;}
+ * @implements {ISubscription}
+ */
+export class Task {
+    /**
+     * @param {TaskCallback&lt;U, T&gt;} task
+     * @return {Task&lt;T, U&gt;}
+     */
+    constructor(task) {
+        this._flattenType = &quot;merge&quot; /* MERGE */;
+        this._concurrency = Infinity;
+        this._autoSubscribe = false;
+        this._closed = false;
+        this._subscription = new Subscription();
+        this._perform$ = new Subject();
+        this._takeUntilObservable$ = new ReplaySubject(1);
+        this._takeUntil$ = this._takeUntilObservable$.pipe(switchAll());
+        this._task$ = defer(() =&gt; this._perform$.pipe(this._flatten(), takeUntil(this._takeUntil$))).pipe(share());
+        /** @type {Observable&lt;TaskState&lt;T&gt;&gt;} */
+        this.state$ = this._perform$.pipe(mergeMap(selectState$, taskReducer.combineTaskInstanceWithStateLabel), map(toAction(taskActions.TASK_INSTANCE_STATE_UPDATE_ACTION)), actionReducer(taskReducer.reducer), auditTime(0, asap), takeUntil(this._takeUntil$), shareReplay(1));
+        /** @type {Observable&lt;number&gt;} */
+        this.performed$ = this.state$.pipe(map(selectPerformed));
+        /** @type {Observable&lt;Array&lt;TaskInstance&lt;T&gt;&gt;&gt;} */
+        this.pending$ = this.state$.pipe(map(selectPending));
+        /** @type {Observable&lt;Array&lt;TaskInstance&lt;T&gt;&gt;&gt;} */
+        this.running$ = this.state$.pipe(map(selectRunning));
+        /** @type {Observable&lt;number&gt;} */
+        this.cancelled$ = this.state$.pipe(map(selectCancelled));
+        /** @type {Observable&lt;number&gt;} */
+        this.successful$ = this.state$.pipe(map(selectSuccessful));
+        /** @type {Observable&lt;number&gt;} */
+        this.errored$ = this.state$.pipe(map(selectErrored));
+        /** @type {Observable&lt;number&gt;} */
+        this.completed$ = this.state$.pipe(map(selectCompleted));
+        /** @type {Observable&lt;TaskInstance&lt;T&gt;&gt;} */
+        this.last$ = this.state$.pipe(map(selectLast));
+        /** @type {Observable&lt;TaskInstance&lt;T&gt;&gt;} */
+        this.lastRunning$ = this.state$.pipe(map(selectLastRunning));
+        /** @type {Observable&lt;TaskInstance&lt;T&gt;&gt;} */
+        this.lastSuccessful$ = this.state$.pipe(map(selectLastSuccessful));
+        /** @type {Observable&lt;TaskInstance&lt;T&gt;&gt;} */
+        this.lastCancelled$ = this.state$.pipe(map(selectLastCancelled));
+        /** @type {Observable&lt;TaskInstance&lt;T&gt;&gt;} */
+        this.lastErrored$ = this.state$.pipe(map(selectLastErrored));
+        /** @type {Observable&lt;TaskInstance&lt;T&gt;&gt;} */
+        this.lastCompleted$ = this.state$.pipe(map(selectLastCompleted));
+        this._task = task;
+    }
+    /** @type {boolean} */
+    get closed() {
+        return this._closed;
+    }
+    /**
+     * @param {U} value
+     * @return {TaskInstance&lt;T&gt;}
+     */
+    perform(value) {
+        if (this._closed)
+            throw new ObjectUnsubscribedError();
+        if (this._autoSubscribe === true) {
+            this.subscribe();
+        }
+        const task = this._createTaskInstance(this._task, value);
+        return this._perform$.next(task), task;
+    }
+    /**
+     * @param {Observable&lt;any&gt;} until$
+     * @return {Task&lt;T&gt;}
+     */
+    takeUntil(until$) {
+        this._takeUntilObservable$.next(until$);
+        return this;
+    }
+    /**
+     * @param {Observable&lt;any&gt;} until$
+     * @return {Task&lt;T&gt;}
+     */
+    subscribeUntil(until$) {
+        this._autoSubscribe = true;
+        return this.takeUntil(until$);
+    }
+    /**
+     * @param {Observer|Function} observerOrNext (optional) Either an observer with methods to be called,
+     *  or the first of three possible handlers, which is the handler for each value emitted from the subscribed
+     *  Observable.
+     * @param {Function} error (optional) A handler for a terminal event resulting from an error. If no error handler is provided,
+     *  the error will be thrown as unhandled.
+     * @param {Function} complete (optional) A handler for a terminal event resulting from successful completion.
+     * @return {ISubscription} a subscription reference to the registered handlers
+     */
+    subscribe(observerOrNext, error, complete) {
+        if (this._closed)
+            throw new ObjectUnsubscribedError();
+        this._autoSubscribe = false;
+        return this._subscription.add(this._task$.subscribe(observerOrNext, error, complete));
+    }
+    /**
+     * @return {void}
+     */
+    unsubscribe() {
+        this._closed = true;
+        this._subscription.unsubscribe();
+    }
+    /**
+     * @param {number} concurrency
+     * @return {Task&lt;T&gt;}
+     */
+    concurrency(concurrency) {
+        this._flattenType = &quot;merge&quot; /* MERGE */;
+        this._concurrency = concurrency;
+        return this;
+    }
+    /**
+     * @return {Task&lt;T&gt;}
+     */
+    switch() {
+        this._flattenType = &quot;switch&quot; /* SWITCH */;
+        return this;
+    }
+    /**
+     * @return {Task&lt;T&gt;}
+     */
+    concat() {
+        return this.concurrency(1);
+    }
+    /**
+     * @return {Task&lt;T&gt;}
+     */
+    drop() {
+        this._flattenType = &quot;exhaust&quot; /* EXHAUST */;
+        return this;
+    }
+    /**
+     * @return {Callable&lt;Task&lt;T&gt;&gt;}
+     */
+    callable() {
+        return createCallableObject(this, this.perform);
+    }
+    _flatten() {
+        switch (this._flattenType) {
+            case &quot;switch&quot; /* SWITCH */:
+                return switchAll();
+            case &quot;exhaust&quot; /* EXHAUST */:
+                return exhaust();
+            case &quot;merge&quot; /* MERGE */:
+                return mergeAll(this._concurrency);
+            default:
+                return assertNever(this._flattenType);
+        }
+    }
+    _createTaskInstance(t, v) {
+        return new TaskInstance(defer(() =&gt; t(v)));
+    }
+}
+//# sourceMappingURL=task.js.map</code></pre>
+
 </div>
 
 <footer class="footer">

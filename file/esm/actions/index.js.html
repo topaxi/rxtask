@@ -2,8 +2,8 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <base data-ice="baseUrl">
-  <title data-ice="title">Home | RxTask</title>
+  <base data-ice="baseUrl" href="../../../">
+  <title data-ice="title">esm/actions/index.js | RxTask</title>
   <link type="text/css" rel="stylesheet" href="css/style.css">
   <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
   <script src="script/prettify/prettify.js"></script>
@@ -87,7 +87,36 @@
 </div>
 </nav>
 
-<div class="content" data-ice="content"><div data-ice="index" class="github-markdown"><h1 id="rxtask">RxTask</h1></div>
+<div class="content" data-ice="content"><h1 data-ice="title">esm/actions/index.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">/**
+ * @param {string} type Action type
+ * @param {?PayloadType} payload Action payload
+ * @return {Action&lt;string&gt; | ActionWithPayload&lt;string, PayloadType&gt;}
+ */
+export function createAction(type, payload) {
+    if (arguments.length === 1) {
+        return { type };
+    }
+    return { type, payload };
+}
+/**
+ * @param {string} type Action type
+ * @return {function(payload: PayloadType): ActionWithPayload&lt;string, PayloadType&gt;}
+ */
+export function toAction(type) {
+    return payload =&gt; createAction(type, payload);
+}
+/**
+ * @typedef {Object} Action
+ * @property {string} type Action type
+ */
+/**
+ * @typedef {Action} ActionWithPayload
+ * @property {string} type Action type
+ * @property {PayloadType} payload Action payload
+ */
+//# sourceMappingURL=index.js.map</code></pre>
+
 </div>
 
 <footer class="footer">

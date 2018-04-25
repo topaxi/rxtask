@@ -2,8 +2,8 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <base data-ice="baseUrl">
-  <title data-ice="title">Home | RxTask</title>
+  <base data-ice="baseUrl" href="../../../../">
+  <title data-ice="title">esm/reducers/task/index.js | RxTask</title>
   <link type="text/css" rel="stylesheet" href="css/style.css">
   <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
   <script src="script/prettify/prettify.js"></script>
@@ -87,7 +87,155 @@
 </div>
 </nav>
 
-<div class="content" data-ice="content"><div data-ice="index" class="github-markdown"><h1 id="rxtask">RxTask</h1></div>
+<div class="content" data-ice="content"><h1 data-ice="title">esm/reducers/task/index.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import { assertNever, neq, EMPTY_ARRAY, pipe } from &apos;../../utils&apos;;
+import * as taskActions from &apos;../../actions/task&apos;;
+/** @access private */
+export const combineTaskInstanceWithStateLabel = (taskInstance, { stateLabel: taskInstanceStateLabel }) =&gt; ({
+    taskInstance,
+    taskInstanceStateLabel,
+});
+/**
+ * @type {TaskState&lt;any&gt;}
+ * @access private
+ */
+export const INITIAL_STATE = {
+    performed: 0,
+    pending: EMPTY_ARRAY,
+    running: EMPTY_ARRAY,
+    successful: 0,
+    cancelled: 0,
+    errored: 0,
+    completed: 0,
+    last: null,
+    lastRunning: null,
+    lastSuccessful: null,
+    lastCancelled: null,
+    lastErrored: null,
+    lastCompleted: null,
+};
+function taskInstanceStateReducer(state, { taskInstance, taskInstanceStateLabel }) {
+    switch (taskInstanceStateLabel) {
+        case &quot;pending&quot; /* PENDING */:
+            return Object.assign({}, state, { performed: state.performed + 1, pending: [...state.pending, taskInstance], last: taskInstance });
+        case &quot;running&quot; /* RUNNING */:
+            return Object.assign({}, taskNoLonger(state, taskInstance, &apos;pending&apos;), { running: [...state.running, taskInstance], lastRunning: taskInstance });
+        case &quot;cancelled&quot; /* CANCELLED */:
+            return Object.assign({}, pipe(state, state =&gt; taskNoLonger(state, taskInstance, &apos;pending&apos;), state =&gt; taskNoLonger(state, taskInstance, &apos;running&apos;)), { cancelled: state.cancelled + 1, lastCancelled: taskInstance });
+        case &quot;error&quot; /* ERROR */:
+            return Object.assign({}, taskCompleted(state, taskInstance), { errored: state.errored + 1, lastErrored: taskInstance });
+        case &quot;complete&quot; /* COMPLETE */:
+            return Object.assign({}, taskCompleted(state, taskInstance), { successful: state.successful + 1, lastSuccessful: taskInstance });
+        default:
+            return assertNever(taskInstanceStateLabel);
+    }
+}
+/**
+ * @param {TaskState&lt;T&gt;} [state=INITIAL_STATE]
+ * @param {TaskActions&lt;T&gt;} action
+ * @return {TaskState&lt;T&gt;}
+ */
+export function reducer(state = INITIAL_STATE, action) {
+    switch (action.type) {
+        case taskActions.TASK_INSTANCE_STATE_UPDATE_ACTION:
+            return taskInstanceStateReducer(state, action.payload);
+        default:
+            return state;
+    }
+}
+function taskNoLonger(state, task, taskState) {
+    return Object.assign({}, state, { [taskState]: state[taskState].filter(neq(task)) });
+}
+function taskCompleted(state, task) {
+    return Object.assign({}, pipe(state, state =&gt; taskNoLonger(state, task, &apos;pending&apos;), state =&gt; taskNoLonger(state, task, &apos;running&apos;)), { completed: state.completed + 1, lastCompleted: task });
+}
+/**
+ * @param {TaskState&lt;T&gt;} s
+ * @return number
+ */
+export const selectPerformed = (s) =&gt; s.performed;
+/**
+ * @param {TaskState&lt;T&gt;} s
+ * @return {Array&lt;TaskInstance&lt;T&gt;&gt;}
+ */
+export const selectPending = (s) =&gt; s.pending;
+/**
+ * @param {TaskState&lt;T&gt;} s
+ * @return {Array&lt;TaskInstance&lt;T&gt;&gt;}
+ */
+export const selectRunning = (s) =&gt; s.running;
+/**
+ * @param {TaskState&lt;T&gt;} s
+ * @return {number}
+ */
+export const selectSuccessful = (s) =&gt; s.successful;
+/**
+ * @param {TaskState&lt;T&gt;} s
+ * @return {number}
+ */
+export const selectCancelled = (s) =&gt; s.cancelled;
+/**
+ * @param {TaskState&lt;T&gt;} s
+ * @return {number}
+ */
+export const selectErrored = (s) =&gt; s.errored;
+/**
+ * @param {TaskState&lt;T&gt;} s
+ * @return {number}
+ */
+export const selectCompleted = (s) =&gt; s.completed;
+/**
+ * @param {TaskState&lt;T&gt;} s
+ * @return {TaskInstance&lt;T&gt;}
+ */
+export const selectLast = (s) =&gt; s.last;
+/**
+ * @param {TaskState&lt;T&gt;} s
+ * @return {TaskInstance&lt;T&gt;}
+ */
+export const selectLastRunning = (s) =&gt; s.lastRunning;
+/**
+ * @param {TaskState&lt;T&gt;} s
+ * @return {TaskInstance&lt;T&gt;}
+ */
+export const selectLastSuccessful = (s) =&gt; s.lastSuccessful;
+/**
+ * @param {TaskState&lt;T&gt;} s
+ * @return {TaskInstance&lt;T&gt;}
+ */
+export const selectLastCancelled = (s) =&gt; s.lastCancelled;
+/**
+ * @param {TaskState&lt;T&gt;} s
+ * @return {TaskInstance&lt;T&gt;}
+ */
+export const selectLastErrored = (s) =&gt; s.lastErrored;
+/**
+ * @param {TaskState&lt;T&gt;} s
+ * @return {TaskInstance&lt;T&gt;}
+ */
+export const selectLastCompleted = (s) =&gt; s.lastCompleted;
+/**
+ * @typedef {Object} TaskState
+ * @property {number} performed
+ * @property {Array&lt;TaskInstance&lt;T&gt;&gt;} pending
+ * @property {Array&lt;TaskInstance&lt;T&gt;&gt;} running
+ * @property {number} successful
+ * @property {number} cancelled
+ * @property {number} errored
+ * @property {number} completed
+ * @property {?TaskInstance&lt;T&gt;} last
+ * @property {?TaskInstance&lt;T&gt;} lastRunning
+ * @property {?TaskInstance&lt;T&gt;} lastSuccessful
+ * @property {?TaskInstance&lt;T&gt;} lastCancelled
+ * @property {?TaskInstance&lt;T&gt;} lastErrored
+ * @property {?TaskInstance&lt;T&gt;} lastCompleted
+ */
+/**
+ * @typedef {{ taskInstance: TaskInstance&lt;T&gt;, taskInstanceState: TaskInstanceState }} TaskInstanceWithState
+ * @access private
+ */
+//# sourceMappingURL=index.js.map</code></pre>
+
 </div>
 
 <footer class="footer">

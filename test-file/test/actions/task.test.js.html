@@ -2,8 +2,8 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <base data-ice="baseUrl">
-  <title data-ice="title">Home | RxTask</title>
+  <base data-ice="baseUrl" href="../../../">
+  <title data-ice="title">test/actions/task.test.js | RxTask</title>
   <link type="text/css" rel="stylesheet" href="css/style.css">
   <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
   <script src="script/prettify/prettify.js"></script>
@@ -87,7 +87,17 @@
 </div>
 </nav>
 
-<div class="content" data-ice="content"><div data-ice="index" class="github-markdown"><h1 id="rxtask">RxTask</h1></div>
+<div class="content" data-ice="content"><h1 data-ice="title">test/actions/task.test.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import * as taskActions from &apos;../../src/actions/task&apos;;
+import { expect } from &apos;chai&apos;;
+describe(&apos;actions/task&apos;, () =&gt; {
+    /** @test {NOTIFICATION_ACTION} */
+    it(&apos;exports NOTIFICATION_ACTION&apos;, () =&gt; {
+        expect(taskActions.TASK_INSTANCE_STATE_UPDATE_ACTION).to.exist;
+    });
+});
+</code></pre>
+
 </div>
 
 <footer class="footer">

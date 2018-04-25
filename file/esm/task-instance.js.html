@@ -2,8 +2,8 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <base data-ice="baseUrl">
-  <title data-ice="title">Home | RxTask</title>
+  <base data-ice="baseUrl" href="../../">
+  <title data-ice="title">esm/task-instance.js | RxTask</title>
   <link type="text/css" rel="stylesheet" href="css/style.css">
   <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
   <script src="script/prettify/prettify.js"></script>
@@ -87,7 +87,90 @@
 </div>
 </nav>
 
-<div class="content" data-ice="content"><div data-ice="index" class="github-markdown"><h1 id="rxtask">RxTask</h1></div>
+<div class="content" data-ice="content"><h1 data-ice="title">esm/task-instance.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import { Subject } from &apos;rxjs/Subject&apos;;
+import { Subscription } from &apos;rxjs/Subscription&apos;;
+import { observable } from &apos;rxjs/symbol/observable&apos;;
+import { map, filter, materialize, multicast, distinctUntilChanged, } from &apos;rxjs/operators&apos;;
+import { ReplaySubject } from &apos;rxjs/ReplaySubject&apos;;
+import * as taskInstance from &apos;./reducers/task-instance&apos;;
+import { ObjectUnsubscribedError } from &apos;rxjs/util/ObjectUnsubscribedError&apos;;
+import { actionReducer } from &apos;./operators&apos;;
+import { createNotificationAction, } from &apos;./actions/task-instance&apos;;
+/**
+ * @class TaskInstance&lt;T&gt;
+ * @implements {Subscribable&lt;T&gt;}
+ * @implements {ISubscription}
+ */
+export class TaskInstance {
+    /**
+     * @param {Observable&lt;T&gt;} observable$
+     * @return {TaskInstance&lt;T&gt;}
+     */
+    constructor(observable$) {
+        this._closed = false;
+        this._observableMirror$ = new Subject();
+        this._currentState$ = new ReplaySubject(1);
+        this._subscription = new Subscription();
+        this._observableNotifications$ = this._observableMirror$.pipe(materialize());
+        this._actions$ = this._observableNotifications$.pipe(map(createNotificationAction));
+        /** @type {Observable&lt;TaskInstanceState&lt;T&gt;&gt;} */
+        this.state$ = this._actions$.pipe(actionReducer(taskInstance.reducer), multicast(this._currentState$)).refCount();
+        /** @type {Observable&lt;TaskInstanceStateLabel&lt;T&gt;&gt;} */
+        this.stateLabel$ = this.state$.pipe(map(taskInstance.selectStateLabel), distinctUntilChanged());
+        /** @type {Observable&lt;boolean&gt;} */
+        this.isPending$ = this.stateLabel$.pipe(map(taskInstance.isPending));
+        /** @type {Observable&lt;boolean&gt;} */
+        this.isRunning$ = this.stateLabel$.pipe(map(taskInstance.isRunning));
+        /** @type {Observable&lt;boolean&gt;} */
+        this.isCancelled$ = this.stateLabel$.pipe(map(taskInstance.isCancelled));
+        /** @type {Observable&lt;boolean&gt;} */
+        this.isError$ = this.stateLabel$.pipe(map(taskInstance.isError));
+        /** @type {Observable&lt;boolean&gt;} */
+        this.isComplete$ = this.stateLabel$.pipe(map(taskInstance.isComplete));
+        /** @type {Observable&lt;boolean&gt;} */
+        this.hasValue$ = this.state$.pipe(map(taskInstance.hasValue));
+        /** @type {Observable&lt;T&gt;} */
+        this.currentValue$ = this.state$.pipe(filter(taskInstance.hasValue), map(taskInstance.selectValue));
+        /** @type {Observable&lt;Error|null&gt;} */
+        this.error$ = this.state$.pipe(map(taskInstance.selectError));
+        this._observable$ = observable$.pipe(multicast(this._observableMirror$)).refCount();
+    }
+    /** @type {boolean} */
+    get closed() {
+        return this._closed;
+    }
+    /** @ignore */
+    [observable]() {
+        return this;
+    }
+    /**
+     * @param {Observer|Function} observerOrNext (optional) Either an observer with methods to be called,
+     *  or the first of three possible handlers, which is the handler for each value emitted from the subscribed
+     *  Observable.
+     * @param {Function} error (optional) A handler for a terminal event resulting from an error. If no error handler is provided,
+     *  the error will be thrown as unhandled.
+     * @param {Function} complete (optional) A handler for a terminal event resulting from successful completion.
+     * @return {ISubscription} a subscription reference to the registered handlers
+     */
+    subscribe(observerOrNext, error, complete) {
+        if (this._closed)
+            throw new ObjectUnsubscribedError();
+        this._currentState$.next(taskInstance.RUNNING_STATE);
+        this._subscription.add(this._observable$.subscribe(observerOrNext, error, complete));
+        return this;
+    }
+    /**
+     * @return {void}
+     */
+    unsubscribe() {
+        this._currentState$.next(taskInstance.CANCELLED_STATE);
+        this._closed = true;
+        this._subscription.unsubscribe();
+    }
+}
+//# sourceMappingURL=task-instance.js.map</code></pre>
+
 </div>
 
 <footer class="footer">

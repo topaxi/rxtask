@@ -2,8 +2,8 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <base data-ice="baseUrl">
-  <title data-ice="title">Home | RxTask</title>
+  <base data-ice="baseUrl" href="../../../">
+  <title data-ice="title">esm/utils/create-callable-object.js | RxTask</title>
   <link type="text/css" rel="stylesheet" href="css/style.css">
   <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
   <script src="script/prettify/prettify.js"></script>
@@ -87,7 +87,52 @@
 </div>
 </nav>
 
-<div class="content" data-ice="content"><div data-ice="index" class="github-markdown"><h1 id="rxtask">RxTask</h1></div>
+<div class="content" data-ice="content"><h1 data-ice="title">esm/utils/create-callable-object.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">/**
+ * @typedef {Function} Callable
+ */
+/**
+ * @param {Object} obj
+ * @param {Function} method
+ * @return {Callable&lt;Object&gt;}
+ */
+export function createCallableObject(obj, method) {
+    const methodMap = new WeakMap();
+    const callable = new Proxy(method, {
+        get(target, prop, receiver) {
+            if (prop in obj) {
+                return proxyProperty(obj, prop, receiver);
+            }
+            if (prop in target) {
+                return proxyProperty(target, prop, receiver);
+            }
+            return undefined;
+        },
+        apply(target, thisArg, args) {
+            return target.apply(callable, args);
+        },
+        getPrototypeOf(target) {
+            return Object.getPrototypeOf(obj);
+        },
+    });
+    return callable;
+    function getBoundMethod(obj, fn, receiver) {
+        return (methodMap.has(fn)
+            ? methodMap
+            : methodMap.set(fn, function () {
+                let ret = fn.apply(obj, arguments);
+                return ret === obj ? receiver : ret;
+            })).get(fn);
+    }
+    function proxyProperty(obj, key, receiver) {
+        if (typeof obj[key] === &apos;function&apos;) {
+            return getBoundMethod(obj, obj[key], receiver);
+        }
+        return obj[key];
+    }
+}
+//# sourceMappingURL=create-callable-object.js.map</code></pre>
+
 </div>
 
 <footer class="footer">
