@@ -1,6 +1,7 @@
 import * as index from '../src'
 import { expect } from 'chai'
 
+/** @ignore */
 describe('index', () => {
   it('exports Task', () => {
     expect(index.Task).to.exist

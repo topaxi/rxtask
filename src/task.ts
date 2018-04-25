@@ -50,6 +50,10 @@ import { toAction } from './actions'
 
 type AnyObservable = Observable<any>
 
+/**
+ * @param {TaskCallback<T, U>} task
+ * @return {Task<U>}
+ */
 export const task = <T extends AnyTaskCallback>(
   task: T,
 ): TaskFromCallback<T> => new Task(task)
@@ -62,6 +66,11 @@ const enum Flatten {
   MERGE = 'merge',
 }
 
+/**
+ * @class Task<T, U>
+ * @implements {Subscribable<T>}
+ * @implements {ISubscription}
+ */
 export class Task<T, U> implements Subscribable<T>, ISubscription {
   private _flattenType = Flatten.MERGE
   private _concurrency = Infinity
@@ -69,7 +78,7 @@ export class Task<T, U> implements Subscribable<T>, ISubscription {
   private _closed = false
 
   private readonly _subscription = new Subscription()
-  private readonly _task: TaskCallback<T, U>
+  private readonly _task: TaskCallback<U, T>
   private readonly _perform$ = new Subject<TaskInstance<T>>()
   private readonly _takeUntilObservable$ = new ReplaySubject<AnyObservable>(1)
   private readonly _takeUntil$ = this._takeUntilObservable$.pipe(switchAll())
@@ -77,8 +86,9 @@ export class Task<T, U> implements Subscribable<T>, ISubscription {
     this._perform$.pipe(this._flatten(), takeUntil(this._takeUntil$)),
   ).pipe(share())
 
+  /** @type {Observable<TaskState<T>>} */
   readonly state$ = this._perform$.pipe(
-    mergeMap(selectState$, taskReducer.combineTaskInstanceWithState),
+    mergeMap(selectState$, taskReducer.combineTaskInstanceWithStateLabel),
     map(toAction(taskActions.TASK_INSTANCE_STATE_UPDATE_ACTION)),
     actionReducer<TaskActions<T>, taskReducer.State<T>>(taskReducer.reducer),
     auditTime(0, asap),
@@ -86,28 +96,50 @@ export class Task<T, U> implements Subscribable<T>, ISubscription {
     shareReplay(1),
   )
 
+  /** @type {Observable<number>} */
   readonly performed$ = this.state$.pipe(map(selectPerformed))
+  /** @type {Observable<Array<TaskInstance<T>>>} */
   readonly pending$ = this.state$.pipe(map(selectPending))
+  /** @type {Observable<Array<TaskInstance<T>>>} */
   readonly running$ = this.state$.pipe(map(selectRunning))
+  /** @type {Observable<number>} */
   readonly cancelled$ = this.state$.pipe(map(selectCancelled))
+  /** @type {Observable<number>} */
   readonly successful$ = this.state$.pipe(map(selectSuccessful))
+  /** @type {Observable<number>} */
   readonly errored$ = this.state$.pipe(map(selectErrored))
+  /** @type {Observable<number>} */
   readonly completed$ = this.state$.pipe(map(selectCompleted))
+  /** @type {Observable<TaskInstance<T>>} */
   readonly last$ = this.state$.pipe(map(selectLast))
+  /** @type {Observable<TaskInstance<T>>} */
   readonly lastRunning$ = this.state$.pipe(map(selectLastRunning))
+  /** @type {Observable<TaskInstance<T>>} */
   readonly lastSuccessful$ = this.state$.pipe(map(selectLastSuccessful))
+  /** @type {Observable<TaskInstance<T>>} */
   readonly lastCancelled$ = this.state$.pipe(map(selectLastCancelled))
+  /** @type {Observable<TaskInstance<T>>} */
   readonly lastErrored$ = this.state$.pipe(map(selectLastErrored))
+  /** @type {Observable<TaskInstance<T>>} */
   readonly lastCompleted$ = this.state$.pipe(map(selectLastCompleted))
 
+  /** @type {boolean} */
   get closed(): boolean {
     return this._closed
   }
 
-  constructor(task: TaskCallback<T, U>) {
+  /**
+   * @param {TaskCallback<U, T>} task
+   * @return {Task<T, U>}
+   */
+  constructor(task: TaskCallback<U, T>) {
     this._task = task
   }
 
+  /**
+   * @param {U} value
+   * @return {TaskInstance<T>}
+   */
   perform(value: U): TaskInstance<T> {
     if (this._closed) throw new ObjectUnsubscribedError()
 
@@ -119,11 +151,19 @@ export class Task<T, U> implements Subscribable<T>, ISubscription {
     return this._perform$.next(task), task
   }
 
+  /**
+   * @param {Observable<any>} until$
+   * @return {Task<T>}
+   */
   takeUntil(until$: Observable<any>): this {
     this._takeUntilObservable$.next(until$)
     return this
   }
 
+  /**
+   * @param {Observable<any>} until$
+   * @return {Task<T>}
+   */
   subscribeUntil(until$: Observable<any>): this {
     this._autoSubscribe = true
     return this.takeUntil(until$)
@@ -135,6 +175,15 @@ export class Task<T, U> implements Subscribable<T>, ISubscription {
     error?: (error: any) => void,
     complete?: () => void,
   ): Subscription
+  /**
+   * @param {Observer|Function} observerOrNext (optional) Either an observer with methods to be called,
+   *  or the first of three possible handlers, which is the handler for each value emitted from the subscribed
+   *  Observable.
+   * @param {Function} error (optional) A handler for a terminal event resulting from an error. If no error handler is provided,
+   *  the error will be thrown as unhandled.
+   * @param {Function} complete (optional) A handler for a terminal event resulting from successful completion.
+   * @return {ISubscription} a subscription reference to the registered handlers
+   */
   subscribe(
     observerOrNext?: PartialObserver<T> | ((value: T) => void),
     error?: (error: any) => void,
@@ -148,11 +197,18 @@ export class Task<T, U> implements Subscribable<T>, ISubscription {
     )
   }
 
+  /**
+   * @return {void}
+   */
   unsubscribe(): void {
     this._closed = true
     this._subscription.unsubscribe()
   }
 
+  /**
+   * @param {number} concurrency
+   * @return {Task<T>}
+   */
   concurrency(
     concurrency: number,
   ): this & { switch: never; concat: never; drop: never } {
@@ -161,20 +217,32 @@ export class Task<T, U> implements Subscribable<T>, ISubscription {
     return this as any
   }
 
+  /**
+   * @return {Task<T>}
+   */
   switch(): this & { concurrency: never; concat: never; drop: never } {
     this._flattenType = Flatten.SWITCH
     return this as any
   }
 
+  /**
+   * @return {Task<T>}
+   */
   concat(): this & { concurrency: never; switch: never; drop: never } {
     return this.concurrency(1) as any
   }
 
+  /**
+   * @return {Task<T>}
+   */
   drop(): this & { concurrency: never; switch: never; concat: never } {
     this._flattenType = Flatten.EXHAUST
     return this as any
   }
 
+  /**
+   * @return {Callable<Task<T>>}
+   */
   callable(): CallableTask<this> {
     return createCallableObject(this, this.perform)
   }
@@ -192,7 +260,7 @@ export class Task<T, U> implements Subscribable<T>, ISubscription {
     }
   }
 
-  private _createTaskInstance(t: TaskCallback<T, U>, v: U): TaskInstance<T> {
+  private _createTaskInstance(t: TaskCallback<U, T>, v: U): TaskInstance<T> {
     return new TaskInstance<T>(defer(() => t(v)))
   }
 }

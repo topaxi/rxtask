@@ -2,6 +2,7 @@
   "source": "./dist/esm",
   "destination": "./tmp/docs",
   "plugins": [
+    { "name": "./tools/esdoc-externals-plugin.js" },
     {
       "name": "esdoc-standard-plugin",
       "option": {

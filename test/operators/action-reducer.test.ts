@@ -3,6 +3,7 @@ import { marbles } from 'rxjs-marbles'
 import { stub, SinonStub } from 'sinon'
 import { expect } from 'chai'
 
+/** @test {actionReducer} */
 describe('actionReducer', () => {
   let reducer: SinonStub
 

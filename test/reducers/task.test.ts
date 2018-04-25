@@ -2,14 +2,14 @@ import * as task from '../../src/reducers/task'
 import { EMPTY_ACTION, createStateMatcher } from './helpers'
 import { expect } from 'chai'
 import { TaskInstance } from '../../src/task-instance'
-import { TaskInstanceState } from '../../src/reducers/task-instance'
+import { TaskInstanceStateLabel } from '../../src/reducers/task-instance'
 import {
   TaskInstanceStateUpdateAction,
   TASK_INSTANCE_STATE_UPDATE_ACTION,
   TaskActions,
 } from '../../src/actions/task'
 import { createAction } from '../../src/actions'
-import { TaskInstanceWithState } from '../../src/reducers/task'
+import { TaskInstanceWithStateLabel } from '../../src/reducers/task'
 
 const expectStateChange = createStateMatcher(task.reducer)
 
@@ -19,9 +19,10 @@ class TaskInstanceMock<T> {
   taskInstanceId = ++taskInstanceId
 }
 
-class TaskInstanceWithStateMock<T> implements TaskInstanceWithState<T> {
+class TaskInstanceWithStateLabelMock<T>
+  implements TaskInstanceWithStateLabel<T> {
   constructor(
-    public readonly taskInstanceState: TaskInstanceState,
+    public readonly taskInstanceStateLabel: TaskInstanceStateLabel,
     public readonly taskInstance: TaskInstance<
       T
     > = new TaskInstanceMock() as any,
@@ -31,19 +32,21 @@ class TaskInstanceWithStateMock<T> implements TaskInstanceWithState<T> {
     return createTaskInstanceStateUpdateAction(this)
   }
 
-  changeState(state: TaskInstanceState) {
-    return new TaskInstanceWithStateMock(state, this.taskInstance)
+  changeState(stateLabel: TaskInstanceStateLabel) {
+    return new TaskInstanceWithStateLabelMock(stateLabel, this.taskInstance)
   }
 }
 
 function createTaskInstance<T>(
-  state: TaskInstanceState,
+  stateLabel: TaskInstanceStateLabel,
 ): {
-  taskInstanceWithState: TaskInstanceWithStateMock<T>
+  taskInstanceWithState: TaskInstanceWithStateLabelMock<T>
   taskInstance: TaskInstance<T>
   action: TaskInstanceStateUpdateAction<T>
 } {
-  const taskInstanceWithState = new TaskInstanceWithStateMock<T>(state)
+  const taskInstanceWithState = new TaskInstanceWithStateLabelMock<T>(
+    stateLabel,
+  )
 
   return {
     taskInstanceWithState,
@@ -53,13 +56,17 @@ function createTaskInstance<T>(
 }
 
 function createTaskInstanceStateUpdateAction<T>(
-  taskInstanceWithState: TaskInstanceWithState<T>,
+  taskInstanceWithStateLabel: TaskInstanceWithStateLabel<T>,
 ): TaskInstanceStateUpdateAction<T> {
-  return createAction(TASK_INSTANCE_STATE_UPDATE_ACTION, taskInstanceWithState)
+  return createAction(
+    TASK_INSTANCE_STATE_UPDATE_ACTION,
+    taskInstanceWithStateLabel,
+  )
 }
 
 describe('reducers/Task', () => {
   describe('Static states', () => {
+    /** @test {INITIAL_STATE} */
     it('defines an initial state', () => {
       expect(task.INITIAL_STATE).to.deep.equal({
         performed: 0,
@@ -79,6 +86,7 @@ describe('reducers/Task', () => {
     })
   })
 
+  /** @test {reducer} */
   describe('Reducer', () => {
     describe('Initial state', () => {
       it('equals INITIAL_STATE', () => {
@@ -96,7 +104,7 @@ describe('reducers/Task', () => {
       describe('PENDING', () => {
         it('counts performed and tracks pending instances', () => {
           var { taskInstance, action } = createTaskInstance(
-            TaskInstanceState.PENDING,
+            TaskInstanceStateLabel.PENDING,
           )
 
           state = expectStateChange(state, action, {
@@ -106,7 +114,7 @@ describe('reducers/Task', () => {
           })
 
           var { taskInstance, action } = createTaskInstance(
-            TaskInstanceState.PENDING,
+            TaskInstanceStateLabel.PENDING,
           )
 
           expectStateChange(state, action, {
@@ -118,9 +126,9 @@ describe('reducers/Task', () => {
       })
 
       describe('RUNNING', () => {
-        let pending1 = createTaskInstance(TaskInstanceState.PENDING)
-        let pending2 = createTaskInstance(TaskInstanceState.PENDING)
-        let pending3 = createTaskInstance(TaskInstanceState.PENDING)
+        let pending1 = createTaskInstance(TaskInstanceStateLabel.PENDING)
+        let pending2 = createTaskInstance(TaskInstanceStateLabel.PENDING)
+        let pending3 = createTaskInstance(TaskInstanceStateLabel.PENDING)
 
         beforeEach(() => {
           state = task.reducer(state, pending1.action)
@@ -132,7 +140,7 @@ describe('reducers/Task', () => {
 
         it('removes from pending and tracks running', () => {
           let running1 = pending1.taskInstanceWithState.changeState(
-            TaskInstanceState.RUNNING,
+            TaskInstanceStateLabel.RUNNING,
           )
           state = expectStateChange(state, running1.toAction(), {
             pending: [pending2.taskInstance, pending3.taskInstance],
@@ -141,7 +149,7 @@ describe('reducers/Task', () => {
           })
 
           let running3 = pending3.taskInstanceWithState.changeState(
-            TaskInstanceState.RUNNING,
+            TaskInstanceStateLabel.RUNNING,
           )
           state = expectStateChange(state, running3.toAction(), {
             pending: [pending2.taskInstance],
@@ -152,9 +160,9 @@ describe('reducers/Task', () => {
       })
 
       describe('CANCELLED', () => {
-        let pending1 = createTaskInstance(TaskInstanceState.PENDING)
-        let running1 = createTaskInstance(TaskInstanceState.RUNNING)
-        let running2 = createTaskInstance(TaskInstanceState.RUNNING)
+        let pending1 = createTaskInstance(TaskInstanceStateLabel.PENDING)
+        let running1 = createTaskInstance(TaskInstanceStateLabel.RUNNING)
+        let running2 = createTaskInstance(TaskInstanceStateLabel.RUNNING)
 
         beforeEach(() => {
           state = task.reducer(state, pending1.action)
@@ -167,7 +175,7 @@ describe('reducers/Task', () => {
 
         it('removes from pending and running and tracks cancelled', () => {
           let cancelled1 = pending1.taskInstanceWithState.changeState(
-            TaskInstanceState.CANCELLED,
+            TaskInstanceStateLabel.CANCELLED,
           )
           state = expectStateChange(state, cancelled1.toAction(), {
             pending: [],
@@ -177,7 +185,7 @@ describe('reducers/Task', () => {
           })
 
           let cancelled2 = running1.taskInstanceWithState.changeState(
-            TaskInstanceState.CANCELLED,
+            TaskInstanceStateLabel.CANCELLED,
           )
           state = expectStateChange(state, cancelled2.toAction(), {
             running: [running2.taskInstance],
@@ -188,9 +196,9 @@ describe('reducers/Task', () => {
       })
 
       describe('ERROR', () => {
-        let pending1 = createTaskInstance(TaskInstanceState.PENDING)
-        let running1 = createTaskInstance(TaskInstanceState.RUNNING)
-        let running2 = createTaskInstance(TaskInstanceState.RUNNING)
+        let pending1 = createTaskInstance(TaskInstanceStateLabel.PENDING)
+        let running1 = createTaskInstance(TaskInstanceStateLabel.RUNNING)
+        let running2 = createTaskInstance(TaskInstanceStateLabel.RUNNING)
 
         beforeEach(() => {
           state = task.reducer(state, pending1.action)
@@ -204,7 +212,7 @@ describe('reducers/Task', () => {
 
         it('removes from pending and running and tracks errored', () => {
           let errored1 = pending1.taskInstanceWithState.changeState(
-            TaskInstanceState.ERROR,
+            TaskInstanceStateLabel.ERROR,
           )
           state = expectStateChange(state, errored1.toAction(), {
             pending: [],
@@ -216,7 +224,7 @@ describe('reducers/Task', () => {
           })
 
           let errored2 = running1.taskInstanceWithState.changeState(
-            TaskInstanceState.ERROR,
+            TaskInstanceStateLabel.ERROR,
           )
           state = expectStateChange(state, errored2.toAction(), {
             running: [running2.taskInstance],
@@ -229,9 +237,9 @@ describe('reducers/Task', () => {
       })
 
       describe('COMPLETE', () => {
-        let pending1 = createTaskInstance(TaskInstanceState.PENDING)
-        let running1 = createTaskInstance(TaskInstanceState.RUNNING)
-        let running2 = createTaskInstance(TaskInstanceState.RUNNING)
+        let pending1 = createTaskInstance(TaskInstanceStateLabel.PENDING)
+        let running1 = createTaskInstance(TaskInstanceStateLabel.RUNNING)
+        let running2 = createTaskInstance(TaskInstanceStateLabel.RUNNING)
 
         beforeEach(() => {
           state = task.reducer(state, pending1.action)
@@ -245,7 +253,7 @@ describe('reducers/Task', () => {
 
         it('removes from pending and running and tracks completed', () => {
           let completed1 = pending1.taskInstanceWithState.changeState(
-            TaskInstanceState.COMPLETE,
+            TaskInstanceStateLabel.COMPLETE,
           )
           state = expectStateChange(state, completed1.toAction(), {
             pending: [],
@@ -257,7 +265,7 @@ describe('reducers/Task', () => {
           })
 
           let completed2 = running1.taskInstanceWithState.changeState(
-            TaskInstanceState.COMPLETE,
+            TaskInstanceStateLabel.COMPLETE,
           )
           state = expectStateChange(state, completed2.toAction(), {
             running: [running2.taskInstance],
@@ -309,67 +317,81 @@ describe('reducers/Task', () => {
       }
     })
 
+    /** @test {selectPerformed} */
     it('selectPerformed', () => {
       expect(task.selectPerformed(state)).to.equal(1)
     })
 
+    /** @test {selectPending} */
     it('selectPending', () => {
       expect(task.selectPending(state)).to.equal(pending)
     })
 
+    /** @test {selectRunning} */
     it('selectRunning', () => {
       expect(task.selectRunning(state)).to.equal(running)
     })
 
+    /** @test {selectSuccessful} */
     it('selectSuccessful', () => {
       expect(task.selectSuccessful(state)).to.equal(2)
     })
 
+    /** @test {selectCancelled} */
     it('selectCancelled', () => {
       expect(task.selectCancelled(state)).to.equal(3)
     })
 
+    /** @test {selectErrored} */
     it('selectErrored', () => {
       expect(task.selectErrored(state)).to.equal(4)
     })
 
+    /** @test {selectCompleted} */
     it('selectCompleted', () => {
       expect(task.selectCompleted(state)).to.equal(5)
     })
 
+    /** @test {selectLast} */
     it('selectLast', () => {
       expect(task.selectLast(state)).to.equal(last)
     })
 
+    /** @test {selectLastRunning} */
     it('selectLastRunning', () => {
       expect(task.selectLastRunning(state)).to.equal(lastRunning)
     })
 
+    /** @test {selectLastSuccessful} */
     it('selectLastSuccesful', () => {
       expect(task.selectLastSuccessful(state)).to.equal(lastSuccessful)
     })
 
+    /** @test {selectLastCancelled} */
     it('selectLastCancelled', () => {
       expect(task.selectLastCancelled(state)).to.equal(lastCancelled)
     })
 
+    /** @test {selectLastErrored} */
     it('selectLastErrored', () => {
       expect(task.selectLastErrored(state)).to.equal(lastErrored)
     })
 
+    /** @test {selectLastCompleted} */
     it('selectLastCompleted', () => {
       expect(task.selectLastCompleted(state)).to.equal(lastCompleted)
     })
   })
 
   describe('helpers', () => {
+    /** @test {combineTaskInstanceWithState} */
     it('combineTaskInstanceWithState', () => {
       expect(
-        task.combineTaskInstanceWithState(
+        task.combineTaskInstanceWithStateLabel(
           'task' as any,
-          { state: 'state' } as any,
+          { stateLabel: 'state' } as any,
         ),
-      ).to.deep.equal({ taskInstance: 'task', taskInstanceState: 'state' })
+      ).to.deep.equal({ taskInstance: 'task', taskInstanceStateLabel: 'state' })
     })
   })
 })

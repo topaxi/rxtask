@@ -7,7 +7,7 @@ import {
 } from '../../src/actions/task-instance'
 import { EMPTY_ACTION } from './helpers'
 import { expect } from 'chai'
-import { TaskInstanceState } from '../../src/reducers/task-instance'
+import { TaskInstanceStateLabel } from '../../src/reducers/task-instance'
 
 function createNextNotificationAction<T>(value: T): NotificationAction<T> {
   return createNotificationAction(Notification.createNext(value))
@@ -23,27 +23,30 @@ function createCompleteNotificationAction<T>(): NotificationAction<T> {
 
 describe('reducers/TaskInstance', () => {
   describe('Static states', () => {
+    /** @test {PENDING_STATE} */
     it('defines a pending state', () => {
       expect(taskInstance.PENDING_STATE).to.deep.equal({
-        state: taskInstance.TaskInstanceState.PENDING,
+        stateLabel: taskInstance.TaskInstanceStateLabel.PENDING,
         hasValue: false,
         currentValue: undefined,
         error: null,
       })
     })
 
+    /** @test {RUNNING_STATE} */
     it('defines a running state', () => {
       expect(taskInstance.RUNNING_STATE).to.deep.equal({
-        state: taskInstance.TaskInstanceState.RUNNING,
+        stateLabel: taskInstance.TaskInstanceStateLabel.RUNNING,
         hasValue: false,
         currentValue: undefined,
         error: null,
       })
     })
 
+    /** @test {CANCELLED_STATE} */
     it('defines a cancelled state', () => {
       expect(taskInstance.CANCELLED_STATE).to.deep.equal({
-        state: taskInstance.TaskInstanceState.CANCELLED,
+        stateLabel: taskInstance.TaskInstanceStateLabel.CANCELLED,
         hasValue: false,
         currentValue: undefined,
         error: null,
@@ -51,6 +54,7 @@ describe('reducers/TaskInstance', () => {
     })
   })
 
+  /** @test {reducer} */
   describe('Reducer', () => {
     describe('Initial state', () => {
       it('equals PENDING_STATE', () => {
@@ -76,7 +80,7 @@ describe('reducers/TaskInstance', () => {
         })
 
         it('sets state to running', () => {
-          expect(state.state).to.equal(TaskInstanceState.RUNNING)
+          expect(state.stateLabel).to.equal(TaskInstanceStateLabel.RUNNING)
         })
 
         it('marks state to having a value', () => {
@@ -110,7 +114,7 @@ describe('reducers/TaskInstance', () => {
         })
 
         it('sets state to error', () => {
-          expect(state.state).to.equal(TaskInstanceState.ERROR)
+          expect(state.stateLabel).to.equal(TaskInstanceStateLabel.ERROR)
         })
 
         it('does not modify hasValue', () => {
@@ -145,7 +149,7 @@ describe('reducers/TaskInstance', () => {
         })
 
         it('sets state to complete', () => {
-          expect(state.state).to.equal(TaskInstanceState.COMPLETE)
+          expect(state.stateLabel).to.equal(TaskInstanceStateLabel.COMPLETE)
         })
 
         it('does not modify hasValue', () => {
@@ -191,64 +195,91 @@ describe('reducers/TaskInstance', () => {
   })
 
   describe('Filters', () => {
+    /** @test {isPending} */
     it('isPending', () => {
-      expect(taskInstance.isPending(TaskInstanceState.PENDING)).to.be.true
-      expect(taskInstance.isPending(TaskInstanceState.RUNNING)).to.be.false
-      expect(taskInstance.isPending(TaskInstanceState.COMPLETE)).to.be.false
-      expect(taskInstance.isPending(TaskInstanceState.CANCELLED)).to.be.false
-      expect(taskInstance.isPending(TaskInstanceState.ERROR)).to.be.false
+      expect(taskInstance.isPending(TaskInstanceStateLabel.PENDING)).to.be.true
+      expect(taskInstance.isPending(TaskInstanceStateLabel.RUNNING)).to.be
+        .false
+      expect(taskInstance.isPending(TaskInstanceStateLabel.COMPLETE)).to.be
+        .false
+      expect(taskInstance.isPending(TaskInstanceStateLabel.CANCELLED)).to.be
+        .false
+      expect(taskInstance.isPending(TaskInstanceStateLabel.ERROR)).to.be.false
     })
 
+    /** @test {isRunning} */
     it('isRunning', () => {
-      expect(taskInstance.isRunning(TaskInstanceState.PENDING)).to.be.false
-      expect(taskInstance.isRunning(TaskInstanceState.RUNNING)).to.be.true
-      expect(taskInstance.isRunning(TaskInstanceState.COMPLETE)).to.be.false
-      expect(taskInstance.isRunning(TaskInstanceState.CANCELLED)).to.be.false
-      expect(taskInstance.isRunning(TaskInstanceState.ERROR)).to.be.false
+      expect(taskInstance.isRunning(TaskInstanceStateLabel.PENDING)).to.be
+        .false
+      expect(taskInstance.isRunning(TaskInstanceStateLabel.RUNNING)).to.be.true
+      expect(taskInstance.isRunning(TaskInstanceStateLabel.COMPLETE)).to.be
+        .false
+      expect(taskInstance.isRunning(TaskInstanceStateLabel.CANCELLED)).to.be
+        .false
+      expect(taskInstance.isRunning(TaskInstanceStateLabel.ERROR)).to.be.false
     })
 
+    /** @test {isComplete} */
     it('isComplete', () => {
-      expect(taskInstance.isComplete(TaskInstanceState.PENDING)).to.be.false
-      expect(taskInstance.isComplete(TaskInstanceState.RUNNING)).to.be.false
-      expect(taskInstance.isComplete(TaskInstanceState.COMPLETE)).to.be.true
-      expect(taskInstance.isComplete(TaskInstanceState.CANCELLED)).to.be.false
-      expect(taskInstance.isComplete(TaskInstanceState.ERROR)).to.be.false
+      expect(taskInstance.isComplete(TaskInstanceStateLabel.PENDING)).to.be
+        .false
+      expect(taskInstance.isComplete(TaskInstanceStateLabel.RUNNING)).to.be
+        .false
+      expect(taskInstance.isComplete(TaskInstanceStateLabel.COMPLETE)).to.be
+        .true
+      expect(taskInstance.isComplete(TaskInstanceStateLabel.CANCELLED)).to.be
+        .false
+      expect(taskInstance.isComplete(TaskInstanceStateLabel.ERROR)).to.be.false
     })
 
+    /** @test {isCancelled} */
     it('isCancelled', () => {
-      expect(taskInstance.isCancelled(TaskInstanceState.PENDING)).to.be.false
-      expect(taskInstance.isCancelled(TaskInstanceState.RUNNING)).to.be.false
-      expect(taskInstance.isCancelled(TaskInstanceState.COMPLETE)).to.be.false
-      expect(taskInstance.isCancelled(TaskInstanceState.CANCELLED)).to.be.true
-      expect(taskInstance.isCancelled(TaskInstanceState.ERROR)).to.be.false
+      expect(taskInstance.isCancelled(TaskInstanceStateLabel.PENDING)).to.be
+        .false
+      expect(taskInstance.isCancelled(TaskInstanceStateLabel.RUNNING)).to.be
+        .false
+      expect(taskInstance.isCancelled(TaskInstanceStateLabel.COMPLETE)).to.be
+        .false
+      expect(taskInstance.isCancelled(TaskInstanceStateLabel.CANCELLED)).to.be
+        .true
+      expect(taskInstance.isCancelled(TaskInstanceStateLabel.ERROR)).to.be
+        .false
     })
 
+    /** @test {isError} */
     it('isError', () => {
-      expect(taskInstance.isError(TaskInstanceState.PENDING)).to.be.false
-      expect(taskInstance.isError(TaskInstanceState.RUNNING)).to.be.false
-      expect(taskInstance.isError(TaskInstanceState.COMPLETE)).to.be.false
-      expect(taskInstance.isError(TaskInstanceState.CANCELLED)).to.be.false
-      expect(taskInstance.isError(TaskInstanceState.ERROR)).to.be.true
+      expect(taskInstance.isError(TaskInstanceStateLabel.PENDING)).to.be.false
+      expect(taskInstance.isError(TaskInstanceStateLabel.RUNNING)).to.be.false
+      expect(taskInstance.isError(TaskInstanceStateLabel.COMPLETE)).to.be.false
+      expect(taskInstance.isError(TaskInstanceStateLabel.CANCELLED)).to.be
+        .false
+      expect(taskInstance.isError(TaskInstanceStateLabel.ERROR)).to.be.true
     })
   })
 
   describe('Selectors', () => {
+    /** @test {selectValue} */
     it('selectValue', () => {
       expect(
         taskInstance.selectValue({ currentValue: 'VALUE' } as any),
       ).to.equal('VALUE')
     })
 
+    /** @test {selectHasValue} */
     it('selectHasValue', () => {
       expect(taskInstance.selectHasValue({ hasValue: true } as any)).to.be.true
     })
 
+    /** @test {selectState} */
     it('selectState', () => {
       expect(
-        taskInstance.selectState({ state: TaskInstanceState.ERROR } as any),
-      ).to.equal(TaskInstanceState.ERROR)
+        taskInstance.selectState({
+          stateLabel: TaskInstanceStateLabel.ERROR,
+        } as any),
+      ).to.equal(TaskInstanceStateLabel.ERROR)
     })
 
+    /** @test {selectError} */
     it('selectError', () => {
       expect(taskInstance.selectError({ error: 'ERROR' } as any)).to.equal(
         'ERROR',
@@ -257,23 +288,24 @@ describe('reducers/TaskInstance', () => {
   })
 
   describe('helpers', () => {
+    /** @test {hasValue} */
     it('hasValue', () => {
       const hasValue: any[] = [
-        { hasValue: true, state: TaskInstanceState.RUNNING },
-        { hasValue: true, state: TaskInstanceState.COMPLETE },
+        { hasValue: true, stateLabel: TaskInstanceStateLabel.RUNNING },
+        { hasValue: true, stateLabel: TaskInstanceStateLabel.COMPLETE },
       ]
       const hasNoValue: any[] = [
-        { hasValue: false, state: TaskInstanceState.PENDING },
-        { hasValue: false, state: TaskInstanceState.RUNNING },
-        { hasValue: false, state: TaskInstanceState.CANCELLED },
-        { hasValue: false, state: TaskInstanceState.COMPLETE },
-        { hasValue: false, state: TaskInstanceState.ERROR },
+        { hasValue: false, stateLabel: TaskInstanceStateLabel.PENDING },
+        { hasValue: false, stateLabel: TaskInstanceStateLabel.RUNNING },
+        { hasValue: false, stateLabel: TaskInstanceStateLabel.CANCELLED },
+        { hasValue: false, stateLabel: TaskInstanceStateLabel.COMPLETE },
+        { hasValue: false, stateLabel: TaskInstanceStateLabel.ERROR },
         // As something went wrong, we assume we don't have a valid value
-        { hasValue: true, state: TaskInstanceState.ERROR },
+        { hasValue: true, stateLabel: TaskInstanceStateLabel.ERROR },
         // Cancelled task values probably don't make sense
-        { hasValue: true, state: TaskInstanceState.CANCELLED },
+        { hasValue: true, stateLabel: TaskInstanceStateLabel.CANCELLED },
         // Tasks have no initial value
-        { hasValue: true, state: TaskInstanceState.PENDING },
+        { hasValue: true, stateLabel: TaskInstanceStateLabel.PENDING },
       ]
 
       const expectHasValue = (has: boolean) => (v: any) =>

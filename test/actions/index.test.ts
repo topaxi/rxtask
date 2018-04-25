@@ -2,6 +2,7 @@ import { createAction, toAction } from '../../src/actions'
 import * as index from '../../src/actions/index'
 import { expect } from 'chai'
 
+/** @ignore */
 describe('actions/index', () => {
   it('exports createAction', () => {
     expect(index.createAction).to.exist
@@ -12,6 +13,7 @@ describe('actions/index', () => {
   })
 })
 
+/** @test {createAction} */
 describe('createAction', () => {
   it('creates action', () => {
     expect(createAction('TEST_ACTION')).to.deep.equal({ type: 'TEST_ACTION' })
@@ -35,6 +37,7 @@ describe('createAction', () => {
   })
 })
 
+/** @test {toAction} */
 describe('toAction', () => {
   it('creates a function to create actions with payload', () => {
     expect(toAction('TEST_ACTION')('PAYLOAD')).to.deep.equal({

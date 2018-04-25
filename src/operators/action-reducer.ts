@@ -9,6 +9,10 @@ export type ActionReducerFunction<T extends Action<string>, R> = (
 
 const EMPTY_ACTION: Action<any> = { type: 'EMPTY_ACTION' }
 
+/**
+ * @param {ActionReducerFunction} reducer
+ * @return {OperatorFunction<T, R>}
+ */
 export function actionReducer<T extends Action<string>, R>(
   reducer: ActionReducerFunction<T, R>,
 ): OperatorFunction<T, R> {
@@ -18,3 +22,7 @@ export function actionReducer<T extends Action<string>, R>(
     return in$.pipe(scan(reducer, INITIAL_STATE), startWith(INITIAL_STATE))
   }
 }
+
+/**
+ * @typedef {function(acc: ?Object, value: Action<string>): Object} ActionReducerFunction
+ */

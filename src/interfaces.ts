@@ -16,10 +16,14 @@ export type SubscribableOrPromiseType<T> = T extends SubscribableOrPromise<
 export type UnaryFunction<T, U> = (value: T) => U
 export type ParamType<T> = T extends UnaryFunction<infer U, any> ? U : never
 
-export type TaskCallback<T, U> = UnaryFunction<U, SubscribableOrPromise<T>>
+export type TaskCallback<T, U> = UnaryFunction<T, SubscribableOrPromise<U>>
 export type AnyTaskCallback = TaskCallback<any, any>
 
 export type TaskFromCallback<T extends AnyTaskCallback> = Task<
   SubscribableOrPromiseType<ReturnType<T>>,
   ParamType<T>
 >
+
+/**
+ * @typedef {UnaryFunction<T, SubscribableOrPromise<U>>} TaskCallback
+ */
