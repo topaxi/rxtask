@@ -49,7 +49,7 @@ export class TaskInstance<T> implements Subscribable<T>, ISubscription {
 
   /** @type {Observable<TaskInstanceStateLabel<T>>} */
   readonly stateLabel$ = this.state$.pipe(
-    map(taskInstance.selectState),
+    map(taskInstance.selectStateLabel),
     distinctUntilChanged(),
   )
 

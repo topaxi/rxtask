@@ -273,7 +273,7 @@ describe('reducers/TaskInstance', () => {
     /** @test {selectState} */
     it('selectState', () => {
       expect(
-        taskInstance.selectState({
+        taskInstance.selectStateLabel({
           stateLabel: TaskInstanceStateLabel.ERROR,
         } as any),
       ).to.equal(TaskInstanceStateLabel.ERROR)

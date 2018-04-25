@@ -1,7 +1,7 @@
 import { TaskInstance } from '../../task-instance'
 import { assertNever, neq, EMPTY_ARRAY, pipe } from '../../utils'
 import * as taskInstance from '../task-instance'
-import { TaskInstanceStateLabel, selectState } from '../task-instance'
+import { TaskInstanceStateLabel } from '../task-instance'
 import * as taskActions from '../../actions/task'
 
 export interface State<T> {

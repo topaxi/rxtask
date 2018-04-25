@@ -64,6 +64,7 @@ function notificationReducer<T>(s: State<T>, n: Notification<T>): State<T> {
       }
     case 'C':
       return { ...s, stateLabel: TaskInstanceStateLabel.COMPLETE }
+    // istanbul ignore next
     default:
       return s
   }
@@ -138,7 +139,7 @@ export const selectHasValue = <T>(s: State<T>) => s.hasValue
  * @param {TaskInstanceState<T>} s
  * @return {TaskInstanceStateLabel}
  */
-export const selectState = <T>(s: State<T>) => s.stateLabel
+export const selectStateLabel = <T>(s: State<T>) => s.stateLabel
 
 /**
  * @param {TaskInstanceState<T>} s
