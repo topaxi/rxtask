@@ -101,12 +101,12 @@ export class TaskInstance<T> implements Subscribable<T>, ISubscription {
     complete?: () => void,
   ): ISubscription
   /**
-   * @param {Observer|Function} observerOrNext (optional) Either an observer with methods to be called,
+   * @param {Observer|Function} [observerOrNext] Either an observer with methods to be called,
    *  or the first of three possible handlers, which is the handler for each value emitted from the subscribed
    *  Observable.
-   * @param {Function} error (optional) A handler for a terminal event resulting from an error. If no error handler is provided,
+   * @param {Function} [error] A handler for a terminal event resulting from an error. If no error handler is provided,
    *  the error will be thrown as unhandled.
-   * @param {Function} complete (optional) A handler for a terminal event resulting from successful completion.
+   * @param {Function} [complete] A handler for a terminal event resulting from successful completion.
    * @return {ISubscription} a subscription reference to the registered handlers
    */
   subscribe(
