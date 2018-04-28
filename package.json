@@ -2,7 +2,7 @@
   "name": "rxtask",
   "version": "0.0.1",
   "main": "dist/cjs/index.js",
-  "types": "dist/cjs/typings/index.d.ts",
+  "types": "dist/typings/index.d.ts",
   "esm": "dist/esm/index.js",
   "sideEffects": false,
   "license": "MIT",
