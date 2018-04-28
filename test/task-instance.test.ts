@@ -115,7 +115,7 @@ describe('TaskInstance', () => {
       'is runs and completes after subscription',
       marbles(m => {
         const taskInstance = new TaskInstance(
-          of('somevalue').pipe(delay(m.time('----|'), m.scheduler)),
+          of('a').pipe(delay(m.time('----|'), m.scheduler)),
         )
 
         expectState(m, taskInstance, '(ab)(c|)', {
@@ -123,9 +123,7 @@ describe('TaskInstance', () => {
           b: TaskInstanceStateLabel.RUNNING,
           c: TaskInstanceStateLabel.COMPLETE,
         })
-        m
-          .expect(o(taskInstance))
-          .toBeObservable(m.cold('----(a|)', { a: 'somevalue' }))
+        m.expect(o(taskInstance)).toBeObservable('----(a|)')
       }),
     )
 
