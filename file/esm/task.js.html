@@ -42,7 +42,11 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-NOTIFICATION_ACTION">NOTIFICATION_ACTION</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-NotificationAction">NotificationAction</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#operators">operators</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-actionReducer">actionReducer</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-filterNotNull">filterNotNull</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-mapNonNull">mapNonNull</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ActionReducerFunction">ActionReducerFunction</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-NotNullFilter">NotNullFilter</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-MapNonNullFunction">MapNonNullFunction</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#reducers-task">reducers/task</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-combineTaskInstanceWithStateLabel">combineTaskInstanceWithStateLabel</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-reducer">reducer</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-selectCancelled">selectCancelled</a></span></span></li>
@@ -80,6 +84,7 @@
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#utils">utils</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-assertNever">assertNever</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-createCallableObject">createCallableObject</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-neq">neq</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-notNull">notNull</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-pipe">pipe</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-EMPTY_ARRAY">EMPTY_ARRAY</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-Callable">Callable</a></span></span></li>
@@ -99,7 +104,7 @@ import { createCallableObject, assertNever } from &apos;./utils&apos;;
 import * as taskReducer from &apos;./reducers/task&apos;;
 import { selectPerformed, selectPending, selectRunning, selectSuccessful, selectCancelled, selectErrored, selectCompleted, selectLast, selectLastRunning, selectLastSuccessful, selectLastCancelled, selectLastErrored, selectLastCompleted, } from &apos;./reducers/task&apos;;
 import { ObjectUnsubscribedError } from &apos;rxjs/util/ObjectUnsubscribedError&apos;;
-import { actionReducer } from &apos;./operators/action-reducer&apos;;
+import { actionReducer, mapNonNull } from &apos;./operators&apos;;
 import * as taskActions from &apos;./actions/task&apos;;
 import { toAction } from &apos;./actions&apos;;
 /**
@@ -107,7 +112,8 @@ import { toAction } from &apos;./actions&apos;;
  * @return {Task&lt;U&gt;}
  */
 export const task = (task) =&gt; new Task(task);
-const selectState$ = (t) =&gt; t.state$;
+const selectStateLabel$ = (t) =&gt; t.stateLabel$;
+let taskId = 0;
 /**
  * @class Task&lt;T, U&gt;
  * @implements {Subscribable&lt;T&gt;}
@@ -119,6 +125,7 @@ export class Task {
      * @return {Task&lt;T, U&gt;}
      */
     constructor(task) {
+        this._id = ++taskId;
         this._flattenType = &quot;merge&quot; /* MERGE */;
         this._concurrency = Infinity;
         this._autoSubscribe = false;
@@ -129,7 +136,7 @@ export class Task {
         this._takeUntil$ = this._takeUntilObservable$.pipe(switchAll());
         this._task$ = defer(() =&gt; this._perform$.pipe(this._flatten(), takeUntil(this._takeUntil$))).pipe(share());
         /** @type {Observable&lt;TaskState&lt;T&gt;&gt;} */
-        this.state$ = this._perform$.pipe(mergeMap(selectState$, taskReducer.combineTaskInstanceWithStateLabel), map(toAction(taskActions.TASK_INSTANCE_STATE_UPDATE_ACTION)), actionReducer(taskReducer.reducer), auditTime(0, asap), takeUntil(this._takeUntil$), shareReplay(1));
+        this.state$ = this._perform$.pipe(mergeMap(selectStateLabel$, taskReducer.combineTaskInstanceWithStateLabel), map(toAction(taskActions.TASK_INSTANCE_STATE_UPDATE_ACTION)), actionReducer(taskReducer.reducer), auditTime(0, asap), takeUntil(this._takeUntil$), shareReplay(1));
         /** @type {Observable&lt;number&gt;} */
         this.performed$ = this.state$.pipe(map(selectPerformed));
         /** @type {Observable&lt;Array&lt;TaskInstance&lt;T&gt;&gt;&gt;} */
@@ -145,18 +152,22 @@ export class Task {
         /** @type {Observable&lt;number&gt;} */
         this.completed$ = this.state$.pipe(map(selectCompleted));
         /** @type {Observable&lt;TaskInstance&lt;T&gt;&gt;} */
-        this.last$ = this.state$.pipe(map(selectLast));
+        this.last$ = this.state$.pipe(mapNonNull(selectLast));
         /** @type {Observable&lt;TaskInstance&lt;T&gt;&gt;} */
-        this.lastRunning$ = this.state$.pipe(map(selectLastRunning));
+        this.lastRunning$ = this.state$.pipe(mapNonNull(selectLastRunning));
         /** @type {Observable&lt;TaskInstance&lt;T&gt;&gt;} */
-        this.lastSuccessful$ = this.state$.pipe(map(selectLastSuccessful));
+        this.lastSuccessful$ = this.state$.pipe(mapNonNull(selectLastSuccessful));
         /** @type {Observable&lt;TaskInstance&lt;T&gt;&gt;} */
-        this.lastCancelled$ = this.state$.pipe(map(selectLastCancelled));
+        this.lastCancelled$ = this.state$.pipe(mapNonNull(selectLastCancelled));
         /** @type {Observable&lt;TaskInstance&lt;T&gt;&gt;} */
-        this.lastErrored$ = this.state$.pipe(map(selectLastErrored));
+        this.lastErrored$ = this.state$.pipe(mapNonNull(selectLastErrored));
         /** @type {Observable&lt;TaskInstance&lt;T&gt;&gt;} */
-        this.lastCompleted$ = this.state$.pipe(map(selectLastCompleted));
+        this.lastCompleted$ = this.state$.pipe(mapNonNull(selectLastCompleted));
         this._task = task;
+    }
+    /** @type {number} */
+    get id() {
+        return this._id;
     }
     /** @type {boolean} */
     get closed() {
@@ -192,12 +203,12 @@ export class Task {
         return this.takeUntil(until$);
     }
     /**
-     * @param {Observer|Function} observerOrNext (optional) Either an observer with methods to be called,
+     * @param {Observer|Function} [observerOrNext] Either an observer with methods to be called,
      *  or the first of three possible handlers, which is the handler for each value emitted from the subscribed
      *  Observable.
-     * @param {Function} error (optional) A handler for a terminal event resulting from an error. If no error handler is provided,
+     * @param {Function} [error] A handler for a terminal event resulting from an error. If no error handler is provided,
      *  the error will be thrown as unhandled.
-     * @param {Function} complete (optional) A handler for a terminal event resulting from successful completion.
+     * @param {Function} [complete] A handler for a terminal event resulting from successful completion.
      * @return {ISubscription} a subscription reference to the registered handlers
      */
     subscribe(observerOrNext, error, complete) {
@@ -248,6 +259,14 @@ export class Task {
     callable() {
         return createCallableObject(this, this.perform);
     }
+    /** @ignore */
+    toString() {
+        return `Task#${this._id}`;
+    }
+    /** @ignore */
+    toJSON() {
+        return { type: &apos;Task&apos;, id: this._id };
+    }
     _flatten() {
         switch (this._flattenType) {
             case &quot;switch&quot; /* SWITCH */:
@@ -256,6 +275,7 @@ export class Task {
                 return exhaust();
             case &quot;merge&quot; /* MERGE */:
                 return mergeAll(this._concurrency);
+            // istanbul ignore next
             default:
                 return assertNever(this._flattenType);
         }

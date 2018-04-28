@@ -42,7 +42,11 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-NOTIFICATION_ACTION">NOTIFICATION_ACTION</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-NotificationAction">NotificationAction</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#operators">operators</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-actionReducer">actionReducer</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-filterNotNull">filterNotNull</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-mapNonNull">mapNonNull</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ActionReducerFunction">ActionReducerFunction</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-NotNullFilter">NotNullFilter</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-MapNonNullFunction">MapNonNullFunction</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#reducers-task">reducers/task</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-combineTaskInstanceWithStateLabel">combineTaskInstanceWithStateLabel</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-reducer">reducer</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-selectCancelled">selectCancelled</a></span></span></li>
@@ -80,6 +84,7 @@
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#utils">utils</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-assertNever">assertNever</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-createCallableObject">createCallableObject</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-neq">neq</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-notNull">notNull</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-pipe">pipe</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-EMPTY_ARRAY">EMPTY_ARRAY</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-Callable">Callable</a></span></span></li>
@@ -97,7 +102,7 @@
   </thead>
 
   <tbody data-ice="tests"><tr class="test-interface" data-ice="testInterface" style="display: none;" data-test-depth="0">
-  <td data-ice="testDescription" style="padding-left: 10px"><span data-ice="testInterfaceToggle" class="toggle closed"></span><span><a href="test-file/test/actions/index.test.js.html#lineNumber14"><p>createAction</p>
+  <td data-ice="testDescription" style="padding-left: 10px"><span data-ice="testInterfaceToggle" class="toggle closed"></span><span><a href="test-file/test/actions/index.test.js.html#lineNumber14"><p>actions/createAction</p>
 </a></span></td>
   <td data-ice="testTarget" class="test-target"><span><a href="function/index.html#static-function-createAction">createAction</a></span></td>
 </tr>
@@ -115,7 +120,7 @@
 </tr>
 
 <tr class="test-interface" data-ice="testInterface" style="display: none;" data-test-depth="0">
-  <td data-ice="testDescription" style="padding-left: 10px"><span data-ice="testInterfaceToggle" class="toggle closed"></span><span><a href="test-file/test/actions/index.test.js.html#lineNumber36"><p>toAction</p>
+  <td data-ice="testDescription" style="padding-left: 10px"><span data-ice="testInterfaceToggle" class="toggle closed"></span><span><a href="test-file/test/actions/index.test.js.html#lineNumber36"><p>actions/toAction</p>
 </a></span></td>
   <td data-ice="testTarget" class="test-target"><span><a href="function/index.html#static-function-toAction">toAction</a></span></td>
 </tr>
@@ -139,7 +144,7 @@
 </tr>
 
 <tr class="test-interface" data-ice="testInterface" style="display: none;" data-test-depth="0">
-  <td data-ice="testDescription" style="padding-left: 10px"><span data-ice="testInterfaceToggle" class="toggle closed"></span><span><a href="test-file/test/actions/task-instance.test.js.html#lineNumber12"><p>createNotificationAction</p>
+  <td data-ice="testDescription" style="padding-left: 10px"><span data-ice="testInterfaceToggle" class="toggle closed"></span><span><a href="test-file/test/actions/task-instance.test.js.html#lineNumber12"><p>actions/task-instance/createNotificationAction</p>
 </a></span></td>
   <td data-ice="testTarget" class="test-target"><span><a href="function/index.html#static-function-createNotificationAction">createNotificationAction</a></span></td>
 </tr>
@@ -163,13 +168,37 @@
 </tr>
 
 <tr class="test-interface" data-ice="testInterface" style="display: none;" data-test-depth="0">
-  <td data-ice="testDescription" style="padding-left: 10px"><span data-ice="testInterfaceToggle" class="toggle closed"></span><span><a href="test-file/test/operators/action-reducer.test.js.html#lineNumber5"><p>actionReducer</p>
+  <td data-ice="testDescription" style="padding-left: 10px"><span data-ice="testInterfaceToggle" class="toggle closed"></span><span><a href="test-file/test/operators/action-reducer.test.js.html#lineNumber5"><p>operators/actionReducer</p>
 </a></span></td>
   <td data-ice="testTarget" class="test-target"><span><a href="function/index.html#static-function-actionReducer">actionReducer</a></span></td>
 </tr>
 
 <tr class="test-interface" data-ice="testInterface" style="display: none;" data-test-depth="1">
   <td data-ice="testDescription" style="padding-left: 20px"><span><a href="test-file/test/operators/action-reducer.test.js.html#lineNumber10"><p>set initial state</p>
+</a></span></td>
+  <td data-ice="testTarget" class="test-target">-</td>
+</tr>
+
+<tr class="test-interface" data-ice="testInterface" style="display: none;" data-test-depth="0">
+  <td data-ice="testDescription" style="padding-left: 10px"><span data-ice="testInterfaceToggle" class="toggle closed"></span><span><a href="test-file/test/operators/filter-not-null.test.js.html#lineNumber4"><p>operators/filterNotNull</p>
+</a></span></td>
+  <td data-ice="testTarget" class="test-target"><span><a href="function/index.html#static-function-filterNotNull">filterNotNull</a></span></td>
+</tr>
+
+<tr class="test-interface" data-ice="testInterface" style="display: none;" data-test-depth="1">
+  <td data-ice="testDescription" style="padding-left: 20px"><span><a href="test-file/test/operators/filter-not-null.test.js.html#lineNumber5"><p>filters null values</p>
+</a></span></td>
+  <td data-ice="testTarget" class="test-target">-</td>
+</tr>
+
+<tr class="test-interface" data-ice="testInterface" style="display: none;" data-test-depth="0">
+  <td data-ice="testDescription" style="padding-left: 10px"><span data-ice="testInterfaceToggle" class="toggle closed"></span><span><a href="test-file/test/operators/map-non-null.test.js.html#lineNumber5"><p>operators/mapNonNull</p>
+</a></span></td>
+  <td data-ice="testTarget" class="test-target"><span><a href="function/index.html#static-function-mapNonNull">mapNonNull</a></span></td>
+</tr>
+
+<tr class="test-interface" data-ice="testInterface" style="display: none;" data-test-depth="1">
+  <td data-ice="testDescription" style="padding-left: 20px"><span><a href="test-file/test/operators/map-non-null.test.js.html#lineNumber6"><p>maps values and filters resulting null values</p>
 </a></span></td>
   <td data-ice="testTarget" class="test-target">-</td>
 </tr>
@@ -619,111 +648,231 @@
 </tr>
 
 <tr class="test-interface" data-ice="testInterface" style="display: none;" data-test-depth="1">
-  <td data-ice="testDescription" style="padding-left: 20px"><span data-ice="testInterfaceToggle" class="toggle closed"></span><span><a href="test-file/test/task-instance.test.js.html#lineNumber33"><p>instantiating</p>
+  <td data-ice="testDescription" style="padding-left: 20px"><span><a href="test-file/test/task-instance.test.js.html#lineNumber34"><p>casts to a string</p>
 </a></span></td>
-  <td data-ice="testTarget" class="test-target">-</td>
+  <td data-ice="testTarget" class="test-target"><span>TaskInstance#toString</span></td>
 </tr>
 
-<tr class="test-interface" data-ice="testInterface" style="display: none;" data-test-depth="2">
-  <td data-ice="testDescription" style="padding-left: 30px"><span><a href="test-file/test/task-instance.test.js.html#lineNumber34"><p>wraps an observable</p>
+<tr class="test-interface" data-ice="testInterface" style="display: none;" data-test-depth="1">
+  <td data-ice="testDescription" style="padding-left: 20px"><span><a href="test-file/test/task-instance.test.js.html#lineNumber38"><p>deserializes to JSON</p>
+</a></span></td>
+  <td data-ice="testTarget" class="test-target"><span>TaskInstance#toJSON</span></td>
+</tr>
+
+<tr class="test-interface" data-ice="testInterface" style="display: none;" data-test-depth="1">
+  <td data-ice="testDescription" style="padding-left: 20px"><span><a href="test-file/test/task-instance.test.js.html#lineNumber43"><p>has an id</p>
 </a></span></td>
   <td data-ice="testTarget" class="test-target">-</td>
 </tr>
 
 <tr class="test-interface" data-ice="testInterface" style="display: none;" data-test-depth="1">
-  <td data-ice="testDescription" style="padding-left: 20px"><span data-ice="testInterfaceToggle" class="toggle closed"></span><span><a href="test-file/test/task-instance.test.js.html#lineNumber42"><p>unsubscribe</p>
+  <td data-ice="testDescription" style="padding-left: 20px"><span><a href="test-file/test/task-instance.test.js.html#lineNumber46"><p>wraps an observable</p>
+</a></span></td>
+  <td data-ice="testTarget" class="test-target">-</td>
+</tr>
+
+<tr class="test-interface" data-ice="testInterface" style="display: none;" data-test-depth="1">
+  <td data-ice="testDescription" style="padding-left: 20px"><span data-ice="testInterfaceToggle" class="toggle closed"></span><span><a href="test-file/test/task-instance.test.js.html#lineNumber53"><p>unsubscribe</p>
 </a></span></td>
   <td data-ice="testTarget" class="test-target"><span><a href="class/esm/task-instance.js~TaskInstance.html#instance-method-unsubscribe">TaskInstance#unsubscribe</a></span></td>
 </tr>
 
 <tr class="test-interface" data-ice="testInterface" style="display: none;" data-test-depth="2">
-  <td data-ice="testDescription" style="padding-left: 30px"><span><a href="test-file/test/task-instance.test.js.html#lineNumber43"><p>closes the TaskInstance</p>
+  <td data-ice="testDescription" style="padding-left: 30px"><span><a href="test-file/test/task-instance.test.js.html#lineNumber54"><p>closes the TaskInstance</p>
 </a></span></td>
   <td data-ice="testTarget" class="test-target">-</td>
 </tr>
 
 <tr class="test-interface" data-ice="testInterface" style="display: none;" data-test-depth="1">
-  <td data-ice="testDescription" style="padding-left: 20px"><span data-ice="testInterfaceToggle" class="toggle closed"></span><span><a href="test-file/test/task-instance.test.js.html#lineNumber50"><p>Symbol.observable</p>
+  <td data-ice="testDescription" style="padding-left: 20px"><span data-ice="testInterfaceToggle" class="toggle closed"></span><span><a href="test-file/test/task-instance.test.js.html#lineNumber61"><p>Symbol.observable</p>
 </a></span></td>
   <td data-ice="testTarget" class="test-target">-</td>
 </tr>
 
 <tr class="test-interface" data-ice="testInterface" style="display: none;" data-test-depth="2">
-  <td data-ice="testDescription" style="padding-left: 30px"><span><a href="test-file/test/task-instance.test.js.html#lineNumber51"><p>implements observable interface</p>
+  <td data-ice="testDescription" style="padding-left: 30px"><span><a href="test-file/test/task-instance.test.js.html#lineNumber62"><p>implements observable interface</p>
 </a></span></td>
   <td data-ice="testTarget" class="test-target">-</td>
 </tr>
 
 <tr class="test-interface" data-ice="testInterface" style="display: none;" data-test-depth="1">
-  <td data-ice="testDescription" style="padding-left: 20px"><span data-ice="testInterfaceToggle" class="toggle closed"></span><span><a href="test-file/test/task-instance.test.js.html#lineNumber62"><p>stateLabel$</p>
+  <td data-ice="testDescription" style="padding-left: 20px"><span data-ice="testInterfaceToggle" class="toggle closed"></span><span><a href="test-file/test/task-instance.test.js.html#lineNumber73"><p>stateLabel$</p>
 </a></span></td>
   <td data-ice="testTarget" class="test-target"><span>TaskInstance#isComplete$</span></td>
 </tr>
 
 <tr class="test-interface" data-ice="testInterface" style="display: none;" data-test-depth="2">
-  <td data-ice="testDescription" style="padding-left: 30px"><span><a href="test-file/test/task-instance.test.js.html#lineNumber63"><p>is pending after creation</p>
+  <td data-ice="testDescription" style="padding-left: 30px"><span><a href="test-file/test/task-instance.test.js.html#lineNumber74"><p>is pending after creation</p>
 </a></span></td>
   <td data-ice="testTarget" class="test-target">-</td>
 </tr>
 
 <tr class="test-interface" data-ice="testInterface" style="display: none;" data-test-depth="2">
-  <td data-ice="testDescription" style="padding-left: 30px"><span><a href="test-file/test/task-instance.test.js.html#lineNumber68"><p>is runs and completes after subscription</p>
+  <td data-ice="testDescription" style="padding-left: 30px"><span><a href="test-file/test/task-instance.test.js.html#lineNumber79"><p>is runs and completes after subscription</p>
 </a></span></td>
   <td data-ice="testTarget" class="test-target">-</td>
 </tr>
 
 <tr class="test-interface" data-ice="testInterface" style="display: none;" data-test-depth="2">
-  <td data-ice="testDescription" style="padding-left: 30px"><span><a href="test-file/test/task-instance.test.js.html#lineNumber79"><p>cancels on unsubscribe</p>
+  <td data-ice="testDescription" style="padding-left: 30px"><span><a href="test-file/test/task-instance.test.js.html#lineNumber90"><p>cancels on unsubscribe</p>
 </a></span></td>
   <td data-ice="testTarget" class="test-target">-</td>
 </tr>
 
 <tr class="test-interface" data-ice="testInterface" style="display: none;" data-test-depth="2">
-  <td data-ice="testDescription" style="padding-left: 30px"><span><a href="test-file/test/task-instance.test.js.html#lineNumber90"><p>switches to error state on error</p>
+  <td data-ice="testDescription" style="padding-left: 30px"><span><a href="test-file/test/task-instance.test.js.html#lineNumber99"><p>switches to error state on error</p>
 </a></span></td>
   <td data-ice="testTarget" class="test-target">-</td>
 </tr>
 
 <tr class="test-interface" data-ice="testInterface" style="display: none;" data-test-depth="0">
-  <td data-ice="testDescription" style="padding-left: 10px"><span data-ice="testInterfaceToggle" class="toggle closed"></span><span><a href="test-file/test/task.test.js.html#lineNumber9"><p>Task</p>
+  <td data-ice="testDescription" style="padding-left: 10px"><span data-ice="testInterfaceToggle" class="toggle closed"></span><span><a href="test-file/test/task.test.js.html#lineNumber87"><p>Task</p>
 </a></span></td>
   <td data-ice="testTarget" class="test-target"><span><a href="class/esm/task.js~Task.html">Task</a></span></td>
 </tr>
 
 <tr class="test-interface" data-ice="testInterface" style="display: none;" data-test-depth="1">
-  <td data-ice="testDescription" style="padding-left: 20px"><span data-ice="testInterfaceToggle" class="toggle closed"></span><span><a href="test-file/test/task.test.js.html#lineNumber18"><p>perform</p>
+  <td data-ice="testDescription" style="padding-left: 20px"><span><a href="test-file/test/task.test.js.html#lineNumber95"><p>has an id</p>
+</a></span></td>
+  <td data-ice="testTarget" class="test-target">-</td>
+</tr>
+
+<tr class="test-interface" data-ice="testInterface" style="display: none;" data-test-depth="1">
+  <td data-ice="testDescription" style="padding-left: 20px"><span><a href="test-file/test/task.test.js.html#lineNumber99"><p>casts to a string</p>
+</a></span></td>
+  <td data-ice="testTarget" class="test-target"><span>Task#toString</span></td>
+</tr>
+
+<tr class="test-interface" data-ice="testInterface" style="display: none;" data-test-depth="1">
+  <td data-ice="testDescription" style="padding-left: 20px"><span><a href="test-file/test/task.test.js.html#lineNumber103"><p>deserializes to JSON</p>
+</a></span></td>
+  <td data-ice="testTarget" class="test-target"><span>Task#toJSON</span></td>
+</tr>
+
+<tr class="test-interface" data-ice="testInterface" style="display: none;" data-test-depth="1">
+  <td data-ice="testDescription" style="padding-left: 20px"><span data-ice="testInterfaceToggle" class="toggle closed"></span><span><a href="test-file/test/task.test.js.html#lineNumber109"><p>perform</p>
 </a></span></td>
   <td data-ice="testTarget" class="test-target"><span><a href="class/esm/task.js~Task.html#instance-method-perform">Task#perform</a></span></td>
 </tr>
 
 <tr class="test-interface" data-ice="testInterface" style="display: none;" data-test-depth="2">
-  <td data-ice="testDescription" style="padding-left: 30px"><span><a href="test-file/test/task.test.js.html#lineNumber19"><p>executes the given function and creates a TaskInstance</p>
+  <td data-ice="testDescription" style="padding-left: 30px"><span><a href="test-file/test/task.test.js.html#lineNumber110"><p>executes the given function and creates a TaskInstance</p>
 </a></span></td>
   <td data-ice="testTarget" class="test-target">-</td>
 </tr>
 
 <tr class="test-interface" data-ice="testInterface" style="display: none;" data-test-depth="1">
-  <td data-ice="testDescription" style="padding-left: 20px"><span data-ice="testInterfaceToggle" class="toggle closed"></span><span><a href="test-file/test/task.test.js.html#lineNumber30"><p>unsubscribe</p>
+  <td data-ice="testDescription" style="padding-left: 20px"><span data-ice="testInterfaceToggle" class="toggle closed"></span><span><a href="test-file/test/task.test.js.html#lineNumber121"><p>unsubscribe</p>
 </a></span></td>
   <td data-ice="testTarget" class="test-target"><span><a href="class/esm/task.js~Task.html#instance-method-unsubscribe">Task#unsubscribe</a></span></td>
 </tr>
 
 <tr class="test-interface" data-ice="testInterface" style="display: none;" data-test-depth="2">
-  <td data-ice="testDescription" style="padding-left: 30px"><span><a href="test-file/test/task.test.js.html#lineNumber31"><p>closes the Task</p>
+  <td data-ice="testDescription" style="padding-left: 30px"><span><a href="test-file/test/task.test.js.html#lineNumber122"><p>closes the Task</p>
 </a></span></td>
   <td data-ice="testTarget" class="test-target">-</td>
 </tr>
 
 <tr class="test-interface" data-ice="testInterface" style="display: none;" data-test-depth="1">
-  <td data-ice="testDescription" style="padding-left: 20px"><span data-ice="testInterfaceToggle" class="toggle closed"></span><span><a href="test-file/test/task.test.js.html#lineNumber42"><p>callable</p>
+  <td data-ice="testDescription" style="padding-left: 20px"><span data-ice="testInterfaceToggle" class="toggle closed"></span><span><a href="test-file/test/task.test.js.html#lineNumber133"><p>callable</p>
 </a></span></td>
   <td data-ice="testTarget" class="test-target"><span><a href="class/esm/task.js~Task.html#instance-method-callable">Task#callable</a></span></td>
 </tr>
 
 <tr class="test-interface" data-ice="testInterface" style="display: none;" data-test-depth="2">
-  <td data-ice="testDescription" style="padding-left: 30px"><span><a href="test-file/test/task.test.js.html#lineNumber43"><p>creates a callable task object</p>
+  <td data-ice="testDescription" style="padding-left: 30px"><span><a href="test-file/test/task.test.js.html#lineNumber134"><p>creates a callable task object</p>
 </a></span></td>
   <td data-ice="testTarget" class="test-target">-</td>
+</tr>
+
+<tr class="test-interface" data-ice="testInterface" style="display: none;" data-test-depth="1">
+  <td data-ice="testDescription" style="padding-left: 20px"><span data-ice="testInterfaceToggle" class="toggle closed"></span><span><a href="test-file/test/task.test.js.html#lineNumber144"><p>default</p>
+</a></span></td>
+  <td data-ice="testTarget" class="test-target">-</td>
+</tr>
+
+<tr class="test-interface" data-ice="testInterface" style="display: none;" data-test-depth="2">
+  <td data-ice="testDescription" style="padding-left: 30px"><span data-ice="testInterfaceToggle" class="toggle closed"></span><span><a href="test-file/test/task.test.js.html#lineNumber146"><p>state$</p>
+</a></span></td>
+  <td data-ice="testTarget" class="test-target"><span>Task#state$</span></td>
+</tr>
+
+<tr class="test-interface" data-ice="testInterface" style="display: none;" data-test-depth="3">
+  <td data-ice="testDescription" style="padding-left: 40px"><span><a href="test-file/test/task.test.js.html#lineNumber147"><p>matches initial state without emitting null tasks</p>
+</a></span></td>
+  <td data-ice="testTarget" class="test-target">-</td>
+</tr>
+
+<tr class="test-interface" data-ice="testInterface" style="display: none;" data-test-depth="3">
+  <td data-ice="testDescription" style="padding-left: 40px"><span><a href="test-file/test/task.test.js.html#lineNumber159"><p>counts performed, successful and completed tasks</p>
+</a></span></td>
+  <td data-ice="testTarget" class="test-target">-</td>
+</tr>
+
+<tr class="test-interface" data-ice="testInterface" style="display: none;" data-test-depth="1">
+  <td data-ice="testDescription" style="padding-left: 20px"><span data-ice="testInterfaceToggle" class="toggle closed"></span><span><a href="test-file/test/task.test.js.html#lineNumber183"><p>concurrency</p>
+</a></span></td>
+  <td data-ice="testTarget" class="test-target"><span><a href="class/esm/task.js~Task.html#instance-method-concurrency">Task#concurrency</a></span></td>
+</tr>
+
+<tr class="test-interface" data-ice="testInterface" style="display: none;" data-test-depth="2">
+  <td data-ice="testDescription" style="padding-left: 30px"><span data-ice="testInterfaceToggle" class="toggle closed"></span><span><a href="test-file/test/task.test.js.html#lineNumber185"><p>state$</p>
+</a></span></td>
+  <td data-ice="testTarget" class="test-target"><span>Task#state$</span></td>
+</tr>
+
+<tr class="test-interface" data-ice="testInterface" style="display: none;" data-test-depth="3">
+  <td data-ice="testDescription" style="padding-left: 40px"><span><a href="test-file/test/task.test.js.html#lineNumber186"><p>counts performed, successful and completed tasks</p>
+</a></span></td>
+  <td data-ice="testTarget" class="test-target">-</td>
+</tr>
+
+<tr class="test-interface" data-ice="testInterface" style="display: none;" data-test-depth="1">
+  <td data-ice="testDescription" style="padding-left: 20px"><span data-ice="testInterfaceToggle" class="toggle closed"></span><span><a href="test-file/test/task.test.js.html#lineNumber249"><p>concat</p>
+</a></span></td>
+  <td data-ice="testTarget" class="test-target"><span><a href="class/esm/task.js~Task.html#instance-method-concat">Task#concat</a></span></td>
+</tr>
+
+<tr class="test-interface" data-ice="testInterface" style="display: none;" data-test-depth="2">
+  <td data-ice="testDescription" style="padding-left: 30px"><span data-ice="testInterfaceToggle" class="toggle closed"></span><span><a href="test-file/test/task.test.js.html#lineNumber251"><p>state$</p>
+</a></span></td>
+  <td data-ice="testTarget" class="test-target"><span>Task#state$</span></td>
+</tr>
+
+<tr class="test-interface" data-ice="testInterface" style="display: none;" data-test-depth="3">
+  <td data-ice="testDescription" style="padding-left: 40px"><span><a href="test-file/test/task.test.js.html#lineNumber252"><p>counts performed, successful and completed tasks</p>
+</a></span></td>
+  <td data-ice="testTarget" class="test-target">-</td>
+</tr>
+
+<tr class="test-interface" data-ice="testInterface" style="display: none;" data-test-depth="1">
+  <td data-ice="testDescription" style="padding-left: 20px"><span data-ice="testInterfaceToggle" class="toggle closed"></span><span><a href="test-file/test/task.test.js.html#lineNumber300"><p>switch</p>
+</a></span></td>
+  <td data-ice="testTarget" class="test-target"><span><a href="class/esm/task.js~Task.html#instance-method-switch">Task#switch</a></span></td>
+</tr>
+
+<tr class="test-interface" data-ice="testInterface" style="display: none;" data-test-depth="2">
+  <td data-ice="testDescription" style="padding-left: 30px"><span data-ice="testInterfaceToggle" class="toggle closed"></span><span><a href="test-file/test/task.test.js.html#lineNumber302"><p>state$</p>
+</a></span></td>
+  <td data-ice="testTarget" class="test-target"><span>Task#state$</span></td>
+</tr>
+
+<tr class="test-interface" data-ice="testInterface" style="display: none;" data-test-depth="3">
+  <td data-ice="testDescription" style="padding-left: 40px"><span><a href="test-file/test/task.test.js.html#lineNumber303"><p>counts performed, successful and completed tasks</p>
+</a></span></td>
+  <td data-ice="testTarget" class="test-target">-</td>
+</tr>
+
+<tr class="test-interface" data-ice="testInterface" style="display: none;" data-test-depth="1">
+  <td data-ice="testDescription" style="padding-left: 20px"><span data-ice="testInterfaceToggle" class="toggle closed"></span><span><a href="test-file/test/task.test.js.html#lineNumber344"><p>drop</p>
+</a></span></td>
+  <td data-ice="testTarget" class="test-target"><span><a href="class/esm/task.js~Task.html#instance-method-drop">Task#drop</a></span></td>
+</tr>
+
+<tr class="test-interface" data-ice="testInterface" style="display: none;" data-test-depth="2">
+  <td data-ice="testDescription" style="padding-left: 30px"><span><a href="test-file/test/task.test.js.html#lineNumber346"><p>state$</p>
+</a></span></td>
+  <td data-ice="testTarget" class="test-target"><span>Task#state$</span></td>
 </tr>
 
 <tr class="test-interface" data-ice="testInterface" style="display: none;" data-test-depth="0">
@@ -799,13 +948,25 @@
 </tr>
 
 <tr class="test-interface" data-ice="testInterface" style="display: none;" data-test-depth="0">
-  <td data-ice="testDescription" style="padding-left: 10px"><span data-ice="testInterfaceToggle" class="toggle closed"></span><span><a href="test-file/test/utils/neq.test.js.html#lineNumber4"><p>utils/neq</p>
+  <td data-ice="testDescription" style="padding-left: 10px"><span data-ice="testInterfaceToggle" class="toggle closed"></span><span><a href="test-file/test/utils/filter.test.js.html#lineNumber4"><p>utils/filter/neq</p>
 </a></span></td>
   <td data-ice="testTarget" class="test-target"><span><a href="function/index.html#static-function-neq">neq</a></span></td>
 </tr>
 
 <tr class="test-interface" data-ice="testInterface" style="display: none;" data-test-depth="1">
-  <td data-ice="testDescription" style="padding-left: 20px"><span><a href="test-file/test/utils/neq.test.js.html#lineNumber5"><p>returns a function for inequality</p>
+  <td data-ice="testDescription" style="padding-left: 20px"><span><a href="test-file/test/utils/filter.test.js.html#lineNumber5"><p>returns a function for inequality</p>
+</a></span></td>
+  <td data-ice="testTarget" class="test-target">-</td>
+</tr>
+
+<tr class="test-interface" data-ice="testInterface" style="display: none;" data-test-depth="0">
+  <td data-ice="testDescription" style="padding-left: 10px"><span data-ice="testInterfaceToggle" class="toggle closed"></span><span><a href="test-file/test/utils/filter.test.js.html#lineNumber19"><p>utils/filter/notNull</p>
+</a></span></td>
+  <td data-ice="testTarget" class="test-target"><span><a href="function/index.html#static-function-notNull">notNull</a></span></td>
+</tr>
+
+<tr class="test-interface" data-ice="testInterface" style="display: none;" data-test-depth="1">
+  <td data-ice="testDescription" style="padding-left: 20px"><span><a href="test-file/test/utils/filter.test.js.html#lineNumber20"><p>returns true for null</p>
 </a></span></td>
   <td data-ice="testTarget" class="test-target">-</td>
 </tr>

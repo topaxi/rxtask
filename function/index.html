@@ -42,7 +42,11 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-NOTIFICATION_ACTION">NOTIFICATION_ACTION</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-NotificationAction">NotificationAction</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#operators">operators</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-actionReducer">actionReducer</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-filterNotNull">filterNotNull</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-mapNonNull">mapNonNull</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ActionReducerFunction">ActionReducerFunction</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-NotNullFilter">NotNullFilter</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-MapNonNullFunction">MapNonNullFunction</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#reducers-task">reducers/task</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-combineTaskInstanceWithStateLabel">combineTaskInstanceWithStateLabel</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-reducer">reducer</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-selectCancelled">selectCancelled</a></span></span></li>
@@ -80,6 +84,7 @@
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#utils">utils</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-assertNever">assertNever</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-createCallableObject">createCallableObject</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-neq">neq</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-notNull">notNull</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-pipe">pipe</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-EMPTY_ARRAY">EMPTY_ARRAY</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-Callable">Callable</a></span></span></li>
@@ -219,6 +224,34 @@
           
           
           <span class="code" data-ice="name"><span><a href="function/index.html#static-function-createNotificationAction">createNotificationAction</a></span></span><span class="code" data-ice="signature">(n: <span><a href="http://reactivex.io/rxjs/class/es6/Notification.js~Notification.html">Notification</a></span>&lt;<span>T</span>&gt;): <span><a href="typedef/index.html#static-typedef-NotificationAction">NotificationAction</a></span>&lt;<span>T</span>&gt;</span>
+        </p>
+      </div>
+      <div>
+        
+        
+        
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+<tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">public</span>
+      
+      
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+          
+          
+          
+          <span class="code" data-ice="name"><span><a href="function/index.html#static-function-filterNotNull">filterNotNull</a></span></span><span class="code" data-ice="signature">(): <span><a href="typedef/index.html#static-typedef-NotNullFilter">NotNullFilter</a></span>&lt;<span>T</span>&gt;</span>
         </p>
       </div>
       <div>
@@ -414,7 +447,63 @@
           
           
           
+          <span class="code" data-ice="name"><span><a href="function/index.html#static-function-mapNonNull">mapNonNull</a></span></span><span class="code" data-ice="signature">(project: <span>UnaryFunction</span>&lt;<span>T</span>, <span>R</span>&gt;): <span><a href="typedef/index.html#static-typedef-MapNonNullFunction">MapNonNullFunction</a></span>&lt;<span>T</span>, <span>R</span>&gt;</span>
+        </p>
+      </div>
+      <div>
+        
+        
+        
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+<tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">public</span>
+      
+      
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+          
+          
+          
           <span class="code" data-ice="name"><span><a href="function/index.html#static-function-neq">neq</a></span></span><span class="code" data-ice="signature">(a: <span>any</span>): <span><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function">function</a></span><span>(b: <span>any</span>)</span>: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></span></span></span>
+        </p>
+      </div>
+      <div>
+        
+        
+        
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+<tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">public</span>
+      
+      
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+          
+          
+          
+          <span class="code" data-ice="name"><span><a href="function/index.html#static-function-notNull">notNull</a></span></span><span class="code" data-ice="signature">(value: <span>any</span> | <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/null">null</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></span></span>
         </p>
       </div>
       <div>
@@ -470,7 +559,7 @@
           
           
           
-          <span class="code" data-ice="name"><span><a href="function/index.html#static-function-reducer">reducer</a></span></span><span class="code" data-ice="signature">(state: <span><a href="typedef/index.html#static-typedef-TaskState">TaskState</a></span>&lt;<span>T</span>&gt;, action: <span>TaskActions</span>&lt;<span>T</span>&gt;): <span><a href="typedef/index.html#static-typedef-TaskState">TaskState</a></span>&lt;<span>T</span>&gt;</span>
+          <span class="code" data-ice="name"><span><a href="function/index.html#static-function-reducer">reducer</a></span></span><span class="code" data-ice="signature">(state: <span><a href="typedef/index.html#static-typedef-TaskInstanceState">TaskInstanceState</a></span>&lt;<span>T</span>&gt;, action: <span>TaskInstanceActions</span>&lt;<span>T</span>&gt;): <span><a href="typedef/index.html#static-typedef-TaskInstanceState">TaskInstanceState</a></span>&lt;<span>T</span>&gt;</span>
         </p>
       </div>
       <div>
@@ -498,7 +587,7 @@
           
           
           
-          <span class="code" data-ice="name"><span><a href="function/index.html#static-function-reducer">reducer</a></span></span><span class="code" data-ice="signature">(state: <span><a href="typedef/index.html#static-typedef-TaskInstanceState">TaskInstanceState</a></span>&lt;<span>T</span>&gt;, action: <span>TaskInstanceActions</span>&lt;<span>T</span>&gt;): <span><a href="typedef/index.html#static-typedef-TaskInstanceState">TaskInstanceState</a></span>&lt;<span>T</span>&gt;</span>
+          <span class="code" data-ice="name"><span><a href="function/index.html#static-function-reducer">reducer</a></span></span><span class="code" data-ice="signature">(state: <span><a href="typedef/index.html#static-typedef-TaskState">TaskState</a></span>&lt;<span>T</span>&gt;, action: <span>TaskActions</span>&lt;<span>T</span>&gt;): <span><a href="typedef/index.html#static-typedef-TaskState">TaskState</a></span>&lt;<span>T</span>&gt;</span>
         </p>
       </div>
       <div>
@@ -1064,7 +1153,7 @@
           
           
           
-          <span class="code" data-ice="name"><span><a href="function/index.html#static-function-combineTaskInstanceWithStateLabel">combineTaskInstanceWithStateLabel</a></span></span><span class="code" data-ice="signature">(taskInstance: <span>*</span>, objectPattern1: {&quot;stateLabel&quot;: <span>*</span>})</span>
+          <span class="code" data-ice="name"><span><a href="function/index.html#static-function-combineTaskInstanceWithStateLabel">combineTaskInstanceWithStateLabel</a></span></span><span class="code" data-ice="signature">(taskInstance: <span>*</span>, taskInstanceStateLabel: <span>*</span>)</span>
         </p>
       </div>
       <div>
@@ -1153,7 +1242,7 @@
     <h4>Test:</h4>
     <ul>
       
-    <li data-ice="test"><span><a href="test-file/test/operators/action-reducer.test.js.html#lineNumber5">actionReducer</a></span></li>
+    <li data-ice="test"><span><a href="test-file/test/operators/action-reducer.test.js.html#lineNumber5">operators/actionReducer</a></span></li>
 </ul>
   </div>
 
@@ -1326,7 +1415,7 @@
     <h4>Test:</h4>
     <ul>
       
-    <li data-ice="test"><span><a href="test-file/test/actions/index.test.js.html#lineNumber14">createAction</a></span></li>
+    <li data-ice="test"><span><a href="test-file/test/actions/index.test.js.html#lineNumber14">actions/createAction</a></span></li>
 </ul>
   </div>
 
@@ -1486,7 +1575,68 @@
     <h4>Test:</h4>
     <ul>
       
-    <li data-ice="test"><span><a href="test-file/test/actions/task-instance.test.js.html#lineNumber12">createNotificationAction</a></span></li>
+    <li data-ice="test"><span><a href="test-file/test/actions/task-instance.test.js.html#lineNumber12">actions/task-instance/createNotificationAction</a></span></li>
+</ul>
+  </div>
+
+  
+  
+</div>
+<div class="detail" data-ice="detail">
+  <h3 data-ice="anchor" id="static-function-filterNotNull">
+    <span class="access" data-ice="access">public</span>
+    
+    
+    
+    
+    
+    <span class="code" data-ice="name">filterNotNull</span><span class="code" data-ice="signature">(): <span><a href="typedef/index.html#static-typedef-NotNullFilter">NotNullFilter</a></span>&lt;<span>T</span>&gt;</span>
+    <span class="right-info">
+      
+      
+      <span data-ice="source"><span><a href="file/esm/operators/filter-not-null.js.html#lineNumber6">source</a></span></span>
+    </span>
+  </h3>
+
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {filterNotNull} from &apos;<span><a href="file/esm/operators/filter-not-null.js.html#lineNumber6">rxtask/operators/filter-not-null.js</a></span>&apos;</code></pre></div>
+  
+  
+  
+
+  
+
+  <div data-ice="properties">
+</div>
+
+  <div class="return-params" data-ice="returnParams">
+    <h4>Return:</h4>
+    <table>
+      <tbody>
+        <tr>
+          <td class="return-type code" data-ice="returnType"><span><a href="typedef/index.html#static-typedef-NotNullFilter">NotNullFilter</a></span>&lt;<span>T</span>&gt;</td>
+          
+        </tr>
+      </tbody>
+    </table>
+    <div data-ice="returnProperties">
+</div>
+  </div>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  <div data-ice="tests">
+    <h4>Test:</h4>
+    <ul>
+      
+    <li data-ice="test"><span><a href="test-file/test/operators/filter-not-null.test.js.html#lineNumber4">operators/filterNotNull</a></span></li>
 </ul>
   </div>
 
@@ -1956,6 +2106,83 @@
   
 </div>
 <div class="detail" data-ice="detail">
+  <h3 data-ice="anchor" id="static-function-mapNonNull">
+    <span class="access" data-ice="access">public</span>
+    
+    
+    
+    
+    
+    <span class="code" data-ice="name">mapNonNull</span><span class="code" data-ice="signature">(project: <span>UnaryFunction</span>&lt;<span>T</span>, <span>R</span>&gt;): <span><a href="typedef/index.html#static-typedef-MapNonNullFunction">MapNonNullFunction</a></span>&lt;<span>T</span>, <span>R</span>&gt;</span>
+    <span class="right-info">
+      
+      
+      <span data-ice="source"><span><a href="file/esm/operators/map-non-null.js.html#lineNumber7">source</a></span></span>
+    </span>
+  </h3>
+
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {mapNonNull} from &apos;<span><a href="file/esm/operators/map-non-null.js.html#lineNumber7">rxtask/operators/map-non-null.js</a></span>&apos;</code></pre></div>
+  
+  
+  
+
+  
+
+  <div data-ice="properties"><div data-ice="properties">
+  <h4 data-ice="title">Params:</h4>
+  <table class="params">
+    <thead>
+    <tr><td>Name</td><td>Type</td><td>Attribute</td><td>Description</td></tr>
+    </thead>
+    <tbody>
+    
+    <tr data-ice="property" data-depth="0">
+      <td data-ice="name" class="code" data-depth="0">project</td>
+      <td data-ice="type" class="code"><span>UnaryFunction</span>&lt;<span>T</span>, <span>R</span>&gt;</td>
+      <td data-ice="appendix"></td>
+      <td data-ice="description"></td>
+    </tr>
+</tbody>
+  </table>
+</div>
+</div>
+
+  <div class="return-params" data-ice="returnParams">
+    <h4>Return:</h4>
+    <table>
+      <tbody>
+        <tr>
+          <td class="return-type code" data-ice="returnType"><span><a href="typedef/index.html#static-typedef-MapNonNullFunction">MapNonNullFunction</a></span>&lt;<span>T</span>, <span>R</span>&gt;</td>
+          
+        </tr>
+      </tbody>
+    </table>
+    <div data-ice="returnProperties">
+</div>
+  </div>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  <div data-ice="tests">
+    <h4>Test:</h4>
+    <ul>
+      
+    <li data-ice="test"><span><a href="test-file/test/operators/map-non-null.test.js.html#lineNumber5">operators/mapNonNull</a></span></li>
+</ul>
+  </div>
+
+  
+  
+</div>
+<div class="detail" data-ice="detail">
   <h3 data-ice="anchor" id="static-function-neq">
     <span class="access" data-ice="access">public</span>
     
@@ -1967,11 +2194,11 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/esm/utils/neq.js.html#lineNumber5">source</a></span></span>
+      <span data-ice="source"><span><a href="file/esm/utils/filter.js.html#lineNumber5">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {neq} from &apos;<span><a href="file/esm/utils/neq.js.html#lineNumber5">rxtask/utils/neq.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {neq} from &apos;<span><a href="file/esm/utils/filter.js.html#lineNumber5">rxtask/utils/filter.js</a></span>&apos;</code></pre></div>
   
   
   
@@ -2025,7 +2252,84 @@
     <h4>Test:</h4>
     <ul>
       
-    <li data-ice="test"><span><a href="test-file/test/utils/neq.test.js.html#lineNumber4">utils/neq</a></span></li>
+    <li data-ice="test"><span><a href="test-file/test/utils/filter.test.js.html#lineNumber4">utils/filter/neq</a></span></li>
+</ul>
+  </div>
+
+  
+  
+</div>
+<div class="detail" data-ice="detail">
+  <h3 data-ice="anchor" id="static-function-notNull">
+    <span class="access" data-ice="access">public</span>
+    
+    
+    
+    
+    
+    <span class="code" data-ice="name">notNull</span><span class="code" data-ice="signature">(value: <span>any</span> | <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/null">null</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></span></span>
+    <span class="right-info">
+      
+      
+      <span data-ice="source"><span><a href="file/esm/utils/filter.js.html#lineNumber10">source</a></span></span>
+    </span>
+  </h3>
+
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {notNull} from &apos;<span><a href="file/esm/utils/filter.js.html#lineNumber10">rxtask/utils/filter.js</a></span>&apos;</code></pre></div>
+  
+  
+  
+
+  
+
+  <div data-ice="properties"><div data-ice="properties">
+  <h4 data-ice="title">Params:</h4>
+  <table class="params">
+    <thead>
+    <tr><td>Name</td><td>Type</td><td>Attribute</td><td>Description</td></tr>
+    </thead>
+    <tbody>
+    
+    <tr data-ice="property" data-depth="0">
+      <td data-ice="name" class="code" data-depth="0">value</td>
+      <td data-ice="type" class="code"><span>any</span> | <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/null">null</a></span></td>
+      <td data-ice="appendix"></td>
+      <td data-ice="description"></td>
+    </tr>
+</tbody>
+  </table>
+</div>
+</div>
+
+  <div class="return-params" data-ice="returnParams">
+    <h4>Return:</h4>
+    <table>
+      <tbody>
+        <tr>
+          <td class="return-type code" data-ice="returnType"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></span></td>
+          
+        </tr>
+      </tbody>
+    </table>
+    <div data-ice="returnProperties">
+</div>
+  </div>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  <div data-ice="tests">
+    <h4>Test:</h4>
+    <ul>
+      
+    <li data-ice="test"><span><a href="test-file/test/utils/filter.test.js.html#lineNumber19">utils/filter/notNull</a></span></li>
 </ul>
   </div>
 
@@ -2123,6 +2427,84 @@
     
     
     
+    <span class="code" data-ice="name">reducer</span><span class="code" data-ice="signature">(state: <span><a href="typedef/index.html#static-typedef-TaskInstanceState">TaskInstanceState</a></span>&lt;<span>T</span>&gt;, action: <span>TaskInstanceActions</span>&lt;<span>T</span>&gt;): <span><a href="typedef/index.html#static-typedef-TaskInstanceState">TaskInstanceState</a></span>&lt;<span>T</span>&gt;</span>
+    <span class="right-info">
+      
+      
+      <span data-ice="source"><span><a href="file/esm/reducers/task-instance/index.js.html#lineNumber47">source</a></span></span>
+    </span>
+  </h3>
+
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {reducer} from &apos;<span><a href="file/esm/reducers/task-instance/index.js.html#lineNumber47">rxtask/reducers/task-instance</a></span>&apos;</code></pre></div>
+  
+  
+  
+
+  
+
+  <div data-ice="properties"><div data-ice="properties">
+  <h4 data-ice="title">Params:</h4>
+  <table class="params">
+    <thead>
+    <tr><td>Name</td><td>Type</td><td>Attribute</td><td>Description</td></tr>
+    </thead>
+    <tbody>
+    
+    <tr data-ice="property" data-depth="0">
+      <td data-ice="name" class="code" data-depth="0">state</td>
+      <td data-ice="type" class="code"><span><a href="typedef/index.html#static-typedef-TaskInstanceState">TaskInstanceState</a></span>&lt;<span>T</span>&gt;</td>
+      <td data-ice="appendix"><ul><li>optional</li>
+<li>default: PENDING_STATE</li></ul></td>
+      <td data-ice="description"></td>
+    </tr>
+<tr data-ice="property" data-depth="0">
+      <td data-ice="name" class="code" data-depth="0">action</td>
+      <td data-ice="type" class="code"><span>TaskInstanceActions</span>&lt;<span>T</span>&gt;</td>
+      <td data-ice="appendix"></td>
+      <td data-ice="description"></td>
+    </tr>
+</tbody>
+  </table>
+</div>
+</div>
+
+  <div class="return-params" data-ice="returnParams">
+    <h4>Return:</h4>
+    <table>
+      <tbody>
+        <tr>
+          <td class="return-type code" data-ice="returnType"><span><a href="typedef/index.html#static-typedef-TaskInstanceState">TaskInstanceState</a></span>&lt;<span>T</span>&gt;</td>
+          
+        </tr>
+      </tbody>
+    </table>
+    <div data-ice="returnProperties">
+</div>
+  </div>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+</div>
+<div class="detail" data-ice="detail">
+  <h3 data-ice="anchor" id="static-function-reducer">
+    <span class="access" data-ice="access">public</span>
+    
+    
+    
+    
+    
     <span class="code" data-ice="name">reducer</span><span class="code" data-ice="signature">(state: <span><a href="typedef/index.html#static-typedef-TaskState">TaskState</a></span>&lt;<span>T</span>&gt;, action: <span>TaskActions</span>&lt;<span>T</span>&gt;): <span><a href="typedef/index.html#static-typedef-TaskState">TaskState</a></span>&lt;<span>T</span>&gt;</span>
     <span class="right-info">
       
@@ -2196,84 +2578,6 @@
 <li data-ice="test"><span><a href="test-file/test/reducers/task.test.js.html#lineNumber58">reducers/Task Reducer</a></span></li>
 </ul>
   </div>
-
-  
-  
-</div>
-<div class="detail" data-ice="detail">
-  <h3 data-ice="anchor" id="static-function-reducer">
-    <span class="access" data-ice="access">public</span>
-    
-    
-    
-    
-    
-    <span class="code" data-ice="name">reducer</span><span class="code" data-ice="signature">(state: <span><a href="typedef/index.html#static-typedef-TaskInstanceState">TaskInstanceState</a></span>&lt;<span>T</span>&gt;, action: <span>TaskInstanceActions</span>&lt;<span>T</span>&gt;): <span><a href="typedef/index.html#static-typedef-TaskInstanceState">TaskInstanceState</a></span>&lt;<span>T</span>&gt;</span>
-    <span class="right-info">
-      
-      
-      <span data-ice="source"><span><a href="file/esm/reducers/task-instance/index.js.html#lineNumber47">source</a></span></span>
-    </span>
-  </h3>
-
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {reducer} from &apos;<span><a href="file/esm/reducers/task-instance/index.js.html#lineNumber47">rxtask/reducers/task-instance</a></span>&apos;</code></pre></div>
-  
-  
-  
-
-  
-
-  <div data-ice="properties"><div data-ice="properties">
-  <h4 data-ice="title">Params:</h4>
-  <table class="params">
-    <thead>
-    <tr><td>Name</td><td>Type</td><td>Attribute</td><td>Description</td></tr>
-    </thead>
-    <tbody>
-    
-    <tr data-ice="property" data-depth="0">
-      <td data-ice="name" class="code" data-depth="0">state</td>
-      <td data-ice="type" class="code"><span><a href="typedef/index.html#static-typedef-TaskInstanceState">TaskInstanceState</a></span>&lt;<span>T</span>&gt;</td>
-      <td data-ice="appendix"><ul><li>optional</li>
-<li>default: PENDING_STATE</li></ul></td>
-      <td data-ice="description"></td>
-    </tr>
-<tr data-ice="property" data-depth="0">
-      <td data-ice="name" class="code" data-depth="0">action</td>
-      <td data-ice="type" class="code"><span>TaskInstanceActions</span>&lt;<span>T</span>&gt;</td>
-      <td data-ice="appendix"></td>
-      <td data-ice="description"></td>
-    </tr>
-</tbody>
-  </table>
-</div>
-</div>
-
-  <div class="return-params" data-ice="returnParams">
-    <h4>Return:</h4>
-    <table>
-      <tbody>
-        <tr>
-          <td class="return-type code" data-ice="returnType"><span><a href="typedef/index.html#static-typedef-TaskInstanceState">TaskInstanceState</a></span>&lt;<span>T</span>&gt;</td>
-          
-        </tr>
-      </tbody>
-    </table>
-    <div data-ice="returnProperties">
-</div>
-  </div>
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
 
   
   
@@ -3724,7 +4028,7 @@
     <h4>Test:</h4>
     <ul>
       
-    <li data-ice="test"><span><a href="test-file/test/actions/index.test.js.html#lineNumber36">toAction</a></span></li>
+    <li data-ice="test"><span><a href="test-file/test/actions/index.test.js.html#lineNumber36">actions/toAction</a></span></li>
 </ul>
   </div>
 
@@ -3741,7 +4045,7 @@
     
     
     
-    <span class="code" data-ice="name">combineTaskInstanceWithStateLabel</span><span class="code" data-ice="signature">(taskInstance: <span>*</span>, objectPattern1: {&quot;stateLabel&quot;: <span>*</span>})</span>
+    <span class="code" data-ice="name">combineTaskInstanceWithStateLabel</span><span class="code" data-ice="signature">(taskInstance: <span>*</span>, taskInstanceStateLabel: <span>*</span>)</span>
     <span class="right-info">
       
       
@@ -3771,9 +4075,9 @@
       <td data-ice="description"></td>
     </tr>
 <tr data-ice="property" data-depth="0">
-      <td data-ice="name" class="code" data-depth="0">objectPattern1</td>
-      <td data-ice="type" class="code">{&quot;stateLabel&quot;: <span>*</span>}</td>
-      <td data-ice="appendix"><ul><li>default: {&quot;stateLabel&quot;:null}</li></ul></td>
+      <td data-ice="name" class="code" data-depth="0">taskInstanceStateLabel</td>
+      <td data-ice="type" class="code"><span>*</span></td>
+      <td data-ice="appendix"></td>
       <td data-ice="description"></td>
     </tr>
 </tbody>

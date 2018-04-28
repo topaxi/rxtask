@@ -42,7 +42,11 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-NOTIFICATION_ACTION">NOTIFICATION_ACTION</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-NotificationAction">NotificationAction</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#operators">operators</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-actionReducer">actionReducer</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-filterNotNull">filterNotNull</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-mapNonNull">mapNonNull</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ActionReducerFunction">ActionReducerFunction</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-NotNullFilter">NotNullFilter</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-MapNonNullFunction">MapNonNullFunction</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#reducers-task">reducers/task</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-combineTaskInstanceWithStateLabel">combineTaskInstanceWithStateLabel</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-reducer">reducer</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-selectCancelled">selectCancelled</a></span></span></li>
@@ -80,6 +84,7 @@
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#utils">utils</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-assertNever">assertNever</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-createCallableObject">createCallableObject</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-neq">neq</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-notNull">notNull</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-pipe">pipe</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-EMPTY_ARRAY">EMPTY_ARRAY</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-Callable">Callable</a></span></span></li>
@@ -87,7 +92,7 @@
 </div>
 </nav>
 
-<div class="content" data-ice="content"><h1>Source <img data-ice="coverageBadge" src="./badge.svg"><span data-ice="totalCoverageCount" class="total-coverage-count">84/110</span></h1>
+<div class="content" data-ice="content"><h1>Source <img data-ice="coverageBadge" src="./badge.svg"><span data-ice="totalCoverageCount" class="total-coverage-count">93/123</span></h1>
 
 <table class="files-summary" data-ice="files" data-use-coverage="true">
   <thead>
@@ -109,7 +114,7 @@
       <td class="coverage"><span data-ice="coverage">100 %</span><span data-ice="coverageCount" class="coverage-count">2/2</span></td>
       <td style="display: none;" data-ice="size">762 byte</td>
       <td style="display: none;" data-ice="lines">27</td>
-      <td style="display: none;" data-ice="updated">2018-04-04 16:38:33 (UTC)</td>
+      <td style="display: none;" data-ice="updated">2018-04-07 12:49:30 (UTC)</td>
     </tr>
 <tr data-ice="file">
       <td data-ice="filePath"><span><a href="file/esm/actions/task-instance/index.js.html">esm/actions/task-instance/index.js</a></span></td>
@@ -118,7 +123,7 @@
       <td class="coverage"><span data-ice="coverage">100 %</span><span data-ice="coverageCount" class="coverage-count">2/2</span></td>
       <td style="display: none;" data-ice="size">452 byte</td>
       <td style="display: none;" data-ice="lines">15</td>
-      <td style="display: none;" data-ice="updated">2018-04-04 16:38:33 (UTC)</td>
+      <td style="display: none;" data-ice="updated">2018-04-07 12:49:30 (UTC)</td>
     </tr>
 <tr data-ice="file">
       <td data-ice="filePath"><span><a href="file/esm/actions/task/index.js.html">esm/actions/task/index.js</a></span></td>
@@ -126,7 +131,7 @@
       <td class="coverage"><span data-ice="coverage">100 %</span><span data-ice="coverageCount" class="coverage-count">1/1</span></td>
       <td style="display: none;" data-ice="size">141 byte</td>
       <td style="display: none;" data-ice="lines">2</td>
-      <td style="display: none;" data-ice="updated">2018-04-04 16:38:33 (UTC)</td>
+      <td style="display: none;" data-ice="updated">2018-04-07 12:49:30 (UTC)</td>
     </tr>
 <tr data-ice="file">
       <td data-ice="filePath"><span><a href="file/esm/index.js.html">esm/index.js</a></span></td>
@@ -134,7 +139,7 @@
       <td class="coverage"><span data-ice="coverage">-</span></td>
       <td style="display: none;" data-ice="size">90 byte</td>
       <td style="display: none;" data-ice="lines">2</td>
-      <td style="display: none;" data-ice="updated">2018-04-04 16:38:33 (UTC)</td>
+      <td style="display: none;" data-ice="updated">2018-04-07 12:49:30 (UTC)</td>
     </tr>
 <tr data-ice="file">
       <td data-ice="filePath"><span><a href="file/esm/interfaces.js.html">esm/interfaces.js</a></span></td>
@@ -142,7 +147,7 @@
       <td class="coverage"><span data-ice="coverage">-</span></td>
       <td style="display: none;" data-ice="size">116 byte</td>
       <td style="display: none;" data-ice="lines">3</td>
-      <td style="display: none;" data-ice="updated">2018-04-04 16:38:33 (UTC)</td>
+      <td style="display: none;" data-ice="updated">2018-04-07 12:49:30 (UTC)</td>
     </tr>
 <tr data-ice="file">
       <td data-ice="filePath"><span><a href="file/esm/operators/action-reducer.js.html#errorLines=2">esm/operators/action-reducer.js</a></span></td>
@@ -150,15 +155,31 @@
       <td class="coverage"><span data-ice="coverage">50 %</span><span data-ice="coverageCount" class="coverage-count">1/2</span></td>
       <td style="display: none;" data-ice="size">538 byte</td>
       <td style="display: none;" data-ice="lines">15</td>
-      <td style="display: none;" data-ice="updated">2018-04-04 16:38:33 (UTC)</td>
+      <td style="display: none;" data-ice="updated">2018-04-07 12:49:30 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/esm/operators/filter-not-null.js.html">esm/operators/filter-not-null.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="function/index.html#static-function-filterNotNull">filterNotNull</a></span></td>
+      <td class="coverage"><span data-ice="coverage">100 %</span><span data-ice="coverageCount" class="coverage-count">1/1</span></td>
+      <td style="display: none;" data-ice="size">277 byte</td>
+      <td style="display: none;" data-ice="lines">9</td>
+      <td style="display: none;" data-ice="updated">2018-04-07 12:49:30 (UTC)</td>
     </tr>
 <tr data-ice="file">
       <td data-ice="filePath"><span><a href="file/esm/operators/index.js.html">esm/operators/index.js</a></span></td>
       <td data-ice="identifier" class="identifiers">-</td>
       <td class="coverage"><span data-ice="coverage">-</span></td>
-      <td style="display: none;" data-ice="size">67 byte</td>
-      <td style="display: none;" data-ice="lines">1</td>
-      <td style="display: none;" data-ice="updated">2018-04-04 16:38:33 (UTC)</td>
+      <td style="display: none;" data-ice="size">134 byte</td>
+      <td style="display: none;" data-ice="lines">3</td>
+      <td style="display: none;" data-ice="updated">2018-04-07 12:49:30 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/esm/operators/map-non-null.js.html">esm/operators/map-non-null.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="function/index.html#static-function-mapNonNull">mapNonNull</a></span></td>
+      <td class="coverage"><span data-ice="coverage">100 %</span><span data-ice="coverageCount" class="coverage-count">1/1</span></td>
+      <td style="display: none;" data-ice="size">374 byte</td>
+      <td style="display: none;" data-ice="lines">10</td>
+      <td style="display: none;" data-ice="updated">2018-04-07 12:49:30 (UTC)</td>
     </tr>
 <tr data-ice="file">
       <td data-ice="filePath"><span><a href="file/esm/reducers/task-instance/index.js.html#errorLines=29">esm/reducers/task-instance/index.js</a></span></td>
@@ -179,7 +200,7 @@
       <td class="coverage"><span data-ice="coverage">93 %</span><span data-ice="coverageCount" class="coverage-count">14/15</span></td>
       <td style="display: none;" data-ice="size">3057 byte</td>
       <td style="display: none;" data-ice="lines">114</td>
-      <td style="display: none;" data-ice="updated">2018-04-04 16:38:33 (UTC)</td>
+      <td style="display: none;" data-ice="updated">2018-04-07 12:49:30 (UTC)</td>
     </tr>
 <tr data-ice="file">
       <td data-ice="filePath"><span><a href="file/esm/reducers/task/index.js.html#errorLines=27,56,59">esm/reducers/task/index.js</a></span></td>
@@ -200,26 +221,26 @@
 <span><a href="function/index.html#static-function-selectRunning">selectRunning</a></span>
 <span><a href="function/index.html#static-function-selectSuccessful">selectSuccessful</a></span></td>
       <td class="coverage"><span data-ice="coverage">84 %</span><span data-ice="coverageCount" class="coverage-count">16/19</span></td>
-      <td style="display: none;" data-ice="size">4816 byte</td>
+      <td style="display: none;" data-ice="size">4800 byte</td>
       <td style="display: none;" data-ice="lines">146</td>
-      <td style="display: none;" data-ice="updated">2018-04-04 16:38:33 (UTC)</td>
+      <td style="display: none;" data-ice="updated">2018-04-07 12:49:30 (UTC)</td>
     </tr>
 <tr data-ice="file">
-      <td data-ice="filePath"><span><a href="file/esm/task-instance.js.html#errorLines=21,22,23,24,25,26,47">esm/task-instance.js</a></span></td>
+      <td data-ice="filePath"><span><a href="file/esm/task-instance.js.html#errorLines=10,22,23,24,25,26,27,28,49">esm/task-instance.js</a></span></td>
       <td data-ice="identifier" class="identifiers"><span><a href="class/esm/task-instance.js~TaskInstance.html">TaskInstance</a></span></td>
-      <td class="coverage"><span data-ice="coverage">69 %</span><span data-ice="coverageCount" class="coverage-count">16/23</span></td>
-      <td style="display: none;" data-ice="size">3899 byte</td>
-      <td style="display: none;" data-ice="lines">81</td>
-      <td style="display: none;" data-ice="updated">2018-04-04 16:38:33 (UTC)</td>
+      <td class="coverage"><span data-ice="coverage">67 %</span><span data-ice="coverageCount" class="coverage-count">19/28</span></td>
+      <td style="display: none;" data-ice="size">4185 byte</td>
+      <td style="display: none;" data-ice="lines">95</td>
+      <td style="display: none;" data-ice="updated">2018-04-07 12:49:30 (UTC)</td>
     </tr>
 <tr data-ice="file">
-      <td data-ice="filePath"><span><a href="file/esm/task.js.html#errorLines=161,173,20,32,33,34,35,36,37,38,39,40,69">esm/task.js</a></span></td>
+      <td data-ice="filePath"><span><a href="file/esm/task.js.html#errorLines=175,188,20,21,33,34,35,36,37,38,39,40,41,42,71">esm/task.js</a></span></td>
       <td data-ice="identifier" class="identifiers"><span><a href="class/esm/task.js~Task.html">Task</a></span>
 <span><a href="function/index.html#static-function-task">task</a></span></td>
-      <td class="coverage"><span data-ice="coverage">68 %</span><span data-ice="coverageCount" class="coverage-count">28/41</span></td>
-      <td style="display: none;" data-ice="size">6803 byte</td>
-      <td style="display: none;" data-ice="lines">176</td>
-      <td style="display: none;" data-ice="updated">2018-04-04 16:38:33 (UTC)</td>
+      <td class="coverage"><span data-ice="coverage">67 %</span><span data-ice="coverageCount" class="coverage-count">31/46</span></td>
+      <td style="display: none;" data-ice="size">7147 byte</td>
+      <td style="display: none;" data-ice="lines">191</td>
+      <td style="display: none;" data-ice="updated">2018-04-07 12:49:30 (UTC)</td>
     </tr>
 <tr data-ice="file">
       <td data-ice="filePath"><span><a href="file/esm/utils/assert-never.js.html">esm/utils/assert-never.js</a></span></td>
@@ -227,7 +248,7 @@
       <td class="coverage"><span data-ice="coverage">100 %</span><span data-ice="coverageCount" class="coverage-count">1/1</span></td>
       <td style="display: none;" data-ice="size">191 byte</td>
       <td style="display: none;" data-ice="lines">8</td>
-      <td style="display: none;" data-ice="updated">2018-04-04 16:38:33 (UTC)</td>
+      <td style="display: none;" data-ice="updated">2018-04-07 12:49:30 (UTC)</td>
     </tr>
 <tr data-ice="file">
       <td data-ice="filePath"><span><a href="file/esm/utils/create-callable-object.js.html">esm/utils/create-callable-object.js</a></span></td>
@@ -235,7 +256,7 @@
       <td class="coverage"><span data-ice="coverage">100 %</span><span data-ice="coverageCount" class="coverage-count">1/1</span></td>
       <td style="display: none;" data-ice="size">1308 byte</td>
       <td style="display: none;" data-ice="lines">43</td>
-      <td style="display: none;" data-ice="updated">2018-04-04 16:38:33 (UTC)</td>
+      <td style="display: none;" data-ice="updated">2018-04-07 12:49:30 (UTC)</td>
     </tr>
 <tr data-ice="file">
       <td data-ice="filePath"><span><a href="file/esm/utils/empty-array.js.html#errorLines=1">esm/utils/empty-array.js</a></span></td>
@@ -243,23 +264,24 @@
       <td class="coverage"><span data-ice="coverage">0 %</span><span data-ice="coverageCount" class="coverage-count">0/1</span></td>
       <td style="display: none;" data-ice="size">85 byte</td>
       <td style="display: none;" data-ice="lines">1</td>
-      <td style="display: none;" data-ice="updated">2018-04-04 16:38:33 (UTC)</td>
+      <td style="display: none;" data-ice="updated">2018-04-07 12:49:30 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/esm/utils/filter.js.html">esm/utils/filter.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="function/index.html#static-function-neq">neq</a></span>
+<span><a href="function/index.html#static-function-notNull">notNull</a></span></td>
+      <td class="coverage"><span data-ice="coverage">100 %</span><span data-ice="coverageCount" class="coverage-count">2/2</span></td>
+      <td style="display: none;" data-ice="size">247 byte</td>
+      <td style="display: none;" data-ice="lines">10</td>
+      <td style="display: none;" data-ice="updated">2018-04-07 12:49:30 (UTC)</td>
     </tr>
 <tr data-ice="file">
       <td data-ice="filePath"><span><a href="file/esm/utils/index.js.html">esm/utils/index.js</a></span></td>
       <td data-ice="identifier" class="identifiers">-</td>
       <td class="coverage"><span data-ice="coverage">-</span></td>
-      <td style="display: none;" data-ice="size">185 byte</td>
+      <td style="display: none;" data-ice="size">188 byte</td>
       <td style="display: none;" data-ice="lines">5</td>
-      <td style="display: none;" data-ice="updated">2018-04-04 16:38:33 (UTC)</td>
-    </tr>
-<tr data-ice="file">
-      <td data-ice="filePath"><span><a href="file/esm/utils/neq.js.html">esm/utils/neq.js</a></span></td>
-      <td data-ice="identifier" class="identifiers"><span><a href="function/index.html#static-function-neq">neq</a></span></td>
-      <td class="coverage"><span data-ice="coverage">100 %</span><span data-ice="coverageCount" class="coverage-count">1/1</span></td>
-      <td style="display: none;" data-ice="size">138 byte</td>
-      <td style="display: none;" data-ice="lines">5</td>
-      <td style="display: none;" data-ice="updated">2018-04-04 16:38:33 (UTC)</td>
+      <td style="display: none;" data-ice="updated">2018-04-07 12:49:30 (UTC)</td>
     </tr>
 <tr data-ice="file">
       <td data-ice="filePath"><span><a href="file/esm/utils/pipe.js.html">esm/utils/pipe.js</a></span></td>
@@ -267,7 +289,7 @@
       <td class="coverage"><span data-ice="coverage">100 %</span><span data-ice="coverageCount" class="coverage-count">1/1</span></td>
       <td style="display: none;" data-ice="size">207 byte</td>
       <td style="display: none;" data-ice="lines">8</td>
-      <td style="display: none;" data-ice="updated">2018-04-04 16:38:33 (UTC)</td>
+      <td style="display: none;" data-ice="updated">2018-04-07 12:49:30 (UTC)</td>
     </tr>
 </tbody>
 </table>

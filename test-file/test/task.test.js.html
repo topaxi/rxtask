@@ -42,7 +42,11 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-NOTIFICATION_ACTION">NOTIFICATION_ACTION</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-NotificationAction">NotificationAction</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#operators">operators</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-actionReducer">actionReducer</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-filterNotNull">filterNotNull</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-mapNonNull">mapNonNull</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ActionReducerFunction">ActionReducerFunction</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-NotNullFilter">NotNullFilter</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-MapNonNullFunction">MapNonNullFunction</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#reducers-task">reducers/task</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-combineTaskInstanceWithStateLabel">combineTaskInstanceWithStateLabel</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-reducer">reducer</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-selectCancelled">selectCancelled</a></span></span></li>
@@ -80,6 +84,7 @@
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#utils">utils</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-assertNever">assertNever</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-createCallableObject">createCallableObject</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-neq">neq</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-notNull">notNull</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-pipe">pipe</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-EMPTY_ARRAY">EMPTY_ARRAY</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-Callable">Callable</a></span></span></li>
@@ -90,11 +95,89 @@
 <div class="content" data-ice="content"><h1 data-ice="title">test/task.test.js</h1>
 <pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import { of } from &apos;rxjs/observable/of&apos;;
 import { Subject } from &apos;rxjs/Subject&apos;;
-import { task } from &apos;../src/task&apos;;
+import { task, Task } from &apos;../src/task&apos;;
 import { TaskInstance } from &apos;../src/task-instance&apos;;
+import { notNull } from &apos;../src/utils/filter&apos;;
 import { expect } from &apos;chai&apos;;
 import { stub } from &apos;sinon&apos;;
+import { marbles } from &apos;rxjs-marbles&apos;;
 import { ObjectUnsubscribedError } from &apos;rxjs/util/ObjectUnsubscribedError&apos;;
+import { takeUntil, delay } from &apos;rxjs/operators&apos;;
+import { INITIAL_STATE, selectPerformed, selectRunning, selectCancelled, selectSuccessful, selectErrored, selectCompleted, selectLast, selectLastRunning, selectLastSuccessful, selectLastCancelled, selectLastErrored, selectLastCompleted, selectPending, } from &apos;../src/reducers/task&apos;;
+import * as dict from &apos;./test-helpers/dict&apos;;
+function expectObservables(m, task, expectations) {
+    Object.keys(expectations).forEach(k =&gt; {
+        const { expected, values } = expectations[k];
+        m.expect(task[k]).toBeObservable(expected, values);
+    });
+}
+function incrementalStates(states) {
+    return dict.reduce(states, (acc, s, k, i, keys, states) =&gt; ((acc[k] = state(acc[keys[keys.indexOf(k) - 1]] || INITIAL_STATE, s)),
+        acc), {});
+}
+function stateExpectation(expected, values, exceptions = {}) {
+    return {
+        state$: exceptions.state$ || { expected, values },
+        pending$: exceptions.pending$ || {
+            expected,
+            values: dict.map(values, selectPending),
+        },
+        performed$: exceptions.performed$ || {
+            expected,
+            values: dict.map(values, selectPerformed),
+        },
+        running$: exceptions.running$ || {
+            expected,
+            values: dict.map(values, selectRunning),
+        },
+        cancelled$: exceptions.cancelled$ || {
+            expected,
+            values: dict.map(values, selectCancelled),
+        },
+        successful$: exceptions.successful$ || {
+            expected,
+            values: dict.map(values, selectSuccessful),
+        },
+        errored$: exceptions.errored$ || {
+            expected,
+            values: dict.map(values, selectErrored),
+        },
+        completed$: exceptions.completed$ || {
+            expected,
+            values: dict.map(values, selectCompleted),
+        },
+        last$: exceptions.last$ || {
+            expected,
+            values: dict.filter(dict.map(values, selectLast), notNull),
+        },
+        lastRunning$: exceptions.lastRunning$ || {
+            expected,
+            values: dict.filter(dict.map(values, selectLastRunning), notNull),
+        },
+        lastSuccessful$: exceptions.lastSuccessful$ || {
+            expected,
+            values: dict.filter(dict.map(values, selectLastSuccessful), notNull),
+        },
+        lastCancelled$: exceptions.lastCancelled$ || {
+            expected,
+            values: dict.filter(dict.map(values, selectLastCancelled), notNull),
+        },
+        lastErrored$: exceptions.lastErrored$ || {
+            expected,
+            values: dict.filter(dict.map(values, selectLastErrored), notNull),
+        },
+        lastCompleted$: exceptions.lastCompleted$ || {
+            expected,
+            values: dict.filter(dict.map(values, selectLastCompleted), notNull),
+        },
+    };
+}
+function state() {
+    if (arguments.length === 2) {
+        return Object.assign({}, arguments[0], arguments[1]);
+    }
+    return Object.assign({}, INITIAL_STATE, arguments[0]);
+}
 /** @test {Task} */
 describe(&apos;Task&apos;, () =&gt; {
     let destroy$;
@@ -103,6 +186,19 @@ describe(&apos;Task&apos;, () =&gt; {
     });
     afterEach(() =&gt; {
         destroy$.next();
+    });
+    it(&apos;has an id&apos;, () =&gt; {
+        expect(new Task(stub()).id).to.be.a(&apos;number&apos;);
+    });
+    /** @test {Task#toString} */
+    it(&apos;casts to a string&apos;, () =&gt; {
+        expect(new Task(stub())).to.match(/^Task#\d+$/);
+    });
+    /** @test {Task#toJSON} */
+    it(&apos;deserializes to JSON&apos;, () =&gt; {
+        const json = new Task(stub()).toJSON();
+        expect(json.type).to.equal(&apos;Task&apos;);
+        expect(json.id).to.be.a(&apos;number&apos;);
     });
     /** @test {Task#perform} */
     describe(&apos;perform&apos;, () =&gt; {
@@ -132,10 +228,255 @@ describe(&apos;Task&apos;, () =&gt; {
     describe(&apos;callable&apos;, () =&gt; {
         it(&apos;creates a callable task object&apos;, () =&gt; {
             const fn = stub().returns(of(true));
-            const t = task(fn).callable().subscribeUntil(destroy$);
+            const t = task(fn)
+                .callable()
+                .subscribeUntil(destroy$);
             const i = t(&apos;callable task&apos;);
             expect(i).to.be.instanceOf(TaskInstance);
             expect(fn).to.be.calledWith(&apos;callable task&apos;);
+        });
+    });
+    describe(&apos;default&apos;, () =&gt; {
+        /** @test {Task#state$} */
+        describe(&apos;state$&apos;, () =&gt; {
+            it(&apos;matches initial state without emitting null tasks&apos;, marbles(m =&gt; {
+                m.bind();
+                const t = task(() =&gt; of(true)).subscribeUntil(destroy$);
+                expectObservables(m, t, stateExpectation(&apos;a&apos;, { a: state() }, {
+                    last$: { expected: &apos;-&apos; },
+                    lastRunning$: { expected: &apos;-&apos; },
+                    lastSuccessful$: { expected: &apos;-&apos; },
+                    lastCancelled$: { expected: &apos;-&apos; },
+                    lastErrored$: { expected: &apos;-&apos; },
+                    lastCompleted$: { expected: &apos;-&apos; },
+                }));
+            }));
+            it(&apos;counts performed, successful and completed tasks&apos;, marbles(m =&gt; {
+                m.bind();
+                const t = task(() =&gt; of(true)).subscribeUntil(destroy$);
+                t.state$.pipe(takeUntil(destroy$)).subscribe();
+                const first = t.perform(&apos;task&apos;);
+                const last = t.perform(&apos;second task&apos;);
+                expectObservables(m, t, stateExpectation(&apos;a&apos;, {
+                    a: state({
+                        performed: 2,
+                        successful: 2,
+                        completed: 2,
+                        last,
+                        lastRunning: last,
+                        lastSuccessful: last,
+                        lastCompleted: last,
+                    }),
+                }, {
+                    lastCancelled$: { expected: &apos;-&apos; },
+                    lastErrored$: { expected: &apos;-&apos; },
+                }));
+            }));
+        });
+    });
+    /** @test {Task#concurrency} */
+    describe(&apos;concurrency&apos;, () =&gt; {
+        /** @test {Task#state$} */
+        describe(&apos;state$&apos;, () =&gt; {
+            it(&apos;counts performed, successful and completed tasks&apos;, marbles(m =&gt; {
+                m.bind();
+                const t = task(() =&gt; of(true).pipe(delay(m.time(&apos;--|&apos;))))
+                    .concurrency(2)
+                    .subscribeUntil(destroy$);
+                t.state$.pipe(takeUntil(destroy$)).subscribe();
+                const one = t.perform(&apos;task 1&apos;);
+                const two = t.perform(&apos;task 2&apos;);
+                const three = t.perform(&apos;task 3&apos;);
+                const four = t.perform(&apos;task 4&apos;);
+                const five = t.perform(&apos;task 5&apos;);
+                expectObservables(m, t, stateExpectation(&apos;a-b-c-d&apos;, incrementalStates({
+                    a: {
+                        performed: 5,
+                        pending: [three, four, five],
+                        running: [one, two],
+                        successful: 0,
+                        completed: 0,
+                        last: five,
+                        lastRunning: two,
+                    },
+                    b: {
+                        pending: [five],
+                        running: [three, four],
+                        successful: 2,
+                        completed: 2,
+                        lastRunning: four,
+                        lastSuccessful: two,
+                        lastCompleted: two,
+                    },
+                    c: {
+                        pending: [],
+                        running: [five],
+                        successful: 4,
+                        completed: 4,
+                        lastRunning: five,
+                        lastSuccessful: four,
+                        lastCompleted: four,
+                    },
+                    d: {
+                        running: [],
+                        successful: 5,
+                        completed: 5,
+                        lastRunning: five,
+                        lastSuccessful: five,
+                        lastCompleted: five,
+                    },
+                }), {
+                    lastSuccessful$: {
+                        expected: &apos;--b-d-e&apos;,
+                        values: { a: one, b: two, c: three, d: four, e: five },
+                    },
+                    lastCompleted$: {
+                        expected: &apos;--b-d-e&apos;,
+                        values: { a: one, b: two, c: three, d: four, e: five },
+                    },
+                    lastCancelled$: { expected: &apos;-&apos; },
+                    lastErrored$: { expected: &apos;-&apos; },
+                }));
+            }));
+        });
+    });
+    /** @test {Task#concat} */
+    describe(&apos;concat&apos;, () =&gt; {
+        /** @test {Task#state$} */
+        describe(&apos;state$&apos;, () =&gt; {
+            it(&apos;counts performed, successful and completed tasks&apos;, marbles(m =&gt; {
+                m.bind();
+                const t = task(() =&gt; of(true).pipe(delay(m.time(&apos;--|&apos;))))
+                    .concat()
+                    .subscribeUntil(destroy$);
+                t.state$.pipe(takeUntil(destroy$)).subscribe();
+                const first = t.perform(&apos;task&apos;);
+                const last = t.perform(&apos;second task&apos;);
+                expectObservables(m, t, stateExpectation(&apos;a-b-c&apos;, incrementalStates({
+                    a: {
+                        performed: 2,
+                        pending: [last],
+                        running: [first],
+                        last,
+                        lastRunning: first,
+                    },
+                    b: {
+                        pending: [],
+                        running: [last],
+                        successful: 1,
+                        completed: 1,
+                        lastRunning: last,
+                        lastSuccessful: first,
+                        lastCompleted: first,
+                    },
+                    c: {
+                        running: [],
+                        successful: 2,
+                        completed: 2,
+                        lastSuccessful: last,
+                        lastCompleted: last,
+                    },
+                }), {
+                    lastSuccessful$: {
+                        expected: &apos;--b-c&apos;,
+                        values: { b: first, c: last },
+                    },
+                    lastCompleted$: {
+                        expected: &apos;--b-c&apos;,
+                        values: { b: first, c: last },
+                    },
+                    lastCancelled$: { expected: &apos;-&apos; },
+                    lastErrored$: { expected: &apos;-&apos; },
+                }));
+            }));
+        });
+    });
+    /** @test {Task#switch} */
+    describe(&apos;switch&apos;, () =&gt; {
+        /** @test {Task#state$} */
+        describe(&apos;state$&apos;, () =&gt; {
+            it(&apos;counts performed, successful and completed tasks&apos;, marbles(m =&gt; {
+                m.bind();
+                const t = task(() =&gt; of(true).pipe(delay(m.time(&apos;--|&apos;))))
+                    .switch()
+                    .subscribeUntil(destroy$);
+                t.state$.pipe(takeUntil(destroy$)).subscribe();
+                const first = t.perform(&apos;task&apos;);
+                const last = t.perform(&apos;second task&apos;);
+                expectObservables(m, t, stateExpectation(&apos;a-b&apos;, incrementalStates({
+                    a: {
+                        performed: 2,
+                        pending: [],
+                        running: [last],
+                        cancelled: 1,
+                        last,
+                        lastRunning: last,
+                        lastCancelled: first,
+                    },
+                    b: {
+                        running: [],
+                        successful: 1,
+                        completed: 1,
+                        lastSuccessful: last,
+                        lastCompleted: last,
+                    },
+                }), {
+                    lastSuccessful$: {
+                        expected: &apos;--b&apos;,
+                        values: { b: last },
+                    },
+                    lastCompleted$: {
+                        expected: &apos;--b&apos;,
+                        values: { b: last },
+                    },
+                    lastCancelled$: { expected: &apos;a-a&apos;, values: { a: first } },
+                    lastErrored$: { expected: &apos;-&apos; },
+                }));
+            }));
+        });
+    });
+    /** @test {Task#drop} */
+    describe(&apos;drop&apos;, () =&gt; {
+        /** @test {Task#state$} */
+        describe(&apos;state$&apos;, () =&gt; {
+            it.skip(&apos;counts performed, successful and completed tasks&apos;, marbles(m =&gt; {
+                m.bind();
+                const t = task(() =&gt; of(true).pipe(delay(m.time(&apos;--|&apos;))))
+                    .drop()
+                    .subscribeUntil(destroy$);
+                t.state$.pipe(takeUntil(destroy$)).subscribe();
+                const first = t.perform(&apos;task&apos;);
+                const last = t.perform(&apos;second task&apos;);
+                expectObservables(m, t, stateExpectation(&apos;a-b&apos;, incrementalStates({
+                    a: {
+                        performed: 2,
+                        pending: [],
+                        running: [first],
+                        cancelled: 1,
+                        last,
+                        lastRunning: first,
+                        lastCancelled: last,
+                    },
+                    b: {
+                        running: [],
+                        successful: 1,
+                        completed: 1,
+                        lastSuccessful: first,
+                        lastCompleted: first,
+                    },
+                }), {
+                    lastSuccessful$: {
+                        expected: &apos;--b&apos;,
+                        values: { b: first },
+                    },
+                    lastCompleted$: {
+                        expected: &apos;--b&apos;,
+                        values: { b: first },
+                    },
+                    lastCancelled$: { expected: &apos;a-a&apos;, values: { a: last } },
+                    lastErrored$: { expected: &apos;-&apos; },
+                }));
+            }));
         });
     });
 });

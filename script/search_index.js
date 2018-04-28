@@ -90,6 +90,12 @@ window.esdocSearchIndex = [
     "function"
   ],
   [
+    "rxtask/operators/filter-not-null.js~filternotnull",
+    "function/index.html#static-function-filterNotNull",
+    "<span>filterNotNull</span> <span class=\"search-result-import-path\">rxtask/operators/filter-not-null.js</span>",
+    "function"
+  ],
+  [
     "rxtask/reducers/task-instance~hasvalue",
     "function/index.html#static-function-hasValue",
     "<span>hasValue</span> <span class=\"search-result-import-path\">rxtask/reducers/task-instance</span>",
@@ -126,9 +132,21 @@ window.esdocSearchIndex = [
     "function"
   ],
   [
-    "rxtask/utils/neq.js~neq",
+    "rxtask/operators/map-non-null.js~mapnonnull",
+    "function/index.html#static-function-mapNonNull",
+    "<span>mapNonNull</span> <span class=\"search-result-import-path\">rxtask/operators/map-non-null.js</span>",
+    "function"
+  ],
+  [
+    "rxtask/utils/filter.js~neq",
     "function/index.html#static-function-neq",
-    "<span>neq</span> <span class=\"search-result-import-path\">rxtask/utils/neq.js</span>",
+    "<span>neq</span> <span class=\"search-result-import-path\">rxtask/utils/filter.js</span>",
+    "function"
+  ],
+  [
+    "rxtask/utils/filter.js~notnull",
+    "function/index.html#static-function-notNull",
+    "<span>notNull</span> <span class=\"search-result-import-path\">rxtask/utils/filter.js</span>",
     "function"
   ],
   [
@@ -265,43 +283,151 @@ window.esdocSearchIndex = [
   ],
   [
     "task esm/task.js~task,task",
-    "test-file/test/task.test.js.html#lineNumber9",
+    "test-file/test/task.test.js.html#lineNumber87",
     "Task",
     "test"
   ],
   [
     "task#callable esm/task.js~task#callable,task#callable",
-    "test-file/test/task.test.js.html#lineNumber42",
+    "test-file/test/task.test.js.html#lineNumber133",
     "Task callable",
     "test"
   ],
   [
     "",
-    "test-file/test/task.test.js.html#lineNumber43",
+    "test-file/test/task.test.js.html#lineNumber134",
     "Task callable creates a callable task object",
     "test"
   ],
   [
+    "task#tostring task#tostring,task#tostring",
+    "test-file/test/task.test.js.html#lineNumber99",
+    "Task casts to a string",
+    "test"
+  ],
+  [
+    "task#concat esm/task.js~task#concat,task#concat",
+    "test-file/test/task.test.js.html#lineNumber249",
+    "Task concat",
+    "test"
+  ],
+  [
+    "task#state$ task#state$,task#state$",
+    "test-file/test/task.test.js.html#lineNumber251",
+    "Task concat state$",
+    "test"
+  ],
+  [
+    "",
+    "test-file/test/task.test.js.html#lineNumber252",
+    "Task concat state$ counts performed, successful and completed tasks",
+    "test"
+  ],
+  [
+    "task#concurrency esm/task.js~task#concurrency,task#concurrency",
+    "test-file/test/task.test.js.html#lineNumber183",
+    "Task concurrency",
+    "test"
+  ],
+  [
+    "task#state$ task#state$,task#state$",
+    "test-file/test/task.test.js.html#lineNumber185",
+    "Task concurrency state$",
+    "test"
+  ],
+  [
+    "",
+    "test-file/test/task.test.js.html#lineNumber186",
+    "Task concurrency state$ counts performed, successful and completed tasks",
+    "test"
+  ],
+  [
+    "",
+    "test-file/test/task.test.js.html#lineNumber144",
+    "Task default",
+    "test"
+  ],
+  [
+    "task#state$ task#state$,task#state$",
+    "test-file/test/task.test.js.html#lineNumber146",
+    "Task default state$",
+    "test"
+  ],
+  [
+    "",
+    "test-file/test/task.test.js.html#lineNumber159",
+    "Task default state$ counts performed, successful and completed tasks",
+    "test"
+  ],
+  [
+    "",
+    "test-file/test/task.test.js.html#lineNumber147",
+    "Task default state$ matches initial state without emitting null tasks",
+    "test"
+  ],
+  [
+    "task#tojson task#tojson,task#tojson",
+    "test-file/test/task.test.js.html#lineNumber103",
+    "Task deserializes to JSON",
+    "test"
+  ],
+  [
+    "task#drop esm/task.js~task#drop,task#drop",
+    "test-file/test/task.test.js.html#lineNumber344",
+    "Task drop",
+    "test"
+  ],
+  [
+    "task#state$ task#state$,task#state$",
+    "test-file/test/task.test.js.html#lineNumber346",
+    "Task drop state$",
+    "test"
+  ],
+  [
+    "",
+    "test-file/test/task.test.js.html#lineNumber95",
+    "Task has an id",
+    "test"
+  ],
+  [
     "task#perform esm/task.js~task#perform,task#perform",
-    "test-file/test/task.test.js.html#lineNumber18",
+    "test-file/test/task.test.js.html#lineNumber109",
     "Task perform",
     "test"
   ],
   [
     "",
-    "test-file/test/task.test.js.html#lineNumber19",
+    "test-file/test/task.test.js.html#lineNumber110",
     "Task perform executes the given function and creates a TaskInstance",
     "test"
   ],
   [
+    "task#switch esm/task.js~task#switch,task#switch",
+    "test-file/test/task.test.js.html#lineNumber300",
+    "Task switch",
+    "test"
+  ],
+  [
+    "task#state$ task#state$,task#state$",
+    "test-file/test/task.test.js.html#lineNumber302",
+    "Task switch state$",
+    "test"
+  ],
+  [
+    "",
+    "test-file/test/task.test.js.html#lineNumber303",
+    "Task switch state$ counts performed, successful and completed tasks",
+    "test"
+  ],
+  [
     "task#unsubscribe esm/task.js~task#unsubscribe,task#unsubscribe",
-    "test-file/test/task.test.js.html#lineNumber30",
+    "test-file/test/task.test.js.html#lineNumber121",
     "Task unsubscribe",
     "test"
   ],
   [
     "",
-    "test-file/test/task.test.js.html#lineNumber31",
+    "test-file/test/task.test.js.html#lineNumber122",
     "Task unsubscribe closes the Task",
     "test"
   ],
@@ -313,80 +439,98 @@ window.esdocSearchIndex = [
   ],
   [
     "",
-    "test-file/test/task-instance.test.js.html#lineNumber50",
+    "test-file/test/task-instance.test.js.html#lineNumber61",
     "TaskInstance Symbol.observable",
     "test"
   ],
   [
     "",
-    "test-file/test/task-instance.test.js.html#lineNumber51",
+    "test-file/test/task-instance.test.js.html#lineNumber62",
     "TaskInstance Symbol.observable implements observable interface",
     "test"
   ],
   [
-    "",
-    "test-file/test/task-instance.test.js.html#lineNumber33",
-    "TaskInstance instantiating",
-    "test"
-  ],
-  [
-    "",
+    "taskinstance#tostring taskinstance#tostring,taskinstance#tostring",
     "test-file/test/task-instance.test.js.html#lineNumber34",
-    "TaskInstance instantiating wraps an observable",
+    "TaskInstance casts to a string",
     "test"
   ],
   [
-    "taskinstance#iscomplete$ taskinstance#iscomplete$,taskinstance#iscomplete$",
-    "test-file/test/task-instance.test.js.html#lineNumber62",
-    "TaskInstance stateLabel$",
-    "test"
-  ],
-  [
-    "",
-    "test-file/test/task-instance.test.js.html#lineNumber79",
-    "TaskInstance stateLabel$ cancels on unsubscribe",
-    "test"
-  ],
-  [
-    "",
-    "test-file/test/task-instance.test.js.html#lineNumber63",
-    "TaskInstance stateLabel$ is pending after creation",
-    "test"
-  ],
-  [
-    "",
-    "test-file/test/task-instance.test.js.html#lineNumber68",
-    "TaskInstance stateLabel$ is runs and completes after subscription",
-    "test"
-  ],
-  [
-    "",
-    "test-file/test/task-instance.test.js.html#lineNumber90",
-    "TaskInstance stateLabel$ switches to error state on error",
-    "test"
-  ],
-  [
-    "taskinstance#unsubscribe esm/task-instance.js~taskinstance#unsubscribe,taskinstance#unsubscribe",
-    "test-file/test/task-instance.test.js.html#lineNumber42",
-    "TaskInstance unsubscribe",
+    "taskinstance#tojson taskinstance#tojson,taskinstance#tojson",
+    "test-file/test/task-instance.test.js.html#lineNumber38",
+    "TaskInstance deserializes to JSON",
     "test"
   ],
   [
     "",
     "test-file/test/task-instance.test.js.html#lineNumber43",
-    "TaskInstance unsubscribe closes the TaskInstance",
+    "TaskInstance has an id",
     "test"
   ],
   [
-    "actionreducer esm/operators/action-reducer.js~actionreducer,actionreducer",
-    "test-file/test/operators/action-reducer.test.js.html#lineNumber5",
-    "actionReducer",
+    "taskinstance#iscomplete$ taskinstance#iscomplete$,taskinstance#iscomplete$",
+    "test-file/test/task-instance.test.js.html#lineNumber73",
+    "TaskInstance stateLabel$",
     "test"
   ],
   [
     "",
-    "test-file/test/operators/action-reducer.test.js.html#lineNumber10",
-    "actionReducer set initial state",
+    "test-file/test/task-instance.test.js.html#lineNumber90",
+    "TaskInstance stateLabel$ cancels on unsubscribe",
+    "test"
+  ],
+  [
+    "",
+    "test-file/test/task-instance.test.js.html#lineNumber74",
+    "TaskInstance stateLabel$ is pending after creation",
+    "test"
+  ],
+  [
+    "",
+    "test-file/test/task-instance.test.js.html#lineNumber79",
+    "TaskInstance stateLabel$ is runs and completes after subscription",
+    "test"
+  ],
+  [
+    "",
+    "test-file/test/task-instance.test.js.html#lineNumber99",
+    "TaskInstance stateLabel$ switches to error state on error",
+    "test"
+  ],
+  [
+    "taskinstance#unsubscribe esm/task-instance.js~taskinstance#unsubscribe,taskinstance#unsubscribe",
+    "test-file/test/task-instance.test.js.html#lineNumber53",
+    "TaskInstance unsubscribe",
+    "test"
+  ],
+  [
+    "",
+    "test-file/test/task-instance.test.js.html#lineNumber54",
+    "TaskInstance unsubscribe closes the TaskInstance",
+    "test"
+  ],
+  [
+    "",
+    "test-file/test/task-instance.test.js.html#lineNumber46",
+    "TaskInstance wraps an observable",
+    "test"
+  ],
+  [
+    "createaction esm/actions/index.js~createaction,createaction",
+    "test-file/test/actions/index.test.js.html#lineNumber14",
+    "actions/createAction",
+    "test"
+  ],
+  [
+    "",
+    "test-file/test/actions/index.test.js.html#lineNumber15",
+    "actions/createAction creates action",
+    "test"
+  ],
+  [
+    "",
+    "test-file/test/actions/index.test.js.html#lineNumber19",
+    "actions/createAction creates action with payload",
     "test"
   ],
   [
@@ -414,33 +558,27 @@ window.esdocSearchIndex = [
     "test"
   ],
   [
-    "createaction esm/actions/index.js~createaction,createaction",
-    "test-file/test/actions/index.test.js.html#lineNumber14",
-    "createAction",
-    "test"
-  ],
-  [
-    "",
-    "test-file/test/actions/index.test.js.html#lineNumber15",
-    "createAction creates action",
-    "test"
-  ],
-  [
-    "",
-    "test-file/test/actions/index.test.js.html#lineNumber19",
-    "createAction creates action with payload",
-    "test"
-  ],
-  [
     "createnotificationaction esm/actions/task-instance/index.js~createnotificationaction,createnotificationaction",
     "test-file/test/actions/task-instance.test.js.html#lineNumber12",
-    "createNotificationAction",
+    "actions/task-instance/createNotificationAction",
     "test"
   ],
   [
     "",
     "test-file/test/actions/task-instance.test.js.html#lineNumber13",
-    "createNotificationAction creates action from Notification",
+    "actions/task-instance/createNotificationAction creates action from Notification",
+    "test"
+  ],
+  [
+    "toaction esm/actions/index.js~toaction,toaction",
+    "test-file/test/actions/index.test.js.html#lineNumber36",
+    "actions/toAction",
+    "test"
+  ],
+  [
+    "",
+    "test-file/test/actions/index.test.js.html#lineNumber37",
+    "actions/toAction creates a function to create actions with payload",
     "test"
   ],
   [
@@ -816,10 +954,34 @@ window.esdocSearchIndex = [
     "typedef"
   ],
   [
+    "esm/operators/filter-not-null.js",
+    "file/esm/operators/filter-not-null.js.html",
+    "esm/operators/filter-not-null.js",
+    "file"
+  ],
+  [
+    "esm/operators/filter-not-null.js~notnullfilter",
+    "typedef/index.html#static-typedef-NotNullFilter",
+    "esm/operators/filter-not-null.js~NotNullFilter",
+    "typedef"
+  ],
+  [
     "esm/operators/index.js",
     "file/esm/operators/index.js.html",
     "esm/operators/index.js",
     "file"
+  ],
+  [
+    "esm/operators/map-non-null.js",
+    "file/esm/operators/map-non-null.js.html",
+    "esm/operators/map-non-null.js",
+    "file"
+  ],
+  [
+    "esm/operators/map-non-null.js~mapnonnullfunction",
+    "typedef/index.html#static-typedef-MapNonNullFunction",
+    "esm/operators/map-non-null.js~MapNonNullFunction",
+    "typedef"
   ],
   [
     "esm/reducers/task-instance/index.js",
@@ -882,6 +1044,12 @@ window.esdocSearchIndex = [
     "member"
   ],
   [
+    "esm/task-instance.js~taskinstance#_id",
+    "class/esm/task-instance.js~TaskInstance.html#instance-member-_id",
+    "esm/task-instance.js~TaskInstance#_id",
+    "member"
+  ],
+  [
     "esm/task-instance.js~taskinstance#_observable$",
     "class/esm/task-instance.js~TaskInstance.html#instance-member-_observable$",
     "esm/task-instance.js~TaskInstance#_observable$",
@@ -933,6 +1101,12 @@ window.esdocSearchIndex = [
     "esm/task-instance.js~taskinstance#hasvalue$",
     "class/esm/task-instance.js~TaskInstance.html#instance-member-hasValue$",
     "esm/task-instance.js~TaskInstance#hasValue$",
+    "member"
+  ],
+  [
+    "esm/task-instance.js~taskinstance#id",
+    "class/esm/task-instance.js~TaskInstance.html#instance-get-id",
+    "esm/task-instance.js~TaskInstance#id",
     "member"
   ],
   [
@@ -1032,6 +1206,12 @@ window.esdocSearchIndex = [
     "member"
   ],
   [
+    "esm/task.js~task#_id",
+    "class/esm/task.js~Task.html#instance-member-_id",
+    "esm/task.js~Task#_id",
+    "member"
+  ],
+  [
     "esm/task.js~task#_perform$",
     "class/esm/task.js~Task.html#instance-member-_perform$",
     "esm/task.js~Task#_perform$",
@@ -1119,6 +1299,12 @@ window.esdocSearchIndex = [
     "esm/task.js~task#errored$",
     "class/esm/task.js~Task.html#instance-member-errored$",
     "esm/task.js~Task#errored$",
+    "member"
+  ],
+  [
+    "esm/task.js~task#id",
+    "class/esm/task.js~Task.html#instance-get-id",
+    "esm/task.js~Task#id",
     "member"
   ],
   [
@@ -1248,15 +1434,15 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
-    "esm/utils/index.js",
-    "file/esm/utils/index.js.html",
-    "esm/utils/index.js",
+    "esm/utils/filter.js",
+    "file/esm/utils/filter.js.html",
+    "esm/utils/filter.js",
     "file"
   ],
   [
-    "esm/utils/neq.js",
-    "file/esm/utils/neq.js.html",
-    "esm/utils/neq.js",
+    "esm/utils/index.js",
+    "file/esm/utils/index.js.html",
+    "esm/utils/index.js",
     "file"
   ],
   [
@@ -1264,6 +1450,42 @@ window.esdocSearchIndex = [
     "file/esm/utils/pipe.js.html",
     "esm/utils/pipe.js",
     "file"
+  ],
+  [
+    "actionreducer esm/operators/action-reducer.js~actionreducer,actionreducer",
+    "test-file/test/operators/action-reducer.test.js.html#lineNumber5",
+    "operators/actionReducer",
+    "test"
+  ],
+  [
+    "",
+    "test-file/test/operators/action-reducer.test.js.html#lineNumber10",
+    "operators/actionReducer set initial state",
+    "test"
+  ],
+  [
+    "filternotnull esm/operators/filter-not-null.js~filternotnull,filternotnull",
+    "test-file/test/operators/filter-not-null.test.js.html#lineNumber4",
+    "operators/filterNotNull",
+    "test"
+  ],
+  [
+    "",
+    "test-file/test/operators/filter-not-null.test.js.html#lineNumber5",
+    "operators/filterNotNull filters null values",
+    "test"
+  ],
+  [
+    "mapnonnull esm/operators/map-non-null.js~mapnonnull,mapnonnull",
+    "test-file/test/operators/map-non-null.test.js.html#lineNumber5",
+    "operators/mapNonNull",
+    "test"
+  ],
+  [
+    "",
+    "test-file/test/operators/map-non-null.test.js.html#lineNumber6",
+    "operators/mapNonNull maps values and filters resulting null values",
+    "test"
   ],
   [
     "",
@@ -1734,9 +1956,21 @@ window.esdocSearchIndex = [
     "testFile"
   ],
   [
+    "test/operators/filter-not-null.test.js",
+    "test-file/test/operators/filter-not-null.test.js.html",
+    "test/operators/filter-not-null.test.js",
+    "testFile"
+  ],
+  [
     "test/operators/index.test.js",
     "test-file/test/operators/index.test.js.html",
     "test/operators/index.test.js",
+    "testFile"
+  ],
+  [
+    "test/operators/map-non-null.test.js",
+    "test-file/test/operators/map-non-null.test.js.html",
+    "test/operators/map-non-null.test.js",
     "testFile"
   ],
   [
@@ -1782,9 +2016,9 @@ window.esdocSearchIndex = [
     "testFile"
   ],
   [
-    "test/utils/neq.test.js",
-    "test-file/test/utils/neq.test.js.html",
-    "test/utils/neq.test.js",
+    "test/utils/filter.test.js",
+    "test-file/test/utils/filter.test.js.html",
+    "test/utils/filter.test.js",
     "testFile"
   ],
   [
@@ -1792,18 +2026,6 @@ window.esdocSearchIndex = [
     "test-file/test/utils/pipe.test.js.html",
     "test/utils/pipe.test.js",
     "testFile"
-  ],
-  [
-    "toaction esm/actions/index.js~toaction,toaction",
-    "test-file/test/actions/index.test.js.html#lineNumber36",
-    "toAction",
-    "test"
-  ],
-  [
-    "",
-    "test-file/test/actions/index.test.js.html#lineNumber37",
-    "toAction creates a function to create actions with payload",
-    "test"
   ],
   [
     "assertnever esm/utils/assert-never.js~assertnever,assertnever",
@@ -1878,15 +2100,27 @@ window.esdocSearchIndex = [
     "test"
   ],
   [
-    "neq esm/utils/neq.js~neq,neq",
-    "test-file/test/utils/neq.test.js.html#lineNumber4",
-    "utils/neq",
+    "neq esm/utils/filter.js~neq,neq",
+    "test-file/test/utils/filter.test.js.html#lineNumber4",
+    "utils/filter/neq",
     "test"
   ],
   [
     "",
-    "test-file/test/utils/neq.test.js.html#lineNumber5",
-    "utils/neq returns a function for inequality",
+    "test-file/test/utils/filter.test.js.html#lineNumber5",
+    "utils/filter/neq returns a function for inequality",
+    "test"
+  ],
+  [
+    "notnull esm/utils/filter.js~notnull,notnull",
+    "test-file/test/utils/filter.test.js.html#lineNumber19",
+    "utils/filter/notNull",
+    "test"
+  ],
+  [
+    "",
+    "test-file/test/utils/filter.test.js.html#lineNumber20",
+    "utils/filter/notNull returns true for null",
     "test"
   ],
   [

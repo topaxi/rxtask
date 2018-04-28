@@ -1,7 +1,7 @@
 {
   "type": "File",
   "start": 0,
-  "end": 185,
+  "end": 188,
   "loc": {
     "start": {
       "line": 1,
@@ -15,7 +15,7 @@
   "program": {
     "type": "Program",
     "start": 0,
-    "end": 185,
+    "end": 188,
     "loc": {
       "start": {
         "line": 1,
@@ -101,7 +101,7 @@
       {
         "type": "ExportAllDeclaration",
         "start": 63,
-        "end": 85,
+        "end": 88,
         "loc": {
           "start": {
             "line": 3,
@@ -109,13 +109,13 @@
           },
           "end": {
             "line": 3,
-            "column": 22
+            "column": 25
           }
         },
         "source": {
           "type": "StringLiteral",
           "start": 77,
-          "end": 84,
+          "end": 87,
           "loc": {
             "start": {
               "line": 3,
@@ -123,20 +123,20 @@
             },
             "end": {
               "line": 3,
-              "column": 21
+              "column": 24
             }
           },
           "extra": {
-            "rawValue": "./neq",
-            "raw": "'./neq'"
+            "rawValue": "./filter",
+            "raw": "'./filter'"
           },
-          "value": "./neq"
+          "value": "./filter"
         }
       },
       {
         "type": "ExportAllDeclaration",
-        "start": 86,
-        "end": 127,
+        "start": 89,
+        "end": 130,
         "loc": {
           "start": {
             "line": 4,
@@ -149,8 +149,8 @@
         },
         "source": {
           "type": "StringLiteral",
-          "start": 100,
-          "end": 126,
+          "start": 103,
+          "end": 129,
           "loc": {
             "start": {
               "line": 4,
@@ -170,8 +170,8 @@
       },
       {
         "type": "ExportAllDeclaration",
-        "start": 128,
-        "end": 151,
+        "start": 131,
+        "end": 154,
         "loc": {
           "start": {
             "line": 5,
@@ -184,8 +184,8 @@
         },
         "source": {
           "type": "StringLiteral",
-          "start": 142,
-          "end": 150,
+          "start": 145,
+          "end": 153,
           "loc": {
             "start": {
               "line": 5,
@@ -206,8 +206,8 @@
           {
             "type": "CommentLine",
             "value": "# sourceMappingURL=index.js.map",
-            "start": 152,
-            "end": 185,
+            "start": 155,
+            "end": 188,
             "loc": {
               "start": {
                 "line": 6,
@@ -228,8 +228,8 @@
     {
       "type": "CommentLine",
       "value": "# sourceMappingURL=index.js.map",
-      "start": 152,
-      "end": 185,
+      "start": 155,
+      "end": 188,
       "loc": {
         "start": {
           "line": 6,
@@ -605,9 +605,9 @@
         "binop": null,
         "updateContext": null
       },
-      "value": "./neq",
+      "value": "./filter",
       "start": 77,
-      "end": 84,
+      "end": 87,
       "loc": {
         "start": {
           "line": 3,
@@ -615,7 +615,7 @@
         },
         "end": {
           "line": 3,
-          "column": 21
+          "column": 24
         }
       }
     },
@@ -632,16 +632,16 @@
         "binop": null,
         "updateContext": null
       },
-      "start": 84,
-      "end": 85,
+      "start": 87,
+      "end": 88,
       "loc": {
         "start": {
           "line": 3,
-          "column": 21
+          "column": 24
         },
         "end": {
           "line": 3,
-          "column": 22
+          "column": 25
         }
       }
     },
@@ -660,8 +660,8 @@
         "updateContext": null
       },
       "value": "export",
-      "start": 86,
-      "end": 92,
+      "start": 89,
+      "end": 95,
       "loc": {
         "start": {
           "line": 4,
@@ -687,8 +687,8 @@
         "updateContext": null
       },
       "value": "*",
-      "start": 93,
-      "end": 94,
+      "start": 96,
+      "end": 97,
       "loc": {
         "start": {
           "line": 4,
@@ -713,8 +713,8 @@
         "binop": null
       },
       "value": "from",
-      "start": 95,
-      "end": 99,
+      "start": 98,
+      "end": 102,
       "loc": {
         "start": {
           "line": 4,
@@ -740,8 +740,8 @@
         "updateContext": null
       },
       "value": "./create-callable-object",
-      "start": 100,
-      "end": 126,
+      "start": 103,
+      "end": 129,
       "loc": {
         "start": {
           "line": 4,
@@ -766,8 +766,8 @@
         "binop": null,
         "updateContext": null
       },
-      "start": 126,
-      "end": 127,
+      "start": 129,
+      "end": 130,
       "loc": {
         "start": {
           "line": 4,
@@ -794,8 +794,8 @@
         "updateContext": null
       },
       "value": "export",
-      "start": 128,
-      "end": 134,
+      "start": 131,
+      "end": 137,
       "loc": {
         "start": {
           "line": 5,
@@ -821,8 +821,8 @@
         "updateContext": null
       },
       "value": "*",
-      "start": 135,
-      "end": 136,
+      "start": 138,
+      "end": 139,
       "loc": {
         "start": {
           "line": 5,
@@ -847,8 +847,8 @@
         "binop": null
       },
       "value": "from",
-      "start": 137,
-      "end": 141,
+      "start": 140,
+      "end": 144,
       "loc": {
         "start": {
           "line": 5,
@@ -874,8 +874,8 @@
         "updateContext": null
       },
       "value": "./pipe",
-      "start": 142,
-      "end": 150,
+      "start": 145,
+      "end": 153,
       "loc": {
         "start": {
           "line": 5,
@@ -900,8 +900,8 @@
         "binop": null,
         "updateContext": null
       },
-      "start": 150,
-      "end": 151,
+      "start": 153,
+      "end": 154,
       "loc": {
         "start": {
           "line": 5,
@@ -916,8 +916,8 @@
     {
       "type": "CommentLine",
       "value": "# sourceMappingURL=index.js.map",
-      "start": 152,
-      "end": 185,
+      "start": 155,
+      "end": 188,
       "loc": {
         "start": {
           "line": 6,
@@ -942,8 +942,8 @@
         "binop": null,
         "updateContext": null
       },
-      "start": 185,
-      "end": 185,
+      "start": 188,
+      "end": 188,
       "loc": {
         "start": {
           "line": 6,

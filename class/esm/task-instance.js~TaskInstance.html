@@ -42,7 +42,11 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-NOTIFICATION_ACTION">NOTIFICATION_ACTION</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-NotificationAction">NotificationAction</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#operators">operators</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-actionReducer">actionReducer</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-filterNotNull">filterNotNull</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-mapNonNull">mapNonNull</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ActionReducerFunction">ActionReducerFunction</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-NotNullFilter">NotNullFilter</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-MapNonNullFunction">MapNonNullFunction</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#reducers-task">reducers/task</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-combineTaskInstanceWithStateLabel">combineTaskInstanceWithStateLabel</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-reducer">reducer</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-selectCancelled">selectCancelled</a></span></span></li>
@@ -80,6 +84,7 @@
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#utils">utils</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-assertNever">assertNever</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-createCallableObject">createCallableObject</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-neq">neq</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-notNull">notNull</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-pipe">pipe</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-EMPTY_ARRAY">EMPTY_ARRAY</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-Callable">Callable</a></span></span></li>
@@ -88,13 +93,13 @@
 </nav>
 
 <div class="content" data-ice="content"><div class="header-notice">
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {TaskInstance} from &apos;<span><a href="file/esm/task-instance.js.html#lineNumber15">rxtask/task-instance.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {TaskInstance} from &apos;<span><a href="file/esm/task-instance.js.html#lineNumber16">rxtask/task-instance.js</a></span>&apos;</code></pre></div>
   <span data-ice="access">public</span>
   <span data-ice="kind">class</span>
   
   
   
-  <span data-ice="source">| <span><a href="file/esm/task-instance.js.html#lineNumber15">source</a></span></span>
+  <span data-ice="source">| <span><a href="file/esm/task-instance.js.html#lineNumber16">source</a></span></span>
 </div>
 
 <div class="self-detail detail">
@@ -272,6 +277,34 @@
           
           
           <span class="code" data-ice="name"><span><a href="class/esm/task-instance.js~TaskInstance.html#instance-member-hasValue$">hasValue$</a></span></span><span class="code" data-ice="signature">: <span><a href="http://reactivex.io/rxjs/class/es6/Observable.js~Observable.html">Observable</a></span>&lt;<span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></span>&gt;</span>
+        </p>
+      </div>
+      <div>
+        
+        
+        
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+<tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">public</span>
+      
+      <span class="kind" data-ice="kind">get</span>
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+          
+          
+          
+          <span class="code" data-ice="name"><span><a href="class/esm/task-instance.js~TaskInstance.html#instance-get-id">id</a></span></span><span class="code" data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a></span></span>
         </p>
       </div>
       <div>
@@ -585,6 +618,34 @@
           
           
           
+          <span class="code" data-ice="name"><span><a href="class/esm/task-instance.js~TaskInstance.html#instance-member-_id">_id</a></span></span><span class="code" data-ice="signature">: <span>*</span></span>
+        </p>
+      </div>
+      <div>
+        
+        
+        
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+<tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">private</span>
+      
+      
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+          
+          
+          
           <span class="code" data-ice="name"><span><a href="class/esm/task-instance.js~TaskInstance.html#instance-member-_observable$">_observable$</a></span></span><span class="code" data-ice="signature">: <span>*</span></span>
         </p>
       </div>
@@ -768,7 +829,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/esm/task-instance.js.html#lineNumber20">source</a></span></span>
+      <span data-ice="source"><span><a href="file/esm/task-instance.js.html#lineNumber21">source</a></span></span>
     </span>
   </h3>
 
@@ -842,7 +903,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/esm/task-instance.js.html#lineNumber50">source</a></span></span>
+      <span data-ice="source"><span><a href="file/esm/task-instance.js.html#lineNumber56">source</a></span></span>
     </span>
   </h3>
 
@@ -885,7 +946,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/esm/task-instance.js.html#lineNumber44">source</a></span></span>
+      <span data-ice="source"><span><a href="file/esm/task-instance.js.html#lineNumber46">source</a></span></span>
     </span>
   </h3>
 
@@ -928,7 +989,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/esm/task-instance.js.html#lineNumber46">source</a></span></span>
+      <span data-ice="source"><span><a href="file/esm/task-instance.js.html#lineNumber48">source</a></span></span>
     </span>
   </h3>
 
@@ -971,7 +1032,50 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/esm/task-instance.js.html#lineNumber42">source</a></span></span>
+      <span data-ice="source"><span><a href="file/esm/task-instance.js.html#lineNumber44">source</a></span></span>
+    </span>
+  </h3>
+
+  
+  
+  
+  
+
+  
+
+  <div data-ice="properties">
+</div>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+</div>
+<div class="detail" data-ice="detail">
+  <h3 data-ice="anchor" id="instance-get-id">
+    <span class="access" data-ice="access">public</span>
+    
+    <span class="kind" data-ice="kind">get</span>
+    
+    
+    
+    <span class="code" data-ice="name">id</span><span class="code" data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a></span></span>
+    <span class="right-info">
+      
+      
+      <span data-ice="source"><span><a href="file/esm/task-instance.js.html#lineNumber52">source</a></span></span>
     </span>
   </h3>
 
@@ -1014,7 +1118,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/esm/task-instance.js.html#lineNumber36">source</a></span></span>
+      <span data-ice="source"><span><a href="file/esm/task-instance.js.html#lineNumber38">source</a></span></span>
     </span>
   </h3>
 
@@ -1057,7 +1161,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/esm/task-instance.js.html#lineNumber40">source</a></span></span>
+      <span data-ice="source"><span><a href="file/esm/task-instance.js.html#lineNumber42">source</a></span></span>
     </span>
   </h3>
 
@@ -1100,7 +1204,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/esm/task-instance.js.html#lineNumber38">source</a></span></span>
+      <span data-ice="source"><span><a href="file/esm/task-instance.js.html#lineNumber40">source</a></span></span>
     </span>
   </h3>
 
@@ -1143,7 +1247,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/esm/task-instance.js.html#lineNumber32">source</a></span></span>
+      <span data-ice="source"><span><a href="file/esm/task-instance.js.html#lineNumber34">source</a></span></span>
     </span>
   </h3>
 
@@ -1186,7 +1290,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/esm/task-instance.js.html#lineNumber34">source</a></span></span>
+      <span data-ice="source"><span><a href="file/esm/task-instance.js.html#lineNumber36">source</a></span></span>
     </span>
   </h3>
 
@@ -1229,7 +1333,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/esm/task-instance.js.html#lineNumber28">source</a></span></span>
+      <span data-ice="source"><span><a href="file/esm/task-instance.js.html#lineNumber30">source</a></span></span>
     </span>
   </h3>
 
@@ -1272,7 +1376,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/esm/task-instance.js.html#lineNumber30">source</a></span></span>
+      <span data-ice="source"><span><a href="file/esm/task-instance.js.html#lineNumber32">source</a></span></span>
     </span>
   </h3>
 
@@ -1317,7 +1421,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/esm/task-instance.js.html#lineNumber26">source</a></span></span>
+      <span data-ice="source"><span><a href="file/esm/task-instance.js.html#lineNumber28">source</a></span></span>
     </span>
   </h3>
 
@@ -1360,7 +1464,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/esm/task-instance.js.html#lineNumber21">source</a></span></span>
+      <span data-ice="source"><span><a href="file/esm/task-instance.js.html#lineNumber23">source</a></span></span>
     </span>
   </h3>
 
@@ -1403,7 +1507,50 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/esm/task-instance.js.html#lineNumber23">source</a></span></span>
+      <span data-ice="source"><span><a href="file/esm/task-instance.js.html#lineNumber25">source</a></span></span>
+    </span>
+  </h3>
+
+  
+  
+  
+  
+
+  
+
+  <div data-ice="properties">
+</div>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+</div>
+<div class="detail" data-ice="detail">
+  <h3 data-ice="anchor" id="instance-member-_id">
+    <span class="access" data-ice="access">private</span>
+    
+    
+    
+    
+    
+    <span class="code" data-ice="name">_id</span><span class="code" data-ice="signature">: <span>*</span></span>
+    <span class="right-info">
+      
+      
+      <span data-ice="source"><span><a href="file/esm/task-instance.js.html#lineNumber22">source</a></span></span>
     </span>
   </h3>
 
@@ -1446,7 +1593,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/esm/task-instance.js.html#lineNumber47">source</a></span></span>
+      <span data-ice="source"><span><a href="file/esm/task-instance.js.html#lineNumber49">source</a></span></span>
     </span>
   </h3>
 
@@ -1489,7 +1636,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/esm/task-instance.js.html#lineNumber22">source</a></span></span>
+      <span data-ice="source"><span><a href="file/esm/task-instance.js.html#lineNumber24">source</a></span></span>
     </span>
   </h3>
 
@@ -1532,7 +1679,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/esm/task-instance.js.html#lineNumber25">source</a></span></span>
+      <span data-ice="source"><span><a href="file/esm/task-instance.js.html#lineNumber27">source</a></span></span>
     </span>
   </h3>
 
@@ -1575,7 +1722,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/esm/task-instance.js.html#lineNumber24">source</a></span></span>
+      <span data-ice="source"><span><a href="file/esm/task-instance.js.html#lineNumber26">source</a></span></span>
     </span>
   </h3>
 
@@ -1621,7 +1768,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/esm/task-instance.js.html#lineNumber66">source</a></span></span>
+      <span data-ice="source"><span><a href="file/esm/task-instance.js.html#lineNumber72">source</a></span></span>
     </span>
   </h3>
 
@@ -1643,8 +1790,8 @@
     <tr data-ice="property" data-depth="0">
       <td data-ice="name" class="code" data-depth="0">observerOrNext</td>
       <td data-ice="type" class="code"><span><a href="http://reactivex.io/rxjs/class/es6/MiscJSDoc.js~ObserverDoc.html">Observer</a></span> | <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function">Function</a></span></td>
-      <td data-ice="appendix"></td>
-      <td data-ice="description"><p>(optional) Either an observer with methods to be called,
+      <td data-ice="appendix"><ul><li>optional</li></ul></td>
+      <td data-ice="description"><p>Either an observer with methods to be called,
  or the first of three possible handlers, which is the handler for each value emitted from the subscribed
  Observable.</p>
 </td>
@@ -1652,16 +1799,16 @@
 <tr data-ice="property" data-depth="0">
       <td data-ice="name" class="code" data-depth="0">error</td>
       <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function">Function</a></span></td>
-      <td data-ice="appendix"></td>
-      <td data-ice="description"><p>(optional) A handler for a terminal event resulting from an error. If no error handler is provided,
+      <td data-ice="appendix"><ul><li>optional</li></ul></td>
+      <td data-ice="description"><p>A handler for a terminal event resulting from an error. If no error handler is provided,
  the error will be thrown as unhandled.</p>
 </td>
     </tr>
 <tr data-ice="property" data-depth="0">
       <td data-ice="name" class="code" data-depth="0">complete</td>
       <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function">Function</a></span></td>
-      <td data-ice="appendix"></td>
-      <td data-ice="description"><p>(optional) A handler for a terminal event resulting from successful completion.</p>
+      <td data-ice="appendix"><ul><li>optional</li></ul></td>
+      <td data-ice="description"><p>A handler for a terminal event resulting from successful completion.</p>
 </td>
     </tr>
 </tbody>
@@ -1711,7 +1858,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/esm/task-instance.js.html#lineNumber76">source</a></span></span>
+      <span data-ice="source"><span><a href="file/esm/task-instance.js.html#lineNumber82">source</a></span></span>
     </span>
   </h3>
 
@@ -1753,7 +1900,7 @@
     <h4>Test:</h4>
     <ul>
       
-    <li data-ice="test"><span><a href="test-file/test/task-instance.test.js.html#lineNumber42">TaskInstance unsubscribe</a></span></li>
+    <li data-ice="test"><span><a href="test-file/test/task-instance.test.js.html#lineNumber53">TaskInstance unsubscribe</a></span></li>
 </ul>
   </div>
 

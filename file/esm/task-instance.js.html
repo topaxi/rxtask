@@ -42,7 +42,11 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-NOTIFICATION_ACTION">NOTIFICATION_ACTION</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-NotificationAction">NotificationAction</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#operators">operators</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-actionReducer">actionReducer</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-filterNotNull">filterNotNull</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-mapNonNull">mapNonNull</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ActionReducerFunction">ActionReducerFunction</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-NotNullFilter">NotNullFilter</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-MapNonNullFunction">MapNonNullFunction</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#reducers-task">reducers/task</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-combineTaskInstanceWithStateLabel">combineTaskInstanceWithStateLabel</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-reducer">reducer</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-selectCancelled">selectCancelled</a></span></span></li>
@@ -80,6 +84,7 @@
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#utils">utils</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-assertNever">assertNever</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-createCallableObject">createCallableObject</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-neq">neq</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-notNull">notNull</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-pipe">pipe</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-EMPTY_ARRAY">EMPTY_ARRAY</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-Callable">Callable</a></span></span></li>
@@ -97,6 +102,7 @@ import * as taskInstance from &apos;./reducers/task-instance&apos;;
 import { ObjectUnsubscribedError } from &apos;rxjs/util/ObjectUnsubscribedError&apos;;
 import { actionReducer } from &apos;./operators&apos;;
 import { createNotificationAction, } from &apos;./actions/task-instance&apos;;
+let taskInstanceId = 0;
 /**
  * @class TaskInstance&lt;T&gt;
  * @implements {Subscribable&lt;T&gt;}
@@ -108,6 +114,7 @@ export class TaskInstance {
      * @return {TaskInstance&lt;T&gt;}
      */
     constructor(observable$) {
+        this._id = ++taskInstanceId;
         this._closed = false;
         this._observableMirror$ = new Subject();
         this._currentState$ = new ReplaySubject(1);
@@ -136,6 +143,10 @@ export class TaskInstance {
         this.error$ = this.state$.pipe(map(taskInstance.selectError));
         this._observable$ = observable$.pipe(multicast(this._observableMirror$)).refCount();
     }
+    /** @type {number} */
+    get id() {
+        return this._id;
+    }
     /** @type {boolean} */
     get closed() {
         return this._closed;
@@ -145,12 +156,12 @@ export class TaskInstance {
         return this;
     }
     /**
-     * @param {Observer|Function} observerOrNext (optional) Either an observer with methods to be called,
+     * @param {Observer|Function} [observerOrNext] Either an observer with methods to be called,
      *  or the first of three possible handlers, which is the handler for each value emitted from the subscribed
      *  Observable.
-     * @param {Function} error (optional) A handler for a terminal event resulting from an error. If no error handler is provided,
+     * @param {Function} [error] A handler for a terminal event resulting from an error. If no error handler is provided,
      *  the error will be thrown as unhandled.
-     * @param {Function} complete (optional) A handler for a terminal event resulting from successful completion.
+     * @param {Function} [complete] A handler for a terminal event resulting from successful completion.
      * @return {ISubscription} a subscription reference to the registered handlers
      */
     subscribe(observerOrNext, error, complete) {
@@ -167,6 +178,14 @@ export class TaskInstance {
         this._currentState$.next(taskInstance.CANCELLED_STATE);
         this._closed = true;
         this._subscription.unsubscribe();
+    }
+    /** @ignore */
+    toString() {
+        return `TaskInstance#${this._id}`;
+    }
+    /** @ignore */
+    toJSON() {
+        return { type: &apos;TaskInstance&apos;, id: this._id };
     }
 }
 //# sourceMappingURL=task-instance.js.map</code></pre>
