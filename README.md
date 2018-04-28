@@ -1,1 +1,1 @@
-# RxTask
+# RxTask [![Build Status](https://travis-ci.org/topaxi/rxtask.svg?branch=master)](https://travis-ci.org/topaxi/rxtask) [![Test Coverage](https://api.codeclimate.com/v1/badges/21326724623aaafae755/test_coverage)](https://codeclimate.com/github/topaxi/rxtask/test_coverage)
