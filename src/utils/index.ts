@@ -1,6 +1,5 @@
-
 export * from './empty-array'
 export * from './assert-never'
-export * from './neq'
+export * from './filter'
 export * from './create-callable-object'
 export * from './pipe'

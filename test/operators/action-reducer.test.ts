@@ -4,7 +4,7 @@ import { stub, SinonStub } from 'sinon'
 import { expect } from 'chai'
 
 /** @test {actionReducer} */
-describe('actionReducer', () => {
+describe('operators/actionReducer', () => {
   let reducer: SinonStub
 
   beforeEach(() => {

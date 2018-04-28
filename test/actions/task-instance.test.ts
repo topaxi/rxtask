@@ -11,7 +11,7 @@ describe('actions/task-instance', () => {
 })
 
 /** @test {createNotificationAction} */
-describe('createNotificationAction', () => {
+describe('actions/task-instance/createNotificationAction', () => {
   it('creates action from Notification', () => {
     let notification = Notification.createNext('thing')
     expect(createNotificationAction(notification)).to.deep.equal({

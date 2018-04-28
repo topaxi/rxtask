@@ -48,18 +48,32 @@ function expectState(
 
 /** @test {TaskInstance} */
 describe('TaskInstance', () => {
-  describe('instantiating', () => {
-    it(
-      'wraps an observable',
-      marbles(m => {
-        const observable = of(true)
-        const taskInstance = new TaskInstance(observable)
-        const expected = m.cold('(x|)', { x: true })
-
-        m.expect(o(taskInstance)).toBeObservable(expected)
-      }),
-    )
+  /** @test {TaskInstance#toString} */
+  it('casts to a string', () => {
+    expect(new TaskInstance(of(true))).to.match(/^TaskInstance#\d+$/)
   })
+
+  /** @test {TaskInstance#toJSON} */
+  it('deserializes to JSON', () => {
+    const json = new TaskInstance(of(true)).toJSON()
+    expect(json.type).to.equal('TaskInstance')
+    expect(json.id).to.be.a('number')
+  })
+
+  it('has an id', () => {
+    expect(new TaskInstance(of(true)).id).to.be.a('number')
+  })
+
+  it(
+    'wraps an observable',
+    marbles(m => {
+      const observable = of(true)
+      const taskInstance = new TaskInstance(observable)
+      const expected = m.cold('(x|)', { x: true })
+
+      m.expect(o(taskInstance)).toBeObservable(expected)
+    }),
+  )
 
   /** @test {TaskInstance#unsubscribe} */
   describe('unsubscribe', () => {
@@ -127,9 +141,7 @@ describe('TaskInstance', () => {
           b: TaskInstanceStateLabel.RUNNING,
           c: TaskInstanceStateLabel.CANCELLED,
         })
-        m
-          .expect(o(taskInstance), '----!')
-          .toBeObservable(m.cold('-----', {}))
+        m.expect(o(taskInstance), '----!').toBeObservable(m.cold('-----', {}))
       }),
     )
 

@@ -43,7 +43,7 @@ import {
   selectLastCompleted,
 } from './reducers/task'
 import { ObjectUnsubscribedError } from 'rxjs/util/ObjectUnsubscribedError'
-import { actionReducer } from './operators/action-reducer'
+import { actionReducer, mapNonNull } from './operators'
 import * as taskActions from './actions/task'
 import { TaskActions } from './actions/task'
 import { toAction } from './actions'
@@ -58,7 +58,7 @@ export const task = <T extends AnyTaskCallback>(
   task: T,
 ): TaskFromCallback<T> => new Task(task)
 
-const selectState$ = <T>(t: TaskInstance<T>) => t.state$
+const selectStateLabel$ = <T>(t: TaskInstance<T>) => t.stateLabel$
 
 const enum Flatten {
   SWITCH = 'switch',
@@ -66,12 +66,15 @@ const enum Flatten {
   MERGE = 'merge',
 }
 
+let taskId = 0
+
 /**
  * @class Task<T, U>
  * @implements {Subscribable<T>}
  * @implements {ISubscription}
  */
 export class Task<T, U> implements Subscribable<T>, ISubscription {
+  private _id = ++taskId
   private _flattenType = Flatten.MERGE
   private _concurrency = Infinity
   private _autoSubscribe = false
@@ -88,7 +91,7 @@ export class Task<T, U> implements Subscribable<T>, ISubscription {
 
   /** @type {Observable<TaskState<T>>} */
   readonly state$ = this._perform$.pipe(
-    mergeMap(selectState$, taskReducer.combineTaskInstanceWithStateLabel),
+    mergeMap(selectStateLabel$, taskReducer.combineTaskInstanceWithStateLabel),
     map(toAction(taskActions.TASK_INSTANCE_STATE_UPDATE_ACTION)),
     actionReducer<TaskActions<T>, taskReducer.State<T>>(taskReducer.reducer),
     auditTime(0, asap),
@@ -111,17 +114,22 @@ export class Task<T, U> implements Subscribable<T>, ISubscription {
   /** @type {Observable<number>} */
   readonly completed$ = this.state$.pipe(map(selectCompleted))
   /** @type {Observable<TaskInstance<T>>} */
-  readonly last$ = this.state$.pipe(map(selectLast))
+  readonly last$ = this.state$.pipe(mapNonNull(selectLast))
   /** @type {Observable<TaskInstance<T>>} */
-  readonly lastRunning$ = this.state$.pipe(map(selectLastRunning))
+  readonly lastRunning$ = this.state$.pipe(mapNonNull(selectLastRunning))
   /** @type {Observable<TaskInstance<T>>} */
-  readonly lastSuccessful$ = this.state$.pipe(map(selectLastSuccessful))
+  readonly lastSuccessful$ = this.state$.pipe(mapNonNull(selectLastSuccessful))
   /** @type {Observable<TaskInstance<T>>} */
-  readonly lastCancelled$ = this.state$.pipe(map(selectLastCancelled))
+  readonly lastCancelled$ = this.state$.pipe(mapNonNull(selectLastCancelled))
   /** @type {Observable<TaskInstance<T>>} */
-  readonly lastErrored$ = this.state$.pipe(map(selectLastErrored))
+  readonly lastErrored$ = this.state$.pipe(mapNonNull(selectLastErrored))
   /** @type {Observable<TaskInstance<T>>} */
-  readonly lastCompleted$ = this.state$.pipe(map(selectLastCompleted))
+  readonly lastCompleted$ = this.state$.pipe(mapNonNull(selectLastCompleted))
+
+  /** @type {number} */
+  get id(): number {
+    return this._id
+  }
 
   /** @type {boolean} */
   get closed(): boolean {
@@ -209,35 +217,33 @@ export class Task<T, U> implements Subscribable<T>, ISubscription {
    * @param {number} concurrency
    * @return {Task<T>}
    */
-  concurrency(
-    concurrency: number,
-  ): this & { switch: never; concat: never; drop: never } {
+  concurrency(concurrency: number): this {
     this._flattenType = Flatten.MERGE
     this._concurrency = concurrency
-    return this as any
+    return this
   }
 
   /**
    * @return {Task<T>}
    */
-  switch(): this & { concurrency: never; concat: never; drop: never } {
+  switch(): this {
     this._flattenType = Flatten.SWITCH
-    return this as any
+    return this
   }
 
   /**
    * @return {Task<T>}
    */
-  concat(): this & { concurrency: never; switch: never; drop: never } {
-    return this.concurrency(1) as any
+  concat(): this {
+    return this.concurrency(1)
   }
 
   /**
    * @return {Task<T>}
    */
-  drop(): this & { concurrency: never; switch: never; concat: never } {
+  drop(): this {
     this._flattenType = Flatten.EXHAUST
-    return this as any
+    return this
   }
 
   /**
@@ -245,6 +251,16 @@ export class Task<T, U> implements Subscribable<T>, ISubscription {
    */
   callable(): CallableTask<this> {
     return createCallableObject(this, this.perform)
+  }
+
+  /** @ignore */
+  toString(): string {
+    return `Task#${this._id}`
+  }
+
+  /** @ignore */
+  toJSON(): { type: string, id: number } {
+    return { type: 'Task', id: this._id }
   }
 
   private _flatten(): (source$: Observable<any>) => Observable<T> {
@@ -255,6 +271,7 @@ export class Task<T, U> implements Subscribable<T>, ISubscription {
         return exhaust()
       case Flatten.MERGE:
         return mergeAll(this._concurrency)
+      // istanbul ignore next
       default:
         return assertNever(this._flattenType)
     }

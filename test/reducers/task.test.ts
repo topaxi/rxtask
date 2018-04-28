@@ -387,11 +387,11 @@ describe('reducers/Task', () => {
     /** @test {combineTaskInstanceWithState} */
     it('combineTaskInstanceWithState', () => {
       expect(
-        task.combineTaskInstanceWithStateLabel(
-          'task' as any,
-          { stateLabel: 'state' } as any,
-        ),
-      ).to.deep.equal({ taskInstance: 'task', taskInstanceStateLabel: 'state' })
+        task.combineTaskInstanceWithStateLabel('task' as any, 'state' as any),
+      ).to.deep.equal({
+        taskInstance: 'task',
+        taskInstanceStateLabel: 'state',
+      })
     })
   })
 })

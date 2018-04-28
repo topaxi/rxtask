@@ -15,6 +15,10 @@ describe('utils/index', () => {
     expect(index.neq).to.exist
   })
 
+  it('exports notNull', () => {
+    expect(index.notNull).to.exist
+  })
+
   it('exports createCallableObject', () => {
     expect(index.createCallableObject).to.exist
   })

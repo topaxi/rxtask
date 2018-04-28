@@ -14,7 +14,7 @@ describe('actions/index', () => {
 })
 
 /** @test {createAction} */
-describe('createAction', () => {
+describe('actions/createAction', () => {
   it('creates action', () => {
     expect(createAction('TEST_ACTION')).to.deep.equal({ type: 'TEST_ACTION' })
     expect(createAction('TEST_ACTION')).to.not.have.property('payload')
@@ -38,7 +38,7 @@ describe('createAction', () => {
 })
 
 /** @test {toAction} */
-describe('toAction', () => {
+describe('actions/toAction', () => {
   it('creates a function to create actions with payload', () => {
     expect(toAction('TEST_ACTION')('PAYLOAD')).to.deep.equal({
       type: 'TEST_ACTION',

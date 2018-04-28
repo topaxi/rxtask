@@ -28,7 +28,7 @@ export type TaskInstanceWithStateLabel<T> = {
 /** @access private */
 export const combineTaskInstanceWithStateLabel = <T>(
   taskInstance: TaskInstance<T>,
-  { stateLabel: taskInstanceStateLabel }: taskInstance.State<T>,
+  taskInstanceStateLabel: TaskInstanceStateLabel,
 ): TaskInstanceWithStateLabel<T> => ({
   taskInstance,
   taskInstanceStateLabel,

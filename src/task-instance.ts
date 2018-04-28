@@ -21,12 +21,15 @@ import {
   createNotificationAction,
 } from './actions/task-instance'
 
+let taskInstanceId = 0
+
 /**
  * @class TaskInstance<T>
  * @implements {Subscribable<T>}
  * @implements {ISubscription}
  */
 export class TaskInstance<T> implements Subscribable<T>, ISubscription {
+  private _id = ++taskInstanceId
   private _closed = false
   private readonly _observable$: Observable<T>
   private readonly _observableMirror$ = new Subject<T>()
@@ -73,6 +76,11 @@ export class TaskInstance<T> implements Subscribable<T>, ISubscription {
   )
   /** @type {Observable<Error|null>} */
   readonly error$ = this.state$.pipe(map(taskInstance.selectError))
+
+  /** @type {number} */
+  get id(): number {
+    return this._id
+  }
 
   /** @type {boolean} */
   get closed(): boolean {
@@ -130,5 +138,15 @@ export class TaskInstance<T> implements Subscribable<T>, ISubscription {
     this._currentState$.next(taskInstance.CANCELLED_STATE)
     this._closed = true
     this._subscription.unsubscribe()
+  }
+
+  /** @ignore */
+  toString(): string {
+    return `TaskInstance#${this._id}`
+  }
+
+  /** @ignore */
+  toJSON(): { type: string, id: number } {
+    return { type: 'TaskInstance', id: this._id }
   }
 }
