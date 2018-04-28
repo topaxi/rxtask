@@ -4,6 +4,7 @@
   "main": "dist/cjs/index.js",
   "types": "dist/cjs/typings/index.d.ts",
   "esm": "dist/esm/index.js",
+  "sideEffects": false,
   "license": "MIT",
   "scripts": {
     "prepublish": "npm run build",
