@@ -146,7 +146,7 @@ export class TaskInstance<T> implements Subscribable<T>, ISubscription {
   }
 
   /** @ignore */
-  toJSON(): { type: string, id: number } {
+  toJSON(): { type: string; id: number } {
     return { type: 'TaskInstance', id: this._id }
   }
 }

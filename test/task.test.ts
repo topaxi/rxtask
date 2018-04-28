@@ -494,7 +494,7 @@ describe('Task', () => {
   describe('drop', () => {
     /** @test {Task#state$} */
     describe('state$', () => {
-      it.skip(
+      it(
         'counts performed, successful and completed tasks',
         marbles(m => {
           m.bind()
@@ -516,31 +516,32 @@ describe('Task', () => {
               incrementalStates({
                 a: {
                   performed: 2,
-                  pending: [],
+                  pending: [last],
                   running: [first],
-                  cancelled: 1,
                   last,
                   lastRunning: first,
-                  lastCancelled: last,
                 },
                 b: {
+                  pending: [],
                   running: [],
                   successful: 1,
+                  cancelled: 1,
                   completed: 1,
                   lastSuccessful: first,
+                  lastCancelled: last,
                   lastCompleted: first,
                 },
               }),
               {
                 lastSuccessful$: {
-                  expected: '--b',
-                  values: { b: first },
+                  expected: '--a',
+                  values: { a: first },
                 },
                 lastCompleted$: {
-                  expected: '--b',
-                  values: { b: first },
+                  expected: '--a',
+                  values: { a: first },
                 },
-                lastCancelled$: { expected: 'a-a', values: { a: last } },
+                lastCancelled$: { expected: '--b', values: { b: last } },
                 lastErrored$: { expected: '-' },
               },
             ),

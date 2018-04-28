@@ -6,6 +6,7 @@ import { Subject } from 'rxjs/Subject'
 import { ReplaySubject } from 'rxjs/ReplaySubject'
 import { asap } from 'rxjs/scheduler/asap'
 import {
+  tap,
   map,
   mergeMap,
   exhaust,
@@ -94,6 +95,7 @@ export class Task<T, U> implements Subscribable<T>, ISubscription {
     mergeMap(selectStateLabel$, taskReducer.combineTaskInstanceWithStateLabel),
     map(toAction(taskActions.TASK_INSTANCE_STATE_UPDATE_ACTION)),
     actionReducer<TaskActions<T>, taskReducer.State<T>>(taskReducer.reducer),
+    tap(state => this._dropPending(state)),
     auditTime(0, asap),
     takeUntil(this._takeUntil$),
     shareReplay(1),
@@ -259,7 +261,7 @@ export class Task<T, U> implements Subscribable<T>, ISubscription {
   }
 
   /** @ignore */
-  toJSON(): { type: string, id: number } {
+  toJSON(): { type: string; id: number } {
     return { type: 'Task', id: this._id }
   }
 
@@ -277,6 +279,29 @@ export class Task<T, U> implements Subscribable<T>, ISubscription {
     }
   }
 
+  /**
+   * Cancels pending tasks when using exhaust/drop strategy.
+   * As exhaust does not subscribe/unsubscribe to ignored observables
+   * we have to do this here on our own.
+   *
+   * @param {TaskState<T>} state
+   * @return {void}
+   */
+  private _dropPending(state: taskReducer.State<T>): void {
+    if (this._flattenType === Flatten.EXHAUST) {
+      if (state.pending.length !== 0 && state.running.length !== 0) {
+        state.pending.forEach(pending => pending.unsubscribe())
+      }
+    }
+  }
+
+  /**
+   * Creates a new TaskInstance from the given TaskCallback.
+   *
+   * @param {TaskCallback<U, T>} t
+   * @param {U} v
+   * @return {TaskInstance<T>}
+   */
   private _createTaskInstance(t: TaskCallback<U, T>, v: U): TaskInstance<T> {
     return new TaskInstance<T>(defer(() => t(v)))
   }
