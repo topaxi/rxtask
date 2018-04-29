@@ -32,7 +32,7 @@ export class TaskInstance<T> implements Subscribable<T>, ISubscription {
   private _id = ++taskInstanceId
   private _closed = false
   private readonly _observable$: Observable<T>
-  private readonly _observableMirror$ = new Subject<T>()
+  private readonly _observableMirror$ = new ReplaySubject<T>()
   private readonly _currentState$ = new ReplaySubject<taskInstance.State<T>>(1)
   private readonly _subscription = new Subscription()
   private readonly _observableNotifications$ = this._observableMirror$.pipe(

@@ -27,6 +27,7 @@ import {
   selectPending,
 } from '../src/reducers/task'
 
+import { o } from './test-helpers'
 import * as dict from './test-helpers/dict'
 
 type ObservablePropertyNames<T> = {
@@ -182,6 +183,15 @@ describe('Task', () => {
 
       expect(fn).to.be.calledWith('second task')
     })
+
+    it(
+      'returns a TaskInstance which resolves to the observable value',
+      marbles(m => {
+        const fn = stub().returns(of('a'))
+        const t = task(fn).subscribeUntil(destroy$)
+        m.expect(o(t.perform('task'))).toBeObservable('(a|)')
+      }),
+    )
   })
 
   /** @test {Task#unsubscribe} */

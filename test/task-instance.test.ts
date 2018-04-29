@@ -9,10 +9,7 @@ import { ObjectUnsubscribedError } from 'rxjs/util/ObjectUnsubscribedError'
 import { observable } from 'rxjs/symbol/observable'
 import { delay } from 'rxjs/operators/delay'
 import { TaskInstanceStateLabel } from '../src/reducers/task-instance'
-
-function o<T>(t: TaskInstance<T>): Observable<T> {
-  return t as any
-}
+import { o } from './test-helpers'
 
 const stateLabels: ReadonlyArray<TaskInstanceStateLabel> = [
   TaskInstanceStateLabel.PENDING,
@@ -67,11 +64,7 @@ describe('TaskInstance', () => {
   it(
     'wraps an observable',
     marbles(m => {
-      const observable = of(true)
-      const taskInstance = new TaskInstance(observable)
-      const expected = m.cold('(x|)', { x: true })
-
-      m.expect(o(taskInstance)).toBeObservable(expected)
+      m.expect(o(new TaskInstance(of('a')))).toBeObservable('(a|)')
     }),
   )
 
