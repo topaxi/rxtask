@@ -85,7 +85,10 @@ export class Task<T, U> implements Subscribable<T>, ISubscription {
   private readonly _task: TaskCallback<U, T>
   private readonly _perform$ = new Subject<TaskInstance<T>>()
   private readonly _takeUntilObservable$ = new ReplaySubject<AnyObservable>(1)
-  private readonly _takeUntil$ = this._takeUntilObservable$.pipe(switchAll())
+  private readonly _takeUntil$ = this._takeUntilObservable$.pipe(
+    switchAll(),
+    tap(() => this.unsubscribe()),
+  )
   private readonly _task$ = defer(() =>
     this._perform$.pipe(this._flatten(), takeUntil(this._takeUntil$)),
   ).pipe(share())

@@ -6,9 +6,6 @@
       "rxtask": ["./src"]
     }
   },
-  "files": [
-    "src/index.ts"
-  ],
   "exclude": [
     "dist",
     "node_modules"
