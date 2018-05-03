@@ -218,6 +218,20 @@ export const selectLastErrored = <T>(s: State<T>) => s.lastErrored
 export const selectLastCompleted = <T>(s: State<T>) => s.lastCompleted
 
 /**
+ * @param {TaskState<T>} s
+ * @return {boolean}
+ */
+export const isIdle = <T>(s: State<T>) =>
+  s.running.length + s.pending.length === 0
+
+/**
+ * @param {TaskState<T>} s
+ * @return {boolean}
+ */
+export const isRunning = <T>(s: State<T>) =>
+  s.running.length !== 0
+
+/**
  * @typedef {Object} TaskState
  * @property {number} performed
  * @property {Array<TaskInstance<T>>} pending

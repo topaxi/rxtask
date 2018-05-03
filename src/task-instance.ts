@@ -13,6 +13,7 @@ import {
   distinctUntilChanged,
 } from 'rxjs/operators'
 import { ReplaySubject } from 'rxjs/ReplaySubject'
+import { BehaviorSubject } from 'rxjs/BehaviorSubject'
 import * as taskInstance from './reducers/task-instance'
 import { ObjectUnsubscribedError } from 'rxjs/util/ObjectUnsubscribedError'
 import { actionReducer } from './operators'
@@ -33,7 +34,9 @@ export class TaskInstance<T> implements Subscribable<T>, ISubscription {
   private _closed = false
   private readonly _observable$: Observable<T>
   private readonly _observableMirror$ = new ReplaySubject<T>()
-  private readonly _currentState$ = new ReplaySubject<taskInstance.State<T>>(1)
+  private readonly _currentState$ = new BehaviorSubject<taskInstance.State<T>>(
+    taskInstance.PENDING_STATE,
+  )
   private readonly _subscription = new Subscription()
   private readonly _observableNotifications$ = this._observableMirror$.pipe(
     materialize(),
@@ -63,6 +66,10 @@ export class TaskInstance<T> implements Subscribable<T>, ISubscription {
   /** @type {Observable<boolean>} */
   readonly isCancelled$ = this.stateLabel$.pipe(map(taskInstance.isCancelled))
   /** @type {Observable<boolean>} */
+  readonly isSuccessful$ = this.stateLabel$.pipe(
+    map(taskInstance.isSuccessful),
+  )
+  /** @type {Observable<boolean>} */
   readonly isError$ = this.stateLabel$.pipe(map(taskInstance.isError))
   /** @type {Observable<boolean>} */
   readonly isComplete$ = this.stateLabel$.pipe(map(taskInstance.isComplete))
@@ -85,6 +92,20 @@ export class TaskInstance<T> implements Subscribable<T>, ISubscription {
   /** @type {boolean} */
   get closed(): boolean {
     return this._closed
+  }
+
+  /** @type {?T} */
+  get value(): T | undefined {
+    const state = this._currentState$.getValue()
+
+    return taskInstance.isSuccessful(state.stateLabel)
+      ? state.currentValue
+      : undefined
+  }
+
+  /** @type {?Error} */
+  get error(): Error | null {
+    return this._currentState$.getValue().error
   }
 
   /**

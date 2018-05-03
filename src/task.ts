@@ -42,6 +42,8 @@ import {
   selectLastCancelled,
   selectLastErrored,
   selectLastCompleted,
+  isIdle,
+  isRunning,
 } from './reducers/task'
 import { ObjectUnsubscribedError } from 'rxjs/util/ObjectUnsubscribedError'
 import { actionReducer, mapNonNull } from './operators'
@@ -130,6 +132,10 @@ export class Task<T, U> implements Subscribable<T>, ISubscription {
   readonly lastErrored$ = this.state$.pipe(mapNonNull(selectLastErrored))
   /** @type {Observable<TaskInstance<T>>} */
   readonly lastCompleted$ = this.state$.pipe(mapNonNull(selectLastCompleted))
+  /** @type {Observable<boolean>} */
+  readonly isIdle$ = this.state$.pipe(map(isIdle))
+  /** @type {Observable<boolean>} */
+  readonly isRunning$ = this.state$.pipe(map(isRunning))
 
   /** @type {number} */
   get id(): number {

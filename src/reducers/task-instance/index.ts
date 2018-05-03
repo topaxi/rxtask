@@ -12,8 +12,8 @@ export interface State<T> {
 export const enum TaskInstanceStateLabel {
   PENDING = 'pending',
   RUNNING = 'running',
-  COMPLETE = 'complete',
   CANCELLED = 'cancelled',
+  SUCCESSFUL = 'successful',
   ERROR = 'error',
 }
 
@@ -63,7 +63,7 @@ function notificationReducer<T>(s: State<T>, n: Notification<T>): State<T> {
         error: n.error,
       }
     case 'C':
-      return { ...s, stateLabel: TaskInstanceStateLabel.COMPLETE }
+      return { ...s, stateLabel: TaskInstanceStateLabel.SUCCESSFUL }
     // istanbul ignore next
     default:
       return s
@@ -119,8 +119,15 @@ export const isCancelled = (s: TaskInstanceStateLabel) =>
  * @param {TaskInstanceStateLabel} s
  * @return {boolean}
  */
+export const isSuccessful = (s: TaskInstanceStateLabel) =>
+  s === TaskInstanceStateLabel.SUCCESSFUL
+
+/**
+ * @param {TaskInstanceStateLabel} s
+ * @return {boolean}
+ */
 export const isComplete = (s: TaskInstanceStateLabel) =>
-  s === TaskInstanceStateLabel.COMPLETE
+  isError(s) !== isSuccessful(s)
 
 
 /**
