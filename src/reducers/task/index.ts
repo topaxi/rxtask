@@ -88,7 +88,7 @@ function taskInstanceStateReducer<T>(
         errored: state.errored + 1,
         lastErrored: taskInstance,
       }
-    case TaskInstanceStateLabel.COMPLETE:
+    case TaskInstanceStateLabel.SUCCESSFUL:
       return {
         ...taskCompleted(state, taskInstance),
         successful: state.successful + 1,

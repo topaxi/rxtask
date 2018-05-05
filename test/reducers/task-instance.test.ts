@@ -148,8 +148,8 @@ describe('reducers/TaskInstance', () => {
           )
         })
 
-        it('sets state to complete', () => {
-          expect(state.stateLabel).to.equal(TaskInstanceStateLabel.COMPLETE)
+        it('sets state to successful', () => {
+          expect(state.stateLabel).to.equal(TaskInstanceStateLabel.SUCCESSFUL)
         })
 
         it('does not modify hasValue', () => {
@@ -200,7 +200,7 @@ describe('reducers/TaskInstance', () => {
       expect(taskInstance.isPending(TaskInstanceStateLabel.PENDING)).to.be.true
       expect(taskInstance.isPending(TaskInstanceStateLabel.RUNNING)).to.be
         .false
-      expect(taskInstance.isPending(TaskInstanceStateLabel.COMPLETE)).to.be
+      expect(taskInstance.isPending(TaskInstanceStateLabel.SUCCESSFUL)).to.be
         .false
       expect(taskInstance.isPending(TaskInstanceStateLabel.CANCELLED)).to.be
         .false
@@ -212,7 +212,7 @@ describe('reducers/TaskInstance', () => {
       expect(taskInstance.isRunning(TaskInstanceStateLabel.PENDING)).to.be
         .false
       expect(taskInstance.isRunning(TaskInstanceStateLabel.RUNNING)).to.be.true
-      expect(taskInstance.isRunning(TaskInstanceStateLabel.COMPLETE)).to.be
+      expect(taskInstance.isRunning(TaskInstanceStateLabel.SUCCESSFUL)).to.be
         .false
       expect(taskInstance.isRunning(TaskInstanceStateLabel.CANCELLED)).to.be
         .false
@@ -225,11 +225,11 @@ describe('reducers/TaskInstance', () => {
         .false
       expect(taskInstance.isComplete(TaskInstanceStateLabel.RUNNING)).to.be
         .false
-      expect(taskInstance.isComplete(TaskInstanceStateLabel.COMPLETE)).to.be
+      expect(taskInstance.isComplete(TaskInstanceStateLabel.SUCCESSFUL)).to.be
         .true
       expect(taskInstance.isComplete(TaskInstanceStateLabel.CANCELLED)).to.be
         .false
-      expect(taskInstance.isComplete(TaskInstanceStateLabel.ERROR)).to.be.false
+      expect(taskInstance.isComplete(TaskInstanceStateLabel.ERROR)).to.be.true
     })
 
     /** @test {isCancelled} */
@@ -238,7 +238,7 @@ describe('reducers/TaskInstance', () => {
         .false
       expect(taskInstance.isCancelled(TaskInstanceStateLabel.RUNNING)).to.be
         .false
-      expect(taskInstance.isCancelled(TaskInstanceStateLabel.COMPLETE)).to.be
+      expect(taskInstance.isCancelled(TaskInstanceStateLabel.SUCCESSFUL)).to.be
         .false
       expect(taskInstance.isCancelled(TaskInstanceStateLabel.CANCELLED)).to.be
         .true
@@ -250,7 +250,8 @@ describe('reducers/TaskInstance', () => {
     it('isError', () => {
       expect(taskInstance.isError(TaskInstanceStateLabel.PENDING)).to.be.false
       expect(taskInstance.isError(TaskInstanceStateLabel.RUNNING)).to.be.false
-      expect(taskInstance.isError(TaskInstanceStateLabel.COMPLETE)).to.be.false
+      expect(taskInstance.isError(TaskInstanceStateLabel.SUCCESSFUL)).to.be
+        .false
       expect(taskInstance.isError(TaskInstanceStateLabel.CANCELLED)).to.be
         .false
       expect(taskInstance.isError(TaskInstanceStateLabel.ERROR)).to.be.true
@@ -292,13 +293,13 @@ describe('reducers/TaskInstance', () => {
     it('hasValue', () => {
       const hasValue: any[] = [
         { hasValue: true, stateLabel: TaskInstanceStateLabel.RUNNING },
-        { hasValue: true, stateLabel: TaskInstanceStateLabel.COMPLETE },
+        { hasValue: true, stateLabel: TaskInstanceStateLabel.SUCCESSFUL },
       ]
       const hasNoValue: any[] = [
         { hasValue: false, stateLabel: TaskInstanceStateLabel.PENDING },
         { hasValue: false, stateLabel: TaskInstanceStateLabel.RUNNING },
         { hasValue: false, stateLabel: TaskInstanceStateLabel.CANCELLED },
-        { hasValue: false, stateLabel: TaskInstanceStateLabel.COMPLETE },
+        { hasValue: false, stateLabel: TaskInstanceStateLabel.SUCCESSFUL },
         { hasValue: false, stateLabel: TaskInstanceStateLabel.ERROR },
         // As something went wrong, we assume we don't have a valid value
         { hasValue: true, stateLabel: TaskInstanceStateLabel.ERROR },

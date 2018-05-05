@@ -129,7 +129,6 @@ export const isSuccessful = (s: TaskInstanceStateLabel) =>
 export const isComplete = (s: TaskInstanceStateLabel) =>
   isError(s) !== isSuccessful(s)
 
-
 /**
  * @param {TaskInstanceState<T>} s
  * @return {T}
@@ -159,7 +158,7 @@ export const selectError = <T>(s: State<T>) => s.error
  * @return {boolean}
  */
 export const hasValue = <T>(s: State<T>) =>
-  selectHasValue(s) && isRunning(s.stateLabel) !== isComplete(s.stateLabel)
+  selectHasValue(s) && isRunning(s.stateLabel) !== isSuccessful(s.stateLabel)
 
 /**
  * @typedef {Object} TaskInstanceState

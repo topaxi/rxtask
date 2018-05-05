@@ -156,8 +156,9 @@ export class TaskInstance<T> implements Subscribable<T>, ISubscription {
    * @return {void}
    */
   unsubscribe(): void {
-    this._currentState$.next(taskInstance.CANCELLED_STATE)
     this._closed = true
+    this._currentState$.next(taskInstance.CANCELLED_STATE)
+    this._currentState$.complete()
     this._subscription.unsubscribe()
   }
 

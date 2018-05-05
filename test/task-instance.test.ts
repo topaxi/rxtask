@@ -16,7 +16,7 @@ const stateLabels: ReadonlyArray<TaskInstanceStateLabel> = [
   TaskInstanceStateLabel.RUNNING,
   TaskInstanceStateLabel.CANCELLED,
   TaskInstanceStateLabel.ERROR,
-  TaskInstanceStateLabel.COMPLETE,
+  TaskInstanceStateLabel.SUCCESSFUL,
 ]
 
 function ucfirst(str: string): string {
@@ -68,6 +68,17 @@ describe('TaskInstance', () => {
     }),
   )
 
+  it(
+    'allows accessing value of successful run',
+    marbles(m => {
+      let t = new TaskInstance(of('a'))
+      m.expect(o(t)).toBeObservable('(a|)')
+      expect(t.value).to.be.undefined
+      m.flush()
+      expect(t.value).to.equal('a')
+    }),
+  )
+
   /** @test {TaskInstance#unsubscribe} */
   describe('unsubscribe', () => {
     it('closes the TaskInstance', () => {
@@ -114,7 +125,7 @@ describe('TaskInstance', () => {
         expectState(m, taskInstance, '(ab)(c|)', {
           a: TaskInstanceStateLabel.PENDING,
           b: TaskInstanceStateLabel.RUNNING,
-          c: TaskInstanceStateLabel.COMPLETE,
+          c: TaskInstanceStateLabel.SUCCESSFUL,
         })
         m.expect(o(taskInstance)).toBeObservable('----(a|)')
       }),
@@ -127,12 +138,12 @@ describe('TaskInstance', () => {
           of('somevalue').pipe(delay(m.time('----|'), m.scheduler)),
         )
 
-        expectState(m, taskInstance, '(ab)c---', {
+        expectState(m, taskInstance, '(ab)(c|)', {
           a: TaskInstanceStateLabel.PENDING,
           b: TaskInstanceStateLabel.RUNNING,
           c: TaskInstanceStateLabel.CANCELLED,
         })
-        m.expect(o(taskInstance), '----!').toBeObservable(m.cold('-----', {}))
+        m.expect(o(taskInstance), '----!').toBeObservable('-')
       }),
     )
 
@@ -151,6 +162,11 @@ describe('TaskInstance', () => {
         m
           .expect(o(taskInstance))
           .toBeObservable(m.cold('#', {}, new Error('Not good')))
+
+        m.flush()
+
+        expect(taskInstance.error).to.be.instanceOf(Error)
+        expect(taskInstance.error!.message).to.equal('Not good')
       }),
     )
   })

@@ -25,6 +25,8 @@ import {
   selectLastErrored,
   selectLastCompleted,
   selectPending,
+  isIdle,
+  isRunning,
 } from '../src/reducers/task'
 
 import { o } from './test-helpers'
@@ -103,6 +105,14 @@ function stateExpectation<T>(
     completed$: exceptions.completed$ || {
       expected,
       values: dict.map(values, selectCompleted),
+    },
+    isIdle$: exceptions.isIdle$ || {
+      expected,
+      values: dict.map(values, isIdle)
+    },
+    isRunning$: exceptions.isRunning$ || {
+      expected,
+      values: dict.map(values, isRunning)
     },
     last$: exceptions.last$ || {
       expected,

@@ -236,7 +236,7 @@ describe('reducers/Task', () => {
         })
       })
 
-      describe('COMPLETE', () => {
+      describe('SUCCESSFUL', () => {
         let pending1 = createTaskInstance(TaskInstanceStateLabel.PENDING)
         let running1 = createTaskInstance(TaskInstanceStateLabel.RUNNING)
         let running2 = createTaskInstance(TaskInstanceStateLabel.RUNNING)
@@ -253,7 +253,7 @@ describe('reducers/Task', () => {
 
         it('removes from pending and running and tracks completed', () => {
           let completed1 = pending1.taskInstanceWithState.changeState(
-            TaskInstanceStateLabel.COMPLETE,
+            TaskInstanceStateLabel.SUCCESSFUL,
           )
           state = expectStateChange(state, completed1.toAction(), {
             pending: [],
@@ -265,7 +265,7 @@ describe('reducers/Task', () => {
           })
 
           let completed2 = running1.taskInstanceWithState.changeState(
-            TaskInstanceStateLabel.COMPLETE,
+            TaskInstanceStateLabel.SUCCESSFUL,
           )
           state = expectStateChange(state, completed2.toAction(), {
             running: [running2.taskInstance],
@@ -278,12 +278,14 @@ describe('reducers/Task', () => {
       })
 
       describe('Unkown TaskInstance state', () => {
-        let { action } = createTaskInstance('__unkown_state__' as any)
+        it('throws a TypeError', () => {
+          let { action } = createTaskInstance('__unkown_state__' as any)
 
-        expect(() => task.reducer(state, action)).to.throw(
-          TypeError,
-          'Unkown value __unkown_state__',
-        )
+          expect(() => task.reducer(state, action)).to.throw(
+            TypeError,
+            'Unkown value __unkown_state__',
+          )
+        })
       })
     })
   })
@@ -392,6 +394,30 @@ describe('reducers/Task', () => {
         taskInstance: 'task',
         taskInstanceStateLabel: 'state',
       })
+    })
+  })
+
+  describe('helpers', () => {
+    /** @test {isIdle} */
+    it('isIdle', () => {
+      const isIdle: any[] = [{ pending: [], running: [] }]
+      const isNotIdle: any[] = [
+        { pending: [], running: [{}] },
+        { pending: [{}], running: [] },
+        { pending: [{}], running: [{}] },
+      ]
+
+      isIdle.forEach(r => expect(task.isIdle(r)).to.be.true)
+      isNotIdle.forEach(r => expect(task.isIdle(r)).to.be.false)
+    })
+
+    /** @test {isRunning} */
+    it('isRunning', () => {
+      const isRunning: any[] = [{ running: [{}] }, { running: [{}, {}] }]
+      const isNotRunning: any[] = [{ running: [] }]
+
+      isRunning.forEach(r => expect(task.isRunning(r)).to.be.true)
+      isNotRunning.forEach(r => expect(task.isRunning(r)).to.be.false)
     })
   })
 })
